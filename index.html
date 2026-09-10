@@ -56,9 +56,14 @@ html{scroll-behavior:smooth}
 body{
   margin:0; background:var(--paper); color:var(--ink);
   font-family:"IBM Plex Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;
-  font-weight:400; font-size:16px; line-height:1.72; word-break:keep-all;
+  font-weight:400; font-size:16px; line-height:1.72;
+  word-break:keep-all; overflow-wrap:normal; line-break:strict;
   -webkit-font-smoothing:antialiased;
 }
+/* 한국어 조판: 양쪽정렬 + 어절 단위 줄바꿈 */
+p,dd,li,td,.lede,.hero-sub,.note,.stackline{text-align:justify; text-justify:inter-word;
+  word-break:keep-all; overflow-wrap:normal}
+h1,h2,h3,.eyebrow,.tagline,.chip,.mono,.kpis b,.kpis span,.maptbl th,dl.kv dt,.pill{text-align:left}
 ::selection{background:var(--acc-wash); color:var(--ink)}
 :focus-visible{outline:2.5px solid var(--acc); outline-offset:3px; border-radius:2px}
 
@@ -80,8 +85,8 @@ a{color:inherit}
 .wrap{max-width:1120px; margin:0 auto; padding:0 24px}
 section{padding:clamp(56px,7vw,104px) 0; border-top:1px solid var(--rule-soft)}
 section:first-of-type{border-top:0}
-.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; font-weight:600;
-  letter-spacing:.2em; text-transform:uppercase; color:var(--acc);
+.eyebrow{font-family:"IBM Plex Sans KR",sans-serif; font-size:13px; font-weight:700;
+  letter-spacing:.01em; color:var(--acc);
   display:flex; align-items:center; gap:10px; margin-bottom:14px}
 .eyebrow::before{content:""; width:22px; height:2px; background:var(--acc); flex:none}
 .lede{font-size:clamp(17px,1.6vw,19px); color:var(--ink-2); max-width:62ch; line-height:1.78}
@@ -91,8 +96,8 @@ section:first-of-type{border-top:0}
   padding-block:clamp(72px,10vw,120px); overflow:hidden}
 #flow{position:absolute; inset:0; width:100%; height:100%; z-index:0; opacity:.85}
 #hero .wrap{position:relative; z-index:1}
-.tagline{font-family:"IBM Plex Mono",monospace; font-size:12px; letter-spacing:.18em;
-  color:var(--ink-3); text-transform:uppercase; margin-bottom:26px}
+.tagline{font-family:"IBM Plex Sans KR",sans-serif; font-size:13.5px; letter-spacing:.01em;
+  color:var(--ink-3); margin-bottom:26px}
 #hero h1{font-size:clamp(34px,6.2vw,74px); line-height:1.16; letter-spacing:-.045em; max-width:17ch}
 #hero h1 .q{color:var(--ink-3)}
 #hero h1 mark{background:none; color:var(--acc);
@@ -134,8 +139,8 @@ section:first-of-type{border-top:0}
 dl.kv{margin:16px 0 0; display:grid; grid-template-columns:88px 1fr; gap:8px 14px;
   font-size:13.5px; line-height:1.65}
 @container (max-width:400px){ dl.kv{grid-template-columns:1fr; gap:2px 0} dl.kv dt{margin-top:8px} }
-dl.kv dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; font-weight:600;
-  letter-spacing:.09em; color:var(--ink-3); text-transform:uppercase; padding-top:3px}
+dl.kv dt{font-family:"IBM Plex Sans KR",sans-serif; font-size:12px; font-weight:700;
+  letter-spacing:.01em; color:var(--ink-3); padding-top:3px}
 dl.kv dd{margin:0; color:var(--ink-2)}
 dl.kv dd b{color:var(--ink); font-weight:600}
 .stackline{margin-top:16px; padding-top:13px; border-top:1px dashed var(--rule);
@@ -208,9 +213,9 @@ dl.kv dd b{color:var(--ink); font-weight:600}
 
 /* ═══ 연결 표 ═══ */
 .maptbl{width:100%; border-collapse:collapse; font-size:14.5px}
-.maptbl th{background:var(--ink); color:var(--paper); font-family:"IBM Plex Mono",monospace;
-  font-size:10.5px; letter-spacing:.11em; text-transform:uppercase; text-align:left;
-  padding:11px 14px; font-weight:600}
+.maptbl th{background:var(--ink); color:var(--paper); font-family:"IBM Plex Sans KR",sans-serif;
+  font-size:12px; letter-spacing:.01em; text-align:left;
+  padding:11px 14px; font-weight:700}
 .maptbl td{border-bottom:1px solid var(--rule-soft); padding:15px 14px; vertical-align:top;
   color:var(--ink-2); line-height:1.68}
 .maptbl td:first-child{color:var(--ink); font-weight:600; width:26%}
@@ -259,11 +264,11 @@ h2.big{font-size:clamp(26px,3.6vw,42px); letter-spacing:-.04em; max-width:20ch}
 <section id="hero">
   <canvas id="flow" aria-hidden="true"></canvas>
   <div class="wrap">
-    <div class="tagline">오두영 · 프로덕트 디자이너 &nbsp;/&nbsp; 뉴웨이즈 Proof 팀 지원</div>
+    <div class="tagline">오두영 · 정책 개발자 &amp; 프로덕트 디자이너 &nbsp;/&nbsp; 뉴웨이즈 Proof 팀 지원</div>
     <h1>시민의 말이 정책에 닿는 과정을<br><mark>온라인으로 옮기는 일</mark>을<br><span class="q">하고 있습니다.</span></h1>
     <p class="hero-sub">2024년 7월부터 2026년 4월까지 경기도의회 고양 지역상담소를 맡았습니다. 도민이 요구를 전하고 그것이 의정 활동으로 옮겨가는 과정을 가까이서 봤습니다. 대부분 오프라인으로 이뤄졌고, 요구를 낸 분들은 자기 말이 어디까지 갔는지 확인할 방법이 없었습니다. 이 부분을 제품으로 다뤄보고 싶어 퇴직했고, 지금은 관련 서비스를 만들고 있습니다. 혼자 하다 보니 잘못 판단해도 짚어줄 사람이 없어서, 실수를 그때그때 기록해 두는 방식으로 일합니다.</p>
     <div class="hero-meta">
-      <span class="pill"><span class="dot"></span>경기도의회 사무처 임기제공무원 2024.07~2026.04</span>
+      <span class="pill"><span class="dot"></span>. 경기도의회 사무처 임기제공무원 2024.07~2026.04</span>
       <span class="pill">만들다 되돌린 것도 함께 적었습니다</span>
       <span class="pill">출마 계획 없음 · 초당적 활동 가능</span>
     </div>
@@ -367,7 +372,7 @@ h2.big{font-size:clamp(26px,3.6vw,42px); letter-spacing:-.04em; max-width:20ch}
           </dl>
         </div>
         <div class="card">
-          <h3 style="font-size:18px">제출 후가 아니라 제출 전으로 범위를 좁힌 일</h3>
+          <h3 style="font-size:18px">제출 전 점검으로 범위를 좁힌 일</h3>
           <div class="en">다리잇다 · 2026</div>
           <p>처음에는 제안이 반려된 뒤에 대응을 돕는 기능까지 생각했습니다. 그런데 반려 사유를 모아보니 대부분 근거 부족, 소관 불명확, 실현 가능성 미검증 세 가지였고, 셋 다 제출하기 전에 확인할 수 있는 것이었습니다.</p>
           <dl class="kv">
@@ -384,8 +389,8 @@ h2.big{font-size:clamp(26px,3.6vw,42px); letter-spacing:-.04em; max-width:20ch}
 <section class="reveal">
   <div class="wrap">
     <div class="eyebrow">접근성 검사 · 이 페이지에서 실행 중</div>
-    <h2 class="big">색 대비는 눈으로 보지 않고<br>계산해서 확인합니다.</h2>
-    <p class="lede mt-s">다리잇다에서는 <span class="mono">verify.sh</span>를 통과해야 배포가 됩니다. 색 대비 8모드 152쌍, 모션 설정 대응, XSS 회귀 검사를 자동으로 돌립니다. 같은 방식을 이 페이지에도 붙여 뒀습니다. 아래 표는 지금 보고 계신 화면의 색 값을 읽어 WCAG 대비를 계산한 결과입니다. 처음 만든 색 조합은 라이트 모드에서 두 항목이 기준에 미달했고(3.91:1, 4.44:1) 이 검사에서 걸렸습니다. 색을 조정해 두 테마 모두 통과한 뒤에 올렸습니다.</p>
+    <h2 class="big">색 대비는 눈으로 보지 않고<br>계산해서 확인합니다</h2>
+    <p class="lede mt-s">다리잇다에서는 <span class="mono">verify.sh</span>를 통과해야 배포가 됩니다. 색 대비 8모드 152쌍, 모션 설정 대응, XSS 회귀 검사를 자동으로 돌립니다. 같은 방식을 이 페이지에도 적용했습니다. 아래 표는 지금 보고 계신 화면의 색 값을 읽어 WCAG 대비를 계산한 결과입니다. 처음 만든 색 조합은 라이트 모드에서 두 항목이 기준에 미달했고(3.91:1, 4.44:1) 이 검사에서 걸렸습니다. 색을 조정해 두 테마 모두 통과한 뒤에 올렸습니다.</p>
 
     <div class="gate mt">
       <div style="overflow-x:auto">
@@ -408,7 +413,7 @@ h2.big{font-size:clamp(26px,3.6vw,42px); letter-spacing:-.04em; max-width:20ch}
   <div class="wrap">
     <div class="eyebrow">실수 기록</div>
     <h2 class="big">틀린 것을<br>그때그때 적어 둡니다.</h2>
-    <p class="lede mt-s">혼자 일하면 잘못 판단해도 짚어줄 사람이 없습니다. 그래서 실수를 발견할 때마다 무슨 일이 있었고 무엇을 바꿨는지 한 장씩 남기고 있습니다. 아래 네 건은 그 기록에서 가져왔습니다. 감점 표기는 스스로 매긴 것입니다.</p>
+    <p class="lede mt-s">혼자 일하면 잘못 판단해도 짚어줄 사람이 없습니다. 그래서 실수를 발견할 때마다 무슨 일이 있었고 무엇을 바꿨는지 옵시디언에 기록합니다. 아래 네 건은 그 기록에서 가져왔습니다. 감점 표기는 스스로 매긴 것입니다.</p>
 
     <div class="grid g2 mt">
       <div class="fail" style="border-left-color:var(--acc)">
@@ -419,14 +424,14 @@ h2.big{font-size:clamp(26px,3.6vw,42px); letter-spacing:-.04em; max-width:20ch}
       </div>
 
       <div class="fail" style="border-left-color:var(--acc)">
-        <div class="mono" style="font-size:11px;color:var(--ink-3);letter-spacing:.08em">2026-08-31 · 감점 −10(검산에서 발견)</div>
+        <div class="mono" style="font-size:11px;color:var(--ink-3);letter-spacing:.08em">2026-08-31 · 감점 10점(검산에서 발견)</div>
         <h3 class="mt-s" style="margin-top:8px">출처를 적어놓고도 값이 틀렸던 건</h3>
         <p>앞서 정한 재발 방지책대로 모든 상수에 출처 주석을 달았습니다. 그런데 주석만 달았을 뿐 값 자체가 기억에 의존한 것이었습니다. 검산표와 23,500원씩 어긋나는 걸 보고서야 알았습니다.</p>
         <p class="learn"><b>배운 것.</b> 정해둔 절차를 지켰다고 해서 그 절차가 제 역할을 한 건 아니었습니다. 이후로는 주석을 믿지 않고 원본 문서를 열어 값을 대조합니다.</p>
       </div>
 
       <div class="fail" style="border-left-color:var(--acc)">
-        <div class="mono" style="font-size:11px;color:var(--ink-3);letter-spacing:.08em">2026-07-20 · 감점 −10 · <b style="color:var(--no)">재발</b></div>
+        <div class="mono" style="font-size:11px;color:var(--ink-3);letter-spacing:.08em">2026-07-20 · 감점 10점 · <b style="color:var(--no)">재발</b></div>
         <h3 class="mt-s" style="margin-top:8px">"내외"라는 값으로 계산했던 건</h3>
         <p>"3,000만원 내외"라고 적힌 값에서 원 단위까지 차액을 계산해 "지원금이 인건비를 못 덮는다"고 결론을 냈습니다. 같은 보고서의 다른 항목으로 역산해보니 결론이 반대로 나왔습니다. 사흘 전에 제가 써둔 주의사항을 다시 어긴 셈이었습니다.</p>
         <p class="learn"><b>배운 것.</b> 범위로만 알려진 값을 확정 수치처럼 계산에 넣지 않습니다. 같은 실수를 반복했다는 사실도 기록에 함께 남겼습니다.</p>
@@ -453,9 +458,9 @@ h2.big{font-size:clamp(26px,3.6vw,42px); letter-spacing:-.04em; max-width:20ch}
 
     <div class="filters" id="filters" role="group" aria-label="상태로 거르기">
       <button aria-pressed="true" data-f="all">전체</button>
-      <button aria-pressed="false" data-f="ok">채택 · 진행</button>
+      <button aria-pressed="false" data-f="ok">채택</button>
       <button aria-pressed="false" data-f="wait">심사 중</button>
-      <button aria-pressed="false" data-f="no">불채택 → 보완</button>
+      <button aria-pressed="false" data-f="no">미선정</button>
     </div>
     <div class="arch" id="arch"></div>
   </div>
@@ -468,22 +473,22 @@ h2.big{font-size:clamp(26px,3.6vw,42px); letter-spacing:-.04em; max-width:20ch}
     <h2 class="big">접었던 일들</h2>
     <div class="grid g2 mt">
       <div class="fail">
-        <h3>㈜모두다. 1년 만의 폐업</h3>
+        <h3>㈜모두다, 1년 만에 폐업</h3>
         <p>예비사회적기업으로 시작했는데 수익 구조를 못 만들었고 팀 여력도 부족해서 1년 만에 정리했습니다.</p>
         <p class="learn"><b>남은 것.</b> 폐업한 뒤에도 팀원들과 하기로 했던 '바카티오' 툴킷은 크라우드펀딩으로 끝까지 냈습니다.</p>
       </div>
       <div class="fail">
-        <h3>점선면 스튜디오. 1년 7개월</h3>
+        <h3>점선면 스튜디오, 1년 7개월</h3>
         <p>고양시에서 사진관과 공간 대관, 디자인 외주를 같이 했습니다. 디자인 외주는 어느 정도 돌아갔지만 공간 쪽은 지역 수요가 나오지 않았습니다. 수요를 확인하지 않고 시작한 게 문제였습니다.</p>
         <p class="learn"><b>남은 것.</b> 이후로는 리서치를 먼저 합니다. 다리잇다의 페르소나를 실태조사 수치로 잡은 것도 이때 경험 때문입니다.</p>
       </div>
       <div class="fail">
-        <h3>공익활동가 경력 인정. 1차 불채택</h3>
+        <h3>공익활동가 경력 인정, 1차 불채택</h3>
         <p>행정안전부 1차 심사에서 떨어졌습니다. 비영리 경력의 가치를 행정이 쓰는 기준으로 옮기는 일이 생각보다 어려웠습니다.</p>
         <p class="learn"><b>남은 것.</b> 당사자 데이터 없이 주장만 하면 검토가 진행되지 않는다는 걸 알았습니다. 근거를 보강해 재심사를 요청해 둔 상태입니다.</p>
       </div>
       <div class="fail">
-        <h3>생애주기형 공동체 주택. 1차 불채택</h3>
+        <h3>생애주기형 공동체 주택, 1차 불채택</h3>
         <p>국토교통부에 낸 제안입니다. 청년의 지분 취득과 노인 돌봄을 묶은 주거 모델이었는데, 기존 정책과 무엇이 다른지 설명이 부족했습니다.</p>
         <p class="learn"><b>남은 것.</b> 아이디어 단계와 심사받을 수 있는 문서 사이에 거리가 꽤 있다는 걸 알았고, 그 거리를 좁히는 게 다리잇다에서 하려는 일이 됐습니다.</p>
       </div>
@@ -506,13 +511,13 @@ h2.big{font-size:clamp(26px,3.6vw,42px); letter-spacing:-.04em; max-width:20ch}
             <td>구독과 피드백, 요구가 이어지는 흐름을 화면 단위가 아니라 여정 전체로 놓고 다시 보고 싶습니다. 다만 팀에서 이미 시도한 게 있을 테니 그 기록부터 읽는 게 먼저일 것 같습니다.</td>
           </tr>
           <tr>
-            <td>콘텐츠 유입 → 가입 → 행동의 루프를 가설·검증으로 운영</td>
+            <td>콘텐츠 유입에서 가입, 행동으로 이어지는 흐름을 가설과 검증으로 운영</td>
             <td>청년월세 상담 데이터로 어느 단계에서 이탈이 생기는지 찾아 12단계를 5단계로 줄이는 안을 냈습니다.</td>
             <td>유권자가 한 행동이 젊치인에게 전달됐다는 걸 확인할 수 있는 구조를 만들어 보고 싶습니다. 아직은 가설이라 데이터로 먼저 확인해야 합니다.</td>
           </tr>
           <tr>
             <td>바이브 코딩으로 기획부터 개발까지 직접 구현</td>
-            <td>Next.js 16·React 19·FastAPI·Supabase(pgvector)·LLM 라우팅을 AI 페어 코딩으로 직접 구현·배포. 접근성·XSS·API 계약을 <b>배포 게이트</b>로 자동 강제.</td>
+            <td>Next.js 16, React 19, FastAPI, Supabase(pgvector), LLM 라우팅을 AI와 함께 작성해 배포까지 했습니다. 접근성과 XSS, API 계약은 배포 전 자동 검사로 확인합니다.</td>
             <td>공고에 적힌 "보안·안전성은 외부 파트너와 협력"이라는 분담에 동의합니다. 제가 어디까지 할 수 있고 어디부터는 넘겨야 하는지는 비교적 분명하게 아는 편입니다.</td>
           </tr>
           <tr>
@@ -541,9 +546,9 @@ h2.big{font-size:clamp(26px,3.6vw,42px); letter-spacing:-.04em; max-width:20ch}
       <div><code>container-type: inline-size</code><span>컨테이너 쿼리. 카드가 뷰포트가 아니라 자기 폭에 반응해 레이아웃을 바꿉니다.</span></div>
       <div><code>startViewTransition()</code><span>View Transitions API. 아카이브 필터가 잘리지 않고 이어지며 전환됩니다.</span></div>
       <div><code>Canvas 2D · flow field</code><span>히어로 배경의 경로 흐름. 커지는 화면에 맞춰 재생성되고 reduce-motion에서 정지합니다.</span></div>
-      <div><code>WCAG relative luminance</code><span>자가 검증 게이트. 실제 계산 색을 읽어 대비비를 산출합니다. 하드코딩 없음.</span></div>
+      <div><code>WCAG relative luminance</code><span>화면에 적용된 색 값을 읽어 대비를 계산합니다. 결과를 미리 적어두지 않았습니다.</span></div>
       <div><code>:root / prefers-color-scheme / [data-theme]</code><span>3상태 테마. 시스템 설정과 명시 선택 어느 쪽에서도 색이 세트로 해결됩니다.</span></div>
-      <div><code>prefers-reduced-motion</code><span>모션 민감 사용자를 위해 모든 애니메이션과 스무스 스크롤을 끕니다. 선택이 아니라 기본값.</span></div>
+      <div><code>prefers-reduced-motion</code><span>모션에 민감한 분들을 위해 애니메이션과 스크롤 효과를 끕니다. 기본값으로 넣었습니다.</span></div>
     </div>
   </div>
 </section>
@@ -553,7 +558,7 @@ h2.big{font-size:clamp(26px,3.6vw,42px); letter-spacing:-.04em; max-width:20ch}
     <div class="foot-grid">
       <div>
         <h3 style="font-size:26px">오두영 <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:400;color:var(--ink-3)">Oh Dooyoung</span></h3>
-        <p style="margin-top:10px;color:var(--ink-3);font-size:14px">프로덕트 디자이너 &amp; 빌더 · 경기 고양</p>
+        <p style="margin-top:10px;color:var(--ink-3);font-size:14px">정책 개발자 &amp; 프로덕트 디자이너 · 경기 고양</p>
       </div>
       <div style="display:flex;flex-direction:column;gap:10px;align-items:flex-start">
         <a href="mailto:thinkinging@naver.com">thinkinging@naver.com</a>
@@ -730,6 +735,7 @@ new MutationObserver(() => setTimeout(runGate, 60))
 const ARCH = [
   { d: "법제처",            t: "대한민국 법제실록 제작", s: "ok",   n: "채택 → 대한국민실록 제품으로 발전" },
   { d: "권익위 · 행안부",    t: "국민 참여 플랫폼을 통한 참여민주주의 강화", s: "wait", n: "다부처 심사 요청" },
+  { d: "행정안전부",        t: "시민사회위원회 운영", s: "ok",   n: "일부 채택" },
   { d: "행정안전부",        t: "시민사회 활성화·공익활동 증진 기본법 제정", s: "wait", n: "심사 진행" },
   { d: "행정안전부",        t: "범정부 행정기술 개발", s: "wait", n: "디지털 정부 서비스 품질 보장" },
   { d: "법무부",            t: "제도 밖 외국인 안전망", s: "wait", n: "통보 의무 면제 확대 · 다국어 재난 알림" },
@@ -739,11 +745,11 @@ const ARCH = [
   { d: "기획재정부",        t: "제도 기준 포용 제도", s: "wait", n: "기준 1점 차이가 만드는 절벽" },
   { d: "국토교통부",        t: "생애주기형 공동체 주택", s: "no",   n: "1차 불채택 → 순환 지분 구조 논리 보완 중" },
   { d: "행정안전부",        t: "공익활동가 경력 인정 제도화", s: "no",   n: "1차 불채택 → 재심사 요청 중" },
-  { d: "경기도",            t: "청년 거버넌스 구조 개선", s: "ok",   n: "운영 조례 · 예산 편성권 실질화" },
-  { d: "경기도",            t: "데이터 기반 안전 정책 설계", s: "ok",   n: "안전 의식 실태조사 기반 커리큘럼" },
+  { d: "경기도",            t: "청년 거버넌스 구조 개선", s: "no",   n: "공모전 미선정" },
+  { d: "경기도",            t: "데이터 기반 안전 정책 설계", s: "no",   n: "공모전 미선정" },
   { d: "국무조정실",        t: "청년기본법 개정 청원", s: "wait", n: "헌법 제26조 청원권 경로" },
 ];
-const LBL = { ok: "채택 · 진행", wait: "심사 중", no: "보완 중" };
+const LBL = { ok: "채택", wait: "심사 중", no: "미선정" };
 const archEl = document.getElementById("arch");
 const paint = (f) => {
   archEl.innerHTML = ARCH.filter(a => f === "all" || a.s === f).map(a =>
