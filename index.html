@@ -336,6 +336,35 @@ footer{padding:60px 0 84px; border-top:1px solid var(--rule)}
 /* 12→5 FLIP */
 .step.gone{pointer-events:none}
 
+
+/* ═══════════ 워터마크 ═══════════
+   화면 위에 얹혀 스크린샷에 본문과 함께 찍힌다.
+   읽기를 방해하지 않도록 옅게 두되, 인쇄·PDF에서는 진하게 나온다. */
+.wm{position:fixed; inset:-25%; z-index:25; pointer-events:none; user-select:none;
+  display:grid; grid-template-columns:repeat(3,1fr); align-content:center;
+  gap:12vh 6vw; transform:rotate(-24deg); overflow:hidden}
+.wm span{font-family:"IBM Plex Mono",monospace; font-size:clamp(11px,1.15vw,15px);
+  font-weight:600; letter-spacing:.14em; white-space:nowrap; text-align:center;
+  color:var(--ink); opacity:.055}
+:root[data-theme="dark"] .wm span{opacity:.075}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]) .wm span{opacity:.075} }
+.wm b{color:var(--signal); font-weight:600}
+@media print{
+  .wm span{opacity:.2; font-size:14px}
+  .theme,.rail,.progress,.tierbar{display:none !important}
+}
+
+/* 복사 제한 안내 토스트 */
+.toast{position:fixed; left:50%; bottom:26px; transform:translate(-50%,14px);
+  z-index:80; background:var(--ink); color:var(--paper);
+  padding:12px 18px; font-size:13.5px; line-height:1.6; max-width:min(90vw,420px);
+  opacity:0; pointer-events:none; transition:opacity .28s, transform .28s}
+.toast.on{opacity:1; transform:translate(-50%,0)}
+.toast b{color:var(--lime)}
+
+/* 연락처는 복사할 수 있어야 한다 */
+.fgrid,.fgrid *{-webkit-user-select:text; user-select:text}
+
 /* ═══════════ 모션 ═══════════ */
 @supports (animation-timeline: view()){
   @media (prefers-reduced-motion: no-preference){
@@ -361,6 +390,8 @@ footer{padding:60px 0 84px; border-top:1px solid var(--rule)}
   <button data-m="system" aria-pressed="true"><span class="lbl">시스템 설정 따르기</span>
     <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.8" y="4.4" width="18.4" height="12.4" rx="1.6"/><path d="M8.4 20h7.2"/></svg></button>
 </div>
+<div class="wm" id="wm" aria-hidden="true"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 <div class="rail rail-l" aria-hidden="true"><span id="railL">표지</span></div>
 <div class="rail rail-r" aria-hidden="true"><span>인사담당자 외 공유 금지</span></div>
 <div class="progress" aria-hidden="true"><i></i></div>
@@ -831,6 +862,57 @@ secs.forEach(s => io.observe(s));
 
 
 
+
+
+/* ── 워터마크 ──
+   열람 일시를 함께 찍어, 유출된 화면이 언제 것인지 남게 한다. */
+(() => {
+  const d = new Date();
+  const p = n => String(n).padStart(2, "0");
+  const stamp = `${d.getFullYear()}.${p(d.getMonth()+1)}.${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`;
+  const line = `인사담당자 외 공유 금지 · 열람 ${stamp}`;
+  const wm = document.getElementById("wm");
+  const fill = () => {
+    const rows = Math.ceil(innerHeight / (innerHeight * 0.12)) + 6;
+    wm.innerHTML = Array.from({ length: rows * 3 }, () => `<span>${line}</span>`).join("");
+  };
+  fill();
+  addEventListener("resize", () => { clearTimeout(wm._t); wm._t = setTimeout(fill, 250); });
+})();
+
+/* ── 공유 제한 보조 장치 ──
+   완전한 차단은 불가능하다. 실수로 퍼가는 것을 한 번 붙잡아 두는 용도다.
+   드래그(선택)는 그대로 두고, 복사·우클릭·저장 단축키에만 안내를 띄운다. */
+(() => {
+  const toast = document.getElementById("toast");
+  let t;
+  const say = (html) => {
+    toast.innerHTML = html;
+    toast.classList.add("on");
+    clearTimeout(t); t = setTimeout(() => toast.classList.remove("on"), 3400);
+  };
+  const MSG = '이 문서는 <b>인사담당자 외 공유가 제한</b>됩니다. 인용이 필요하시면 thinkinging@naver.com으로 연락 주세요.';
+
+  const inFooter = (el) => el && el.closest && el.closest(".fgrid");
+
+  document.addEventListener("copy", e => {
+    if (inFooter(e.target) || inFooter(document.getSelection()?.anchorNode?.parentElement)) return;
+    e.preventDefault(); say(MSG);
+  });
+  document.addEventListener("cut", e => { e.preventDefault(); say(MSG); });
+  document.addEventListener("contextmenu", e => {
+    if (inFooter(e.target)) return;
+    e.preventDefault(); say(MSG);
+  });
+  document.addEventListener("dragstart", e => e.preventDefault());
+  addEventListener("keydown", e => {
+    const k = e.key.toLowerCase();
+    const mod = e.metaKey || e.ctrlKey;
+    if (mod && (k === "s" || k === "p" || k === "u")) { e.preventDefault(); say(MSG); }
+    // PrintScreen은 이미 캡처된 뒤에 도착한다. 막지 못하고 안내만 남긴다.
+    if (e.key === "PrintScreen") say('화면을 저장하셨다면 <b>공유 범위만 지켜</b> 주세요. 워터마크에 열람 일시가 함께 찍힙니다.');
+  });
+})();
 
 /* ── 방문 기록 (Vercel Web Analytics) ──
    쿠키를 쓰지 않고 IP를 저장하지 않는 집계형 계측이다.
