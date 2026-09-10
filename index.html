@@ -365,6 +365,36 @@ footer{padding:60px 0 84px; border-top:1px solid var(--rule)}
 /* 연락처는 복사할 수 있어야 한다 */
 .fgrid,.fgrid *{-webkit-user-select:text; user-select:text}
 
+
+/* ═══════════ 공유 제한 안내 모달 ═══════════ */
+dialog.guard{border:0; padding:0; max-width:min(92vw,470px); width:100%;
+  background:var(--card); color:var(--ink);
+  box-shadow:0 30px 70px -30px rgba(0,0,0,.55); border:1px solid var(--rule)}
+dialog.guard::backdrop{background:color-mix(in srgb, var(--ink) 62%, transparent);
+  backdrop-filter:blur(3px)}
+.guard .top{display:flex; align-items:center; gap:9px; padding:16px 22px;
+  border-bottom:1px solid var(--rule-soft);
+  font-family:"IBM Plex Mono",monospace; font-size:11px; font-weight:600;
+  letter-spacing:.13em; color:var(--signal)}
+.guard .top::before{content:"●"; font-size:7px}
+.guard .bd{padding:22px}
+.guard h3{font-size:20px; letter-spacing:-.035em}
+.guard p{margin-top:12px; font-size:14.5px; line-height:1.75; color:var(--ink-2)}
+.guard .stamp{margin-top:16px; padding:11px 13px; background:var(--paper-2);
+  border-left:2.5px solid var(--signal);
+  font-family:"IBM Plex Mono",monospace; font-size:11.5px; line-height:1.7; color:var(--ink-2)}
+.guard .acts{display:flex; flex-wrap:wrap; gap:8px; padding:0 22px 22px}
+.guard .acts a,.guard .acts button{font-family:"IBM Plex Mono",monospace; font-size:12px;
+  font-weight:600; letter-spacing:.05em; padding:11px 18px; cursor:pointer;
+  border:1.5px solid var(--ink); text-decoration:none; transition:transform .14s}
+.guard .acts a:hover,.guard .acts button:hover{transform:translateY(-2px)}
+.guard .acts .ok{background:var(--ink); color:var(--paper)}
+.guard .acts .mail{background:transparent; color:var(--ink)}
+@media (prefers-reduced-motion: no-preference){
+  dialog.guard[open]{animation:pop .26s cubic-bezier(.2,.8,.3,1)}
+  @keyframes pop{from{opacity:0; transform:translateY(10px) scale(.985)} to{opacity:1; transform:none}}
+}
+
 /* ═══════════ 모션 ═══════════ */
 @supports (animation-timeline: view()){
   @media (prefers-reduced-motion: no-preference){
@@ -391,6 +421,19 @@ footer{padding:60px 0 84px; border-top:1px solid var(--rule)}
     <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.8" y="4.4" width="18.4" height="12.4" rx="1.6"/><path d="M8.4 20h7.2"/></svg></button>
 </div>
 <div class="wm" id="wm" aria-hidden="true"></div>
+<dialog class="guard" id="guard" aria-labelledby="guardTitle">
+  <div class="top">공유 제한</div>
+  <div class="bd">
+    <h3 id="guardTitle">이 문서는 인사담당자 외<br>공유가 제한됩니다</h3>
+    <p>현재 개발과 설계가 진행 중인 프로젝트가 포함되어 있어, 채용 검토 목적에 한해 열람을 요청드리고 있습니다. 제3자 공유와 배포, 온라인 게시를 삼가 주시기 바랍니다.</p>
+    <p>내용 인용이 필요하시면 먼저 연락 주시면 자료를 따로 정리해 드리겠습니다.</p>
+    <div class="stamp" id="guardStamp"></div>
+  </div>
+  <div class="acts">
+    <button class="ok" id="guardOk" type="button">확인했습니다</button>
+    <a class="mail" href="mailto:thinkinging@naver.com?subject=%ED%8F%AC%ED%8A%B8%ED%8F%B4%EB%A6%AC%EC%98%A4%20%EC%9D%B8%EC%9A%A9%20%EB%AC%B8%EC%9D%98">이메일로 문의</a>
+  </div>
+</dialog>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <div class="rail rail-l" aria-hidden="true"><span id="railL">표지</span></div>
 <div class="rail rail-r" aria-hidden="true"><span>인사담당자 외 공유 금지</span></div>
@@ -880,37 +923,56 @@ secs.forEach(s => io.observe(s));
   addEventListener("resize", () => { clearTimeout(wm._t); wm._t = setTimeout(fill, 250); });
 })();
 
-/* ── 공유 제한 보조 장치 ──
-   완전한 차단은 불가능하다. 실수로 퍼가는 것을 한 번 붙잡아 두는 용도다.
-   드래그(선택)는 그대로 두고, 복사·우클릭·저장 단축키에만 안내를 띄운다. */
+/* ── 공유 제한 안내 ──
+   차단이 목적이 아니다. 완전한 차단은 브라우저에서 불가능하다.
+   퍼가려는 순간에 한 번 알리고, 필요하면 정식으로 요청할 경로를 준다. */
 (() => {
+  const dlg = document.getElementById("guard");
   const toast = document.getElementById("toast");
-  let t;
-  const say = (html) => {
-    toast.innerHTML = html;
+  const stamp = document.getElementById("guardStamp");
+  let t, seen = 0;
+
+  const now = () => {
+    const d = new Date(), p = n => String(n).padStart(2, "0");
+    return `${d.getFullYear()}.${p(d.getMonth()+1)}.${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`;
+  };
+  const MSG = '공유가 제한된 문서입니다. 인용이 필요하시면 <b>thinkinging@naver.com</b>으로 연락 주세요.';
+
+  const say = () => {
+    toast.innerHTML = MSG;
     toast.classList.add("on");
     clearTimeout(t); t = setTimeout(() => toast.classList.remove("on"), 3400);
   };
-  const MSG = '이 문서는 <b>인사담당자 외 공유가 제한</b>됩니다. 인용이 필요하시면 thinkinging@naver.com으로 연락 주세요.';
+  const warn = (soft) => {
+    // 우클릭처럼 실수로 누르기 쉬운 동작은 두 번째부터 토스트로 낮춘다
+    if (soft && seen > 0) { say(); return; }
+    if (dlg.open) return;
+    seen++;
+    stamp.innerHTML = `열람 일시 ${now()}<br>배경 워터마크에 같은 시각이 함께 기록됩니다.`;
+    dlg.showModal();
+    if (window.va) window.va("event", { name: "공유 제한 안내 표시" });
+  };
 
-  const inFooter = (el) => el && el.closest && el.closest(".fgrid");
+  document.getElementById("guardOk").addEventListener("click", () => dlg.close());
+  dlg.addEventListener("click", e => { if (e.target === dlg) dlg.close(); });
+
+  const inFooter = el => el && el.closest && el.closest(".fgrid");
 
   document.addEventListener("copy", e => {
-    if (inFooter(e.target) || inFooter(document.getSelection()?.anchorNode?.parentElement)) return;
-    e.preventDefault(); say(MSG);
+    const sel = document.getSelection()?.anchorNode?.parentElement;
+    if (inFooter(e.target) || inFooter(sel)) return;   // 연락처는 복사할 수 있게 둔다
+    e.preventDefault(); warn(false);
   });
-  document.addEventListener("cut", e => { e.preventDefault(); say(MSG); });
+  document.addEventListener("cut", e => { e.preventDefault(); warn(false); });
   document.addEventListener("contextmenu", e => {
     if (inFooter(e.target)) return;
-    e.preventDefault(); say(MSG);
+    e.preventDefault(); warn(true);
   });
   document.addEventListener("dragstart", e => e.preventDefault());
   addEventListener("keydown", e => {
-    const k = e.key.toLowerCase();
-    const mod = e.metaKey || e.ctrlKey;
-    if (mod && (k === "s" || k === "p" || k === "u")) { e.preventDefault(); say(MSG); }
-    // PrintScreen은 이미 캡처된 뒤에 도착한다. 막지 못하고 안내만 남긴다.
-    if (e.key === "PrintScreen") say('화면을 저장하셨다면 <b>공유 범위만 지켜</b> 주세요. 워터마크에 열람 일시가 함께 찍힙니다.');
+    const k = e.key.toLowerCase(), mod = e.metaKey || e.ctrlKey;
+    if (mod && (k === "s" || k === "p" || k === "u")) { e.preventDefault(); warn(false); }
+    if (e.key === "PrintScreen") warn(false);   // 캡처는 막지 못한다. 알리기만 한다
   });
 })();
 
