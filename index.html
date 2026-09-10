@@ -58,7 +58,11 @@ p,dd,li,td,.lede{text-align:justify; text-justify:inter-character;
   word-break:keep-all; overflow-wrap:normal; hanging-punctuation:allow-end}
 /* 좁은 단에서는 양쪽정렬을 풀어 자간 왜곡을 막는다 */
 @media (max-width:560px){ p,dd,li,td,.lede{text-align:left} }
-.card p, .card dd, .err p, .steps4 p, .stack{text-align:left}
+/* 카드 본문도 양측정렬. 한국어는 글자 사이로 분배해 어절이 벌어지지 않는다 */
+.card p, .card dd, .err p, .steps4 p{text-align:justify; text-justify:auto}
+/* 단이 좁아지면 양측정렬을 풀어 자간 왜곡을 막는다 */
+@container (max-width:330px){ .card p, .card dd{text-align:left} }
+.stack{text-align:left}   /* 기술 나열은 양측정렬이 어색하다 */
 h1,h2,h3,h4,th,dt,.rail,.mono,.tag{text-align:left}
 h1,h2,h3,h4{font-family:"Gothic A1",sans-serif; font-weight:900;
   letter-spacing:-.035em; line-height:1.24; margin:0; text-wrap:balance}
@@ -90,7 +94,7 @@ p{margin:0} a{color:inherit}
 
 /* ═══════════ 레이아웃 ═══════════ */
 .wrap{max-width:1080px; margin:0 auto; padding:0 clamp(24px,5vw,64px)}
-section{padding:clamp(60px,7.5vw,116px) 0; border-top:1px solid var(--rule-soft)}
+section{padding:clamp(60px,7.5vw,116px) 0; border-top:1px solid var(--rule-soft); scroll-margin-top:64px}
 .eyebrow{font-family:"IBM Plex Mono",monospace; font-size:10.5px; font-weight:600;
   letter-spacing:.2em; color:var(--tan); display:flex; align-items:center; gap:10px;
   margin-bottom:18px; text-transform:uppercase}
@@ -172,6 +176,34 @@ dl.kv dd b, .card p b{color:var(--ink); font-weight:600}
   letter-spacing:.14em; color:var(--tan)}
 .steps4 h3{margin-top:8px; font-size:17px}
 .steps4 p{margin-top:9px; font-size:14px; color:var(--ink-2); line-height:1.7}
+
+
+/* 아래로 읽을 때는 숨고, 위로 올리면 나타난다. 큰 제목이 잘리지 않게. */
+.tierbar{transition:transform .28s cubic-bezier(.3,.7,.3,1)}
+.tierbar.hide{transform:translateY(-102%)}
+@media (prefers-reduced-motion: reduce){ .tierbar{transition:none} }
+
+/* 가림 처리: 형태는 보이되 값은 읽히지 않게 */
+.mz{position:relative; display:inline-block; vertical-align:baseline;
+  filter:blur(3.6px) contrast(.9); opacity:.8; user-select:none}
+.mz::after{content:""; position:absolute; inset:-2px;
+  background:repeating-conic-gradient(color-mix(in srgb,var(--ink) 18%,transparent) 0% 25%,
+    transparent 0% 50%) 0 0/5px 5px}
+
+/* ═══════════ 파이프라인 5단계 ═══════════ */
+.pipe{display:grid; grid-template-columns:repeat(auto-fit,minmax(175px,1fr)); gap:1px;
+  background:var(--rule-soft); border:1px solid var(--rule-soft)}
+.pipe > div{background:var(--paper); padding:18px 18px 20px; position:relative; container-type:inline-size}
+.pipe .mod{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.1em;
+  color:var(--tan); font-weight:600}
+.pipe h4{margin-top:9px; font-size:17px; font-family:"Gothic A1",sans-serif; font-weight:900;
+  letter-spacing:-.03em}
+.pipe p{margin-top:9px; font-size:13.5px; line-height:1.7; color:var(--ink-2);
+  text-align:justify; text-justify:auto}
+@container (max-width:250px){ .pipe p{text-align:left} }
+.pipe > div:not(:last-child)::after{content:"→"; position:absolute; right:-9px; top:22px;
+  font-size:13px; color:var(--ink-3); background:var(--paper); padding:0 2px; z-index:2}
+@media (max-width:760px){ .pipe > div::after{display:none !important} }
 
 /* ═══════════ 표 ═══════════ */
 .tw{overflow-x:auto}
@@ -673,6 +705,90 @@ dialog.guard::backdrop{background:color-mix(in srgb, var(--ink) 62%, transparent
       <div><b>3만</b><span class="lbl">신청자 규모</span><span class="sub">그중 5천 명 지급 심사. 하루 50건 이상 주거 정책 상담</span></div>
       <div><b>1,500</b><span class="lbl">회원 데이터 운영</span><span class="sub">민달팽이유니온. 회원 상태 기준으로 사업 기획</span></div>
       <div><b>200건</b><span class="lbl">연간 의정 협업</span><span class="sub">경기도의회. 의정홍보 지원 연 약 100건</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 지식 도구 ══════════ -->
+<section class="rv" data-rail="지식 도구">
+  <div class="wrap">
+    <div class="eyebrow">Knowledge tool</div>
+    <h2 class="t">되묻지 않은 것은<br>본노트로 넘어가지 않습니다</h2>
+    <p class="lede">관심 주제를 자동으로 모아 거르고, 여러 AI에게 각각 다른 각도로 묻습니다. 읽은 뒤에는 비판적 질문이 따라오고, 제가 답을 써야 본노트로 넘어갑니다.</p>
+
+    <div class="pipe mt">
+      <div><span class="mod">01 · COLLECT</span><h4>모으기</h4>
+        <p>지정한 키워드와 출처를 따라 웹 콘텐츠를 가져옵니다. 원문 요약과 왜 중요한지 설명하는 글, 두 가지를 함께 만듭니다.</p></div>
+      <div><span class="mod">02 · SCREEN</span><h4>거르기</h4>
+        <p>읽을 값이 있는지 먼저 판정합니다. 통과하지 못하면 다음 단계로 넘어가지 않습니다. 모델이 죽으면 규칙 기반으로 내려앉습니다.</p></div>
+      <div><span class="mod">03 · ANALYZE</span><h4>여러 각도로</h4>
+        <p>서로 다른 AI를 붙인 페르소나들을 차례로 돌려 같은 주제를 토론시킵니다. 한 모델의 결론에 기대지 않기 위해서입니다.</p></div>
+      <div><span class="mod">04 · ARCHIVE</span><h4>쌓기</h4>
+        <p>옵시디언에 자료로 들어갑니다. 여기까지는 읽을거리이고, 아직 제 지식은 아닙니다.</p></div>
+      <div><span class="mod">05 · RETRIEVE</span><h4>꺼내기</h4>
+        <p>노트를 조각으로 나눠 벡터로 저장해 두고, 질문에 가까운 조각만 찾아 답변의 근거로 붙입니다. 작업 중인 화면에서 그대로 부릅니다.</p></div>
+    </div>
+
+    <div class="grid g3 mt">
+      <div class="card acc" data-tier="v">
+        <div class="hd"><h3 class="s">한 모델만 믿지 않기</h3><span class="tag v">검증됨</span></div>
+        <p>페르소나마다 다른 AI 엔진을 붙여 라운드로빈으로 토론시킵니다. 각 발언이 누구의, 어떤 엔진의 말인지 함께 기록되고 진행 과정이 실시간으로 흘러나옵니다.</p>
+        <dl class="kv">
+          <dt>왜</dt><dd>같은 질문에 모델마다 다르게 답합니다. 하나만 쓰면 그 편향을 제 생각으로 착각하게 됩니다.</dd>
+        </dl>
+      </div>
+
+      <div class="card acc" data-tier="v">
+        <div class="hd"><h3 class="s">질문에 답해야 본노트로</h3><span class="tag v">검증됨</span></div>
+        <p>자료를 본노트로 옮기려면 시스템이 만든 비판적 질문에 제가 답을 써야 합니다. 읽었다는 표시만으로는 넘어가지 않습니다.</p>
+        <dl class="kv">
+          <dt>한 번에</dt><dd>세 개까지만 다룹니다. 한꺼번에 몰아서 정리하면 결국 읽지 않고 넘기게 됩니다.</dd>
+          <dt>보존</dt><dd>넘기지 않기로 한 것도 파일은 남깁니다. 나중에 다시 필요해지는 경우가 있습니다.</dd>
+        </dl>
+      </div>
+
+      <div class="card acc" data-tier="v">
+        <div class="hd"><h3 class="s">끊긴 것 잇기</h3><span class="tag v">검증됨</span></div>
+        <p>어디에도 연결되지 않은 노트를 찾아 의미가 가까운 이웃을 자동으로 붙입니다. 법령과 판례, 의안 같은 공공 데이터로 개념 노트를 채우기도 합니다.</p>
+        <dl class="kv">
+          <dt>규칙</dt><dd>이 단계는 생성형 AI를 쓰지 않습니다. 임베딩과 공식 데이터만 씁니다. 지어낼 여지를 남기지 않으려는 선택입니다.</dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="grid g2 mt">
+      <div class="card" data-tier="h">
+        <div class="hd"><h3 class="s">쌓은 것을 근거로 쓰기</h3><span class="tag h">적용 중</span></div>
+        <p>쌓아둔 노트를 조각 단위로 나눠 벡터로 저장해 두고, 질문이 들어오면 가까운 조각 다섯 개만 골라 답변의 근거로 붙입니다. 모델이 기억하는 것이 아니라 <b>제 노트에서 찾아 답하게</b> 하는 방식입니다.</p>
+        <dl class="kv">
+          <dt>기준</dt><dd>유사도가 일정 값에 못 미치면 아무것도 붙이지 않습니다. 억지로 끌어다 붙이면 없는 근거를 만들게 됩니다.</dd>
+          <dt>오프라인</dt><dd>벡터 계산을 기기 안에서 합니다. 네트워크가 없거나 사용량 제한에 걸려도 쌓아둔 지식은 그대로 꺼내 씁니다.</dd>
+        </dl>
+        <div class="stack">로컬 임베딩(BGE-m3, 1024차원) · pgvector 조각 검색 · MCP 서버로 작업 화면에서 직접 호출 · 설정은 코드로 관리해 기기를 옮겨도 이어짐</div>
+      </div>
+      <div class="card" data-tier="v">
+        <div class="hd"><h3 class="s">어디에 쓰였나</h3><span class="tag v">검증됨</span></div>
+        <p>다리잇다의 페르소나와 인용 통계, 정책 제안서의 법령 근거가 대부분 여기서 나왔습니다. 실수 기록에 적어 둔 "요약본의 강한 표현은 원문을 열기 전까지 쓰지 않는다"는 규칙도 이 도구를 쓰다 생긴 것입니다.</p>
+        <div class="stack">FastAPI · Next.js 16 · React 19 · Tauri 데스크톱 · Supabase · 자체 옵시디언 플러그인</div>
+      </div>
+    </div>
+
+    <h3 class="s mt-l">어떤 주제를 모으고 있나</h3>
+    <p class="lede" style="margin-top:12px">주제별로 볼트를 나눠 두고, 일하다 필요해지면 해당 볼트를 엽니다. 진행 중인 개발의 세부 방향은 가림 처리했습니다.</p>
+    <div class="tw mt-s">
+      <table class="tb">
+        <thead><tr><th style="width:21%">볼트</th><th style="width:35%">모으는 것</th><th>어디에 쓰였나</th></tr></thead>
+        <tbody>
+          <tr><td>법과 제도, 연구</td><td>법령 · 제도 · 연구 자료</td><td>국민제안서의 법적 근거와 소관 부처 판단</td></tr>
+          <tr><td>하네스 엔지니어링</td><td>운영 규칙 · 작업지시서 · 인수인계 · 세션 기록 · 교훈</td><td>AI와 일할 때의 규칙. 앞서 보신 실수 기록이 여기서 나옵니다</td></tr>
+          <tr><td>SAEGHIM</td><td>리서치 패킷 · 관찰 노트 · 개념 · 판정 사례 · 템플릿</td><td>리서치를 매번 같은 방식으로 돌리기 위한 틀</td></tr>
+          <tr><td>ESG</td><td>논문 · 강의 · 에세이 · CSR 사례</td><td>사회적 가치 관련 제안서의 배경</td></tr>
+          <tr><td>시냅스</td><td>수집 파이프라인이 자동으로 채우는 개념 노트</td><td>관심 주제의 최신 흐름을 따라가는 창구</td></tr>
+          <tr><td>대한국민실록</td><td>웹 플랫폼 개발 기록. 화면 설계와 결정 근거, 개발 과정 아카이빙</td><td>다음 방향은 <span class="mz">헌법 조문 단위 숙의 데이터를 공개 API로 개방</span> 검토 중</td></tr>
+          <tr><td>다리잇다</td><td>웹 플랫폼 개발 기록. 리서치 패킷, 브랜드 원칙, 배포 게이트 규칙</td><td>다음 방향은 <span class="mz">지자체 공론화 사업 대상 B2G 파일럿 설계</span> 검토 중</td></tr>
+          <tr><td>추적자</td><td>개발 아이디어와 방향 기록</td><td><span class="mz">공공 사업 집행 경과를 시민이 추적하는 서비스</span> 구상 단계</td></tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </section>
@@ -1185,6 +1301,30 @@ if (!RM) {
 } else {
   document.getElementById("cover").classList.add("go");
 }
+
+
+/* ── 등급 바: 아래로 읽을 때 숨기기 ── */
+(() => {
+  const bar = document.getElementById("tierbar");
+  // sticky가 붙은 뒤에는 offsetTop이 달라지므로, 붙기 전 위치를 한 번만 기록한다
+  let anchorY = bar.getBoundingClientRect().top + scrollY;
+  addEventListener("resize", () => {
+    bar.classList.remove("hide");
+    anchorY = bar.getBoundingClientRect().top + scrollY;
+  });
+  let last = scrollY, ticking = false;
+  const update = () => {
+    ticking = false;
+    const y = scrollY;
+    if (y <= anchorY + 40) { bar.classList.remove("hide"); last = y; return; }
+    if (Math.abs(y - last) < 6) return;          // 미세한 흔들림은 무시
+    bar.classList.toggle("hide", y > last);
+    last = y;
+  };
+  addEventListener("scroll", () => {
+    if (!ticking) { ticking = true; requestAnimationFrame(update); }
+  }, { passive: true });
+})();
 
 /* ── 근거 등급으로 걸러 읽기 ──
    심사자가 확인된 주장만 골라 볼 수 있게 한다. 끄면 흐려질 뿐 사라지지 않는다. */
