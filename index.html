@@ -1,0 +1,763 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>오두영 포트폴리오</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="오두영 프로덕트 디자이너. 뉴웨이즈 Proof 팀 지원 포트폴리오.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@400;600;800&family=IBM+Plex+Sans+KR:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+<style>
+/* ═══ TOKENS ════════════════════════════════════════════
+   light = 종이(warm-neutral, citron 편향) / dark = 야간 계기판
+   모든 색은 토큰으로만 정의한다. 미디어쿼리 안에서 색을 처음 선언하지 않는다. */
+:root{
+  --paper:#F3F4EC; --paper-2:#EAECE0; --paper-3:#DFE2D2;
+  --ink:#171A14; --ink-2:#454A3C; --ink-3:#69705C;
+  --rule:#CFD3C0; --rule-soft:#E1E4D6;
+  --acc:#566E00;        /* 본문 대비 안전한 시트론 */
+  --acc-bright:#A8CE1A; /* 면·칩용 */
+  --acc-wash:rgba(168,206,26,.16);
+  --ok:#4B7A2A; --wait:#7A6A2A; --no:#8A6248;
+  --card:#FBFBF6; --card-2:#F7F8F0;
+  --shadow:0 1px 0 rgba(23,26,20,.05), 0 8px 24px -18px rgba(23,26,20,.35);
+  --flow:rgba(86,110,0,.5);
+}
+:root:not([data-theme="light"]){
+  @media (prefers-color-scheme: dark){
+    --paper:#101208; --paper-2:#171A0F; --paper-3:#1F2315;
+    --ink:#E9ECDC; --ink-2:#B4BAA2; --ink-3:#7E856C;
+    --rule:#2E3320; --rule-soft:#232817;
+    --acc:#C3E63F; --acc-bright:#D6F55C; --acc-wash:rgba(195,230,63,.13);
+    --ok:#8FCB5B; --wait:#CDBB58; --no:#C79A78;
+    --card:#161910; --card-2:#1B1F13;
+    --shadow:0 1px 0 rgba(0,0,0,.5), 0 10px 30px -20px #000;
+    --flow:rgba(195,230,63,.42);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#101208; --paper-2:#171A0F; --paper-3:#1F2315;
+  --ink:#E9ECDC; --ink-2:#B4BAA2; --ink-3:#7E856C;
+  --rule:#2E3320; --rule-soft:#232817;
+  --acc:#C3E63F; --acc-bright:#D6F55C; --acc-wash:rgba(195,230,63,.13);
+  --ok:#8FCB5B; --wait:#CDBB58; --no:#C79A78;
+  --card:#161910; --card-2:#1B1F13;
+  --shadow:0 1px 0 rgba(0,0,0,.5), 0 10px 30px -20px #000;
+  --flow:rgba(195,230,63,.42);
+}
+
+@property --sweep{ syntax:'<percentage>'; inherits:false; initial-value:0%; }
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:"IBM Plex Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;
+  font-weight:400; font-size:16px; line-height:1.72; word-break:keep-all;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--acc-wash); color:var(--ink)}
+:focus-visible{outline:2.5px solid var(--acc); outline-offset:3px; border-radius:2px}
+
+h1,h2,h3{font-family:"Hahmlet",serif; font-weight:800; letter-spacing:-.03em;
+  line-height:1.28; text-wrap:balance; margin:0}
+p{margin:0}
+a{color:inherit}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace; font-variant-numeric:tabular-nums}
+
+/* ═══ 척추(SPINE) — 페이지 전체를 관통하는 '경로' ═══ */
+.spine{position:fixed; left:max(18px,calc(50vw - 560px)); top:0; bottom:0; width:2px;
+  background:var(--rule-soft); z-index:5; pointer-events:none}
+.spine::after{content:""; position:absolute; inset:0 auto 0 0; width:2px;
+  background:linear-gradient(180deg,var(--acc),var(--acc-bright));
+  transform-origin:top; transform:scaleY(var(--p,0));}
+@media (max-width:1000px){ .spine{display:none} }
+
+/* ═══ 레이아웃 ═══ */
+.wrap{max-width:1120px; margin:0 auto; padding:0 24px}
+section{padding:clamp(56px,7vw,104px) 0; border-top:1px solid var(--rule-soft)}
+section:first-of-type{border-top:0}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; font-weight:600;
+  letter-spacing:.2em; text-transform:uppercase; color:var(--acc);
+  display:flex; align-items:center; gap:10px; margin-bottom:14px}
+.eyebrow::before{content:""; width:22px; height:2px; background:var(--acc); flex:none}
+.lede{font-size:clamp(17px,1.6vw,19px); color:var(--ink-2); max-width:62ch; line-height:1.78}
+
+/* ═══ HERO ═══ */
+#hero{position:relative; min-height:min(100svh,860px); display:grid; align-content:center;
+  padding-block:clamp(72px,10vw,120px); overflow:hidden}
+#flow{position:absolute; inset:0; width:100%; height:100%; z-index:0; opacity:.85}
+#hero .wrap{position:relative; z-index:1}
+.tagline{font-family:"IBM Plex Mono",monospace; font-size:12px; letter-spacing:.18em;
+  color:var(--ink-3); text-transform:uppercase; margin-bottom:26px}
+#hero h1{font-size:clamp(34px,6.2vw,74px); line-height:1.16; letter-spacing:-.045em; max-width:17ch}
+#hero h1 .q{color:var(--ink-3)}
+#hero h1 mark{background:none; color:var(--acc);
+  background-image:linear-gradient(var(--acc),var(--acc)); background-repeat:no-repeat;
+  background-position:0 92%; background-size:var(--sweep) 3px;
+  animation:sweep 1.4s .5s cubic-bezier(.2,.7,.2,1) forwards}
+@keyframes sweep{ to{ --sweep:100% } }
+.hero-sub{margin-top:30px; max-width:56ch; font-size:clamp(16px,1.5vw,18.5px); color:var(--ink-2)}
+.hero-meta{margin-top:40px; display:flex; flex-wrap:wrap; gap:10px 26px; align-items:center;
+  font-size:13.5px; color:var(--ink-3)}
+.hero-meta b{color:var(--ink); font-weight:600}
+.pill{display:inline-flex; align-items:center; gap:7px; padding:6px 13px;
+  border:1px solid var(--rule); border-radius:999px; background:var(--card);
+  font-size:12.5px; color:var(--ink-2)}
+.pill .dot{width:6px;height:6px;border-radius:50%;background:var(--acc-bright);
+  box-shadow:0 0 0 3px var(--acc-wash)}
+
+/* ═══ 지표 ═══ */
+.kpis{display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:1px;
+  background:var(--rule-soft); border:1px solid var(--rule-soft); margin-top:52px}
+.kpis > div{background:var(--paper); padding:20px 20px 22px}
+.kpis b{display:block; font-family:"Hahmlet",serif; font-size:clamp(28px,3.4vw,40px);
+  font-weight:800; letter-spacing:-.05em; line-height:1; font-variant-numeric:tabular-nums}
+.kpis span{display:block; margin-top:9px; font-size:12.5px; color:var(--ink-3); line-height:1.55}
+
+/* ═══ 카드 공통 ═══ */
+.grid{display:grid; gap:20px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(340px,1fr))}
+.card{background:var(--card); border:1px solid var(--rule-soft); padding:24px;
+  box-shadow:var(--shadow); container-type:inline-size}
+.card h3{font-size:21px; letter-spacing:-.035em}
+.card .en{font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--ink-3);
+  letter-spacing:.08em; margin-top:5px}
+.card p{margin-top:12px; font-size:14.5px; color:var(--ink-2); line-height:1.7}
+.chip{display:inline-block; font-family:"IBM Plex Mono",monospace; font-size:10.5px;
+  font-weight:600; letter-spacing:.1em; padding:4px 9px; border:1px solid var(--rule);
+  color:var(--ink-2); margin:4px 4px 0 0}
+.chip.hot{border-color:var(--acc); color:var(--acc); background:var(--acc-wash)}
+dl.kv{margin:16px 0 0; display:grid; grid-template-columns:88px 1fr; gap:8px 14px;
+  font-size:13.5px; line-height:1.65}
+@container (max-width:400px){ dl.kv{grid-template-columns:1fr; gap:2px 0} dl.kv dt{margin-top:8px} }
+dl.kv dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; font-weight:600;
+  letter-spacing:.09em; color:var(--ink-3); text-transform:uppercase; padding-top:3px}
+dl.kv dd{margin:0; color:var(--ink-2)}
+dl.kv dd b{color:var(--ink); font-weight:600}
+.stackline{margin-top:16px; padding-top:13px; border-top:1px dashed var(--rule);
+  font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--ink-3); line-height:1.75}
+
+/* ═══ 12→5 인터랙티브 ═══ */
+.demo{background:var(--card-2); border:1px solid var(--rule); padding:clamp(20px,3vw,34px)}
+.demo-head{display:flex; flex-wrap:wrap; gap:16px; align-items:flex-end;
+  justify-content:space-between; margin-bottom:24px}
+.btn{font-family:"IBM Plex Mono",monospace; font-size:12px; font-weight:600; letter-spacing:.08em;
+  padding:11px 20px; border:1.5px solid var(--ink); background:var(--ink); color:var(--paper);
+  cursor:pointer; transition:transform .16s, background .16s}
+.btn:hover{transform:translateY(-2px)}
+.btn.ghost{background:transparent; color:var(--ink)}
+.steps{display:flex; flex-wrap:wrap; gap:8px; align-items:stretch}
+.step{flex:1 1 132px; min-height:82px; background:var(--card); border:1px solid var(--rule);
+  padding:11px 12px; display:flex; flex-direction:column; gap:5px;
+  transition:opacity .4s, filter .4s, border-color .3s}
+.step .n{font-family:"IBM Plex Mono",monospace; font-size:10px; font-weight:600;
+  letter-spacing:.1em; color:var(--ink-3)}
+.step .t{font-size:13px; line-height:1.45; color:var(--ink)}
+.step[data-keep="0"].collapsed{opacity:.2; filter:grayscale(1)}
+.step[data-keep="1"].collapsed{border-color:var(--acc); background:var(--acc-wash)}
+.step[data-keep="1"].collapsed .n{color:var(--acc)}
+.readout{margin-top:22px; display:flex; flex-wrap:wrap; gap:10px 30px; align-items:baseline;
+  font-family:"IBM Plex Mono",monospace; font-size:13px; color:var(--ink-2)}
+.readout b{font-family:"Hahmlet",serif; font-size:30px; font-weight:800; color:var(--ink);
+  letter-spacing:-.04em}
+.readout .delta{color:var(--acc)}
+
+/* ═══ 자가 검증 게이트 ═══ */
+.gate{background:var(--paper-2); border:1px solid var(--rule); padding:clamp(20px,3vw,30px)}
+.gate table{width:100%; border-collapse:collapse; font-family:"IBM Plex Mono",monospace;
+  font-size:12.5px}
+.gate th{text-align:left; font-size:10px; letter-spacing:.13em; text-transform:uppercase;
+  color:var(--ink-3); padding:0 10px 9px 0; border-bottom:1px solid var(--rule); font-weight:600}
+.gate td{padding:8px 10px 8px 0; border-bottom:1px solid var(--rule-soft); color:var(--ink-2)}
+.gate td:first-child{color:var(--ink)}
+.swatch{display:inline-block; width:13px; height:13px; border:1px solid var(--rule);
+  vertical-align:-2px; margin-right:7px}
+.verdict{font-weight:600}
+.verdict[data-pass="1"]{color:var(--ok)}
+.verdict[data-pass="0"]{color:var(--no)}
+.gate-foot{margin-top:16px; font-family:"IBM Plex Mono",monospace; font-size:12px}
+.gate-foot .exit{padding:4px 10px; border:1.5px solid currentColor; font-weight:600}
+
+/* ═══ 아카이브 필터 ═══ */
+.filters{display:flex; flex-wrap:wrap; gap:8px; margin:22px 0 24px}
+.filters button{font-family:"IBM Plex Mono",monospace; font-size:11.5px; letter-spacing:.07em;
+  padding:8px 15px; border:1px solid var(--rule); background:transparent; color:var(--ink-2);
+  cursor:pointer; transition:all .18s}
+.filters button[aria-pressed="true"]{background:var(--ink); color:var(--paper); border-color:var(--ink)}
+.arch{display:grid; gap:1px; background:var(--rule-soft); border:1px solid var(--rule-soft)}
+.row{background:var(--paper); display:grid; grid-template-columns:118px 1fr 130px; gap:18px;
+  padding:15px 18px; align-items:baseline}
+@media (max-width:720px){ .row{grid-template-columns:1fr; gap:5px} }
+.row .dept{font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--ink-3);
+  letter-spacing:.05em}
+.row .ttl{font-size:15px; color:var(--ink); font-weight:500}
+.row .ttl small{display:block; font-weight:400; font-size:13px; color:var(--ink-3); margin-top:3px}
+.row .st{font-family:"IBM Plex Mono",monospace; font-size:11px; font-weight:600; letter-spacing:.06em}
+.st[data-s="ok"]{color:var(--ok)} .st[data-s="wait"]{color:var(--wait)} .st[data-s="no"]{color:var(--no)}
+
+/* ═══ 실패 ═══ */
+.fail{border-left:3px solid var(--no); padding:2px 0 2px 20px}
+.fail h3{font-size:18px}
+.fail p{margin-top:9px; font-size:14.5px; color:var(--ink-2)}
+.fail .learn{margin-top:11px; padding-top:11px; border-top:1px dashed var(--rule); font-size:14px}
+.fail .learn b{color:var(--acc)}
+
+/* ═══ 연결 표 ═══ */
+.maptbl{width:100%; border-collapse:collapse; font-size:14.5px}
+.maptbl th{background:var(--ink); color:var(--paper); font-family:"IBM Plex Mono",monospace;
+  font-size:10.5px; letter-spacing:.11em; text-transform:uppercase; text-align:left;
+  padding:11px 14px; font-weight:600}
+.maptbl td{border-bottom:1px solid var(--rule-soft); padding:15px 14px; vertical-align:top;
+  color:var(--ink-2); line-height:1.68}
+.maptbl td:first-child{color:var(--ink); font-weight:600; width:26%}
+.maptbl b{color:var(--ink); font-weight:600}
+.tblwrap{overflow-x:auto}
+
+/* ═══ 기술 명세 ═══ */
+.tech{display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:1px;
+  background:var(--rule-soft); border:1px solid var(--rule-soft)}
+.tech > div{background:var(--paper); padding:17px 18px}
+.tech code{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--acc);
+  font-weight:600; display:block; letter-spacing:-.01em}
+.tech span{display:block; margin-top:7px; font-size:13px; color:var(--ink-3); line-height:1.6}
+
+/* ═══ 푸터 ═══ */
+footer{padding:56px 0 72px; border-top:1px solid var(--rule)}
+.foot-grid{display:flex; flex-wrap:wrap; gap:26px 48px; justify-content:space-between; align-items:flex-end}
+.foot-grid a{font-family:"IBM Plex Mono",monospace; font-size:13px; text-decoration:none;
+  border-bottom:1px solid var(--rule); padding-bottom:2px}
+.foot-grid a:hover{border-color:var(--acc); color:var(--acc)}
+.note{margin-top:34px; padding:16px 18px; background:var(--paper-2);
+  border-left:3px solid var(--acc); font-size:13.5px; color:var(--ink-2); line-height:1.7}
+.note b{color:var(--ink)}
+
+/* ═══ 스크롤 진입 ═══ */
+@supports (animation-timeline: view()){
+  @media (prefers-reduced-motion: no-preference){
+    .reveal{ animation:rise linear both; animation-timeline:view(); animation-range:entry 5% cover 26%; }
+    @keyframes rise{ from{opacity:0; transform:translateY(22px)} to{opacity:1; transform:none} }
+  }
+}
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.001ms !important; transition-duration:.001ms !important}
+  html{scroll-behavior:auto}
+}
+.mt{margin-top:34px} .mt-s{margin-top:20px} .mt-l{margin-top:48px}
+h2.big{font-size:clamp(26px,3.6vw,42px); letter-spacing:-.04em; max-width:20ch}
+</style>
+</head>
+<body>
+
+
+<div class="spine" aria-hidden="true"></div>
+
+<!-- ══════════ HERO ══════════ -->
+<section id="hero">
+  <canvas id="flow" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div class="tagline">오두영 · 프로덕트 디자이너 &nbsp;/&nbsp; 뉴웨이즈 Proof 팀 지원</div>
+    <h1>시민의 말이 정책에 닿는 과정을<br><mark>온라인으로 옮기는 일</mark>을<br><span class="q">하고 있습니다.</span></h1>
+    <p class="hero-sub">2024년 7월부터 2026년 4월까지 경기도의회 고양 지역상담소를 맡았습니다. 도민이 요구를 전하고 그것이 의정 활동으로 옮겨가는 과정을 가까이서 봤습니다. 대부분 오프라인으로 이뤄졌고, 요구를 낸 분들은 자기 말이 어디까지 갔는지 확인할 방법이 없었습니다. 이 부분을 제품으로 다뤄보고 싶어 퇴직했고, 지금은 관련 서비스를 만들고 있습니다. 혼자 하다 보니 잘못 판단해도 짚어줄 사람이 없어서, 실수를 그때그때 기록해 두는 방식으로 일합니다.</p>
+    <div class="hero-meta">
+      <span class="pill"><span class="dot"></span>경기도의회 사무처 임기제공무원 2024.07~2026.04</span>
+      <span class="pill">만들다 되돌린 것도 함께 적었습니다</span>
+      <span class="pill">출마 계획 없음 · 초당적 활동 가능</span>
+    </div>
+    <div class="kpis">
+      <div><b>12→5</b><span>청년월세 신청 절차<br>단계 축소 제안</span></div>
+      <div><b>1,500+</b><span>회원 CMS 서비스<br>UX 재설계·리브랜딩</span></div>
+      <div><b>10종</b><span>정부 공공데이터 연동<br>다리잇다</span></div>
+      <div><b>28</b><span>PR로 나눠 올린 변경<br>대한국민실록, 되돌린 것 포함</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 만든 것 ══════════ -->
+<section class="reveal">
+  <div class="wrap">
+    <div class="eyebrow">만들고 있는 것</div>
+    <h2 class="big">아직 완성한 것은<br>없습니다.</h2>
+    <p class="lede mt-s">아래 두 가지 모두 개발 중이고 사용자 검증도 하지 못한 단계입니다. 내세울 성과가 없어서 대신 <b>무엇을 결정했고 어떤 판단이 틀렸는지</b>를 정리했습니다.</p>
+
+    <div class="grid g2 mt">
+      <article class="card">
+        <h3>다리잇다</h3>
+        <div class="en">다리잇다 · 개발 중</div>
+        <p>시민이 쓴 한 줄에 법령·통계·예산·선례 근거를 붙여, 공직자가 읽을 수 있는 제안서로 바꾸는 AI 어시스턴트.</p>
+        <dl class="kv">
+          <dt>문제</dt><dd>제안이 반려되는 사유는 대개 세 가지입니다. 근거가 부족하거나, 어느 부처 일인지 불명확하거나, 실현 가능한지 따져본 흔적이 없는 경우입니다. 제출하기 전에 이 세 가지를 점검하는 쪽으로 범위를 좁혔습니다.</dd>
+          <dt>리서치</dt><dd>1차 실태조사 결과를 바탕으로 페르소나 6인을 정리했습니다. 고립·은둔 청년의 경우 지원사업을 모른다는 응답이 71.6%, 온라인이 유일한 창구라는 응답이 43%였습니다. 이런 수치를 설계 근거로 문서에 적어두고 논의할 때마다 다시 봅니다.</dd>
+          <dt>결정</dt><dd>로그인 전 화면에서는 외부 API를 호출하지 않기로 했습니다. 콜드스타트 지연이나 LLM 비용, 외부 장애의 영향을 아직 아무것도 하지 않은 방문자가 떠안을 이유가 없다고 봤습니다.</dd>
+          <dt>원칙</dt><dd>"채택을 약속하지 않는다"를 제품 규칙으로 적어뒀습니다. 채택 여부는 제가 통제할 수 없으니, 지킬 수 없는 약속을 카피에 넣지 않기 위해서입니다.</dd>
+          <dt>못한 것</dt><dd>가격, 도입처, 파일럿 실적은 아직 정해진 게 없습니다. 디자인 시스템은 한 번 폐기하고 다시 시작했는데, 제약을 너무 많이 걸어놔서 어떤 시안을 그려도 비슷하게 나왔기 때문입니다.</dd>
+        </dl>
+        <div class="mt-s">
+          <span class="chip hot">공공데이터 어댑터 10종</span><span class="chip hot">AI 워크플로 8개</span>
+          <span class="chip">FastAPI</span><span class="chip">Gemini→Claude 폴백</span><span class="chip">디자인 토큰</span>
+        </div>
+        <div class="stackline">배포 전 검사: 색 대비 8모드 152쌍 WCAG AA, 모션(reduce 대응 필수, 무한반복 금지), API 계약 4건, XSS 회귀 6건. 전부 통과해야 배포됩니다.</div>
+      </article>
+
+      <article class="card">
+        <h3>대한국민실록</h3>
+        <div class="en">대한국민실록 · 개발 중</div>
+        <p>시민이 헌법 개정안을 함께 써보는 숙의 플랫폼입니다. 법제처에 낸 제안이 채택된 뒤, 그 내용을 직접 제품으로 만들어 보고 있습니다.</p>
+        <dl class="kv">
+          <dt>핵심</dt><dd>제출을 3단계로 나눠 사이에 시간을 두는 구조를 넣었습니다. 참여를 늘리려면 마찰을 없애는 게 보통인데, 헌법 조문을 다루는 화면에서는 3초 만에 쓴 제안과 오래 고민한 제안이 같은 무게로 쌓이는 게 더 문제라고 봤습니다.</dd>
+          <dt>만든 것</dt><dd>조문 편집 화면(TipTap 확장), 선례를 찾아 붙여주는 검색, 법률 용어를 쉬운 말로 바꿔주는 기능, 온보딩과 동의 절차, 대시보드를 만들었습니다.</dd>
+          <dt>작업 방식</dt><dd>혼자 만들지만 브랜치와 PR로 나눠 올리고 CI를 통과시킵니다. 한 번에 몰아서 커밋하면 나중에 어디서 잘못됐는지 찾기 어렵습니다. 지금까지 PR 28건입니다.</dd>
+          <dt>지운 것</dt><dd>비밀투표를 넣으면서 '사관 등급' 기능을 뺐습니다. 참여를 유도하려고 만든 장치였는데 익명성과 맞지 않았습니다.</dd>
+        </dl>
+        <div class="mt-s">
+          <span class="chip">Next.js 16</span><span class="chip">React 19</span><span class="chip hot">Supabase pgvector</span>
+          <span class="chip">Claude + Embeddings</span><span class="chip">TipTap</span><span class="chip">Zustand</span>
+        </div>
+        <div class="stackline">그동안 낸 제안 열다섯 건 중 제품 단계까지 간 것은 이 하나입니다.</div>
+      </article>
+
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 12 → 5 ══════════ -->
+<section class="reveal">
+  <div class="wrap">
+    <div class="eyebrow">사례 · 청년월세지원 신청 절차</div>
+    <h2 class="big">화면보다 절차에서<br>더 많이 막혔습니다.</h2>
+    <p class="lede mt-s">서울시 청년월세지원상담센터에서 교육·홍보를 맡았을 때, 걸려오는 상담 전화의 상당수가 제도 자체에 대한 질문이 아니었습니다. 신청 절차를 넘기지 못해 전화한 경우가 많았습니다. 상담 기록과 신청자 데이터를 정리해 어느 단계에서 멈추는지 찾았고, 12단계를 5단계로 줄이는 안을 만들어 제안했습니다. 아래에 그때 판단을 그대로 옮겼습니다.</p>
+
+    <div class="demo mt">
+      <div class="demo-head">
+        <div>
+          <div class="eyebrow" style="margin:0">청년월세지원 신청 여정</div>
+          <p style="font-size:14px;color:var(--ink-3);margin-top:8px">버튼을 누르면 어떤 단계를 남기고 어떤 단계를 뺐는지 보실 수 있습니다.</p>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn" id="collapse" type="button">12 → 5 로 접기</button>
+          <button class="btn ghost" id="reset" type="button">되돌리기</button>
+        </div>
+      </div>
+      <div class="steps" id="steps"></div>
+      <div class="readout">
+        <span>단계 <b id="cnt">12</b></span>
+        <span>서류 제출 지점 <b id="docs">4</b></span>
+        <span>기관 방문 <b id="visit">2</b></span>
+        <span class="delta" id="delta"></span>
+      </div>
+      <p style="margin-top:20px;font-size:14px;color:var(--ink-2);line-height:1.72;max-width:70ch">
+        뺀 7단계는 없앤 게 아니라 행정 쪽으로 옮긴 것입니다. 자격 확인과 서류 검증은 신청자가 떼어올 필요 없이 행정이 이미 가진 데이터로 처리할 수 있었습니다. 신청자에게 남긴 5단계는 <b>본인만 답할 수 있는 항목</b>으로 추렸습니다.
+      </p>
+    </div>
+
+      <h4 style="font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.16em;color:var(--ink-3);text-transform:uppercase;margin:44px 0 16px;padding-bottom:8px;border-bottom:1px solid var(--rule-soft)">최근 사례 (2026)</h4>
+      <div class="grid g2">
+        <div class="card">
+          <h3 style="font-size:18px">제출 절차를 3단계로 나눈 일</h3>
+          <div class="en">대한국민실록 · 2026</div>
+          <p>앞의 사례가 단계를 줄인 경우라면, 이건 반대로 늘린 경우입니다. 헌법 조문을 다루는 화면이라 마찰을 없애는 쪽이 항상 옳지는 않다고 봤습니다. 3초 만에 쓴 제안과 오래 고민한 제안이 같은 무게로 쌓이면, 읽는 쪽에서 결국 다 읽지 않게 됩니다.</p>
+          <dl class="kv">
+            <dt>넣은 것</dt><dd>초안을 쓴 뒤 AI가 신구대비와 조문 충돌을 보여주고 되묻는 단계를 사이에 넣었습니다. 그걸 보고 다시 제출 여부를 정합니다. 철회도 정상 경로로 뒀습니다.</dd>
+            <dt>기준</dt><dd>생각할 시간에는 마찰을 걸고, 언어 장벽에는 걸지 않기로 했습니다. 그래서 법률 용어를 쉬운 말로 바꿔주는 기능을 같은 화면에 함께 넣었습니다.</dd>
+            <dt>남은 것</dt><dd>이 판단이 맞는지는 아직 사용자 데이터로 확인하지 못했습니다. 이탈이 늘어난다면 다시 봐야 하는 결정입니다.</dd>
+          </dl>
+        </div>
+        <div class="card">
+          <h3 style="font-size:18px">제출 후가 아니라 제출 전으로 범위를 좁힌 일</h3>
+          <div class="en">다리잇다 · 2026</div>
+          <p>처음에는 제안이 반려된 뒤에 대응을 돕는 기능까지 생각했습니다. 그런데 반려 사유를 모아보니 대부분 근거 부족, 소관 불명확, 실현 가능성 미검증 세 가지였고, 셋 다 제출하기 전에 확인할 수 있는 것이었습니다.</p>
+          <dl class="kv">
+            <dt>바꾼 것</dt><dd>제출 이후 단계를 전부 빼고, 제출 전 점검만 남겼습니다. 만들 것이 줄어든 대신 무엇을 만들지가 분명해졌습니다.</dd>
+            <dt>순서</dt><dd>여덟 개 기능 중 심사위원 관점에서 약점을 짚어주는 것을 가장 먼저 붙였습니다. 반려 사유를 직접 겨냥하는 기능이었기 때문입니다. 문장을 다듬는 기능은 맨 뒤로 뒀습니다.</dd>
+            <dt>남은 것</dt><dd>실제 사용자가 이 순서대로 쓰는지는 확인하지 못했습니다.</dd>
+          </dl>
+        </div>
+      </div>
+  </div>
+</section>
+
+<!-- ══════════ 자가 검증 ══════════ -->
+<section class="reveal">
+  <div class="wrap">
+    <div class="eyebrow">접근성 검사 · 이 페이지에서 실행 중</div>
+    <h2 class="big">색 대비는 눈으로 보지 않고<br>계산해서 확인합니다.</h2>
+    <p class="lede mt-s">다리잇다에서는 <span class="mono">verify.sh</span>를 통과해야 배포가 됩니다. 색 대비 8모드 152쌍, 모션 설정 대응, XSS 회귀 검사를 자동으로 돌립니다. 같은 방식을 이 페이지에도 붙여 뒀습니다. 아래 표는 지금 보고 계신 화면의 색 값을 읽어 WCAG 대비를 계산한 결과입니다. 처음 만든 색 조합은 라이트 모드에서 두 항목이 기준에 미달했고(3.91:1, 4.44:1) 이 검사에서 걸렸습니다. 색을 조정해 두 테마 모두 통과한 뒤에 올렸습니다.</p>
+
+    <div class="gate mt">
+      <div style="overflow-x:auto">
+        <table>
+          <thead><tr><th>대상</th><th>전경 / 배경</th><th>대비</th><th>기준</th><th>판정</th></tr></thead>
+          <tbody id="gateRows"></tbody>
+        </table>
+      </div>
+      <div class="gate-foot">
+        <span class="exit" id="exitCode">EXIT.</span>
+        <span style="color:var(--ink-3);margin-left:12px" id="gateMeta"></span>
+      </div>
+    </div>
+    <p class="lede mt-s" style="font-size:14px">테마를 바꾸면(시스템 다크/라이트 전환) 이 표는 다시 계산됩니다. 두 테마 모두 통과하도록 팔레트를 설계했습니다.</p>
+  </div>
+</section>
+
+<!-- ══════════ 틀린 기록 ══════════ -->
+<section class="reveal">
+  <div class="wrap">
+    <div class="eyebrow">실수 기록</div>
+    <h2 class="big">틀린 것을<br>그때그때 적어 둡니다.</h2>
+    <p class="lede mt-s">혼자 일하면 잘못 판단해도 짚어줄 사람이 없습니다. 그래서 실수를 발견할 때마다 무슨 일이 있었고 무엇을 바꿨는지 한 장씩 남기고 있습니다. 아래 네 건은 그 기록에서 가져왔습니다. 감점 표기는 스스로 매긴 것입니다.</p>
+
+    <div class="grid g2 mt">
+      <div class="fail" style="border-left-color:var(--acc)">
+        <div class="mono" style="font-size:11px;color:var(--ink-3);letter-spacing:.08em">2026-08-17 · 감점 없음(원문 대조에서 선제 포착)</div>
+        <h3 class="mt-s" style="margin-top:8px">검색 요약과 원문이 달랐던 건</h3>
+        <p>검색 결과 요약에는 "미흡 기업 실적이 제외된다"고 나와 있었습니다. 그대로 쓰면 사업의 시급성이 크게 올라가는 문장이었습니다. 원 지침을 찾아 열어보니 "우수 이상에 가산"이었고, 그것도 "추진 예정" 단계였습니다. 벌칙이 아니라 인센티브였고 아직 시행 전이었습니다.</p>
+        <p class="learn"><b>바꾼 것.</b> 요약본에서 본 강한 표현은 원문을 확인하기 전까지 쓰지 않습니다. 원문 사이트가 막히면 같은 자료를 올려둔 다른 기관을 찾습니다.</p>
+      </div>
+
+      <div class="fail" style="border-left-color:var(--acc)">
+        <div class="mono" style="font-size:11px;color:var(--ink-3);letter-spacing:.08em">2026-08-31 · 감점 −10(검산에서 발견)</div>
+        <h3 class="mt-s" style="margin-top:8px">출처를 적어놓고도 값이 틀렸던 건</h3>
+        <p>앞서 정한 재발 방지책대로 모든 상수에 출처 주석을 달았습니다. 그런데 주석만 달았을 뿐 값 자체가 기억에 의존한 것이었습니다. 검산표와 23,500원씩 어긋나는 걸 보고서야 알았습니다.</p>
+        <p class="learn"><b>배운 것.</b> 정해둔 절차를 지켰다고 해서 그 절차가 제 역할을 한 건 아니었습니다. 이후로는 주석을 믿지 않고 원본 문서를 열어 값을 대조합니다.</p>
+      </div>
+
+      <div class="fail" style="border-left-color:var(--acc)">
+        <div class="mono" style="font-size:11px;color:var(--ink-3);letter-spacing:.08em">2026-07-20 · 감점 −10 · <b style="color:var(--no)">재발</b></div>
+        <h3 class="mt-s" style="margin-top:8px">"내외"라는 값으로 계산했던 건</h3>
+        <p>"3,000만원 내외"라고 적힌 값에서 원 단위까지 차액을 계산해 "지원금이 인건비를 못 덮는다"고 결론을 냈습니다. 같은 보고서의 다른 항목으로 역산해보니 결론이 반대로 나왔습니다. 사흘 전에 제가 써둔 주의사항을 다시 어긴 셈이었습니다.</p>
+        <p class="learn"><b>배운 것.</b> 범위로만 알려진 값을 확정 수치처럼 계산에 넣지 않습니다. 같은 실수를 반복했다는 사실도 기록에 함께 남겼습니다.</p>
+      </div>
+
+      <div class="fail" style="border-left-color:var(--acc)">
+        <div class="mono" style="font-size:11px;color:var(--ink-3);letter-spacing:.08em">2026-09 · 이 포트폴리오를 만들며</div>
+        <h3 class="mt-s" style="margin-top:8px">연결이 끊긴 도메인을 적을 뻔한 건</h3>
+        <p>이력서와 PDF 일곱 군데에 이전 사이트 주소를 넣고 "운영 중"이라고 적었습니다. 제출 직전에 조회해보니 도메인이 등록 정보에서 조회되지 않는 상태였습니다. 보시는 분이 눌렀다면 열리지 않았을 링크입니다.</p>
+        <p class="learn"><b>바꾼 것.</b> "운영 중"처럼 확인하지 않은 표현을 뺐고, 링크는 직접 열어본 것만 적습니다.</p>
+      </div>
+    </div>
+
+    <div class="note mt">이 기록을 포트폴리오에 넣은 이유는 이렇습니다. AI로 개발할 때 어려운 부분은 코드가 동작하지 않는 상황보다, 그럴듯해 보이는 결과를 확인 없이 받아들이는 상황이라고 생각합니다. 도구가 빨라진 만큼 잘못된 판단도 빨리 퍼집니다. 내세울 만한 실적은 아직 없고, 대신 이런 습관을 몇 가지 만들어 두었습니다.</div>
+  </div>
+</section>
+
+<!-- ══════════ 아카이브 ══════════ -->
+<section class="reveal">
+  <div class="wrap">
+    <div class="eyebrow">정책 제안 기록</div>
+    <h2 class="big">공식 제안 제도를<br>통로로 썼습니다.</h2>
+    <p class="lede mt-s">2022년부터 부처와 지자체의 공식 제안 제도를 통해 정책을 제안해 왔습니다. 2024년에 공직에 들어간 뒤로는 예산에 영향을 줄 수 있는 제안은 스스로 빼고 방식을 바꿨습니다.</p>
+
+    <div class="filters" id="filters" role="group" aria-label="상태로 거르기">
+      <button aria-pressed="true" data-f="all">전체</button>
+      <button aria-pressed="false" data-f="ok">채택 · 진행</button>
+      <button aria-pressed="false" data-f="wait">심사 중</button>
+      <button aria-pressed="false" data-f="no">불채택 → 보완</button>
+    </div>
+    <div class="arch" id="arch"></div>
+  </div>
+</section>
+
+<!-- ══════════ 실패 ══════════ -->
+<section class="reveal">
+  <div class="wrap">
+    <div class="eyebrow">접었던 일</div>
+    <h2 class="big">접었던 일들</h2>
+    <div class="grid g2 mt">
+      <div class="fail">
+        <h3>㈜모두다. 1년 만의 폐업</h3>
+        <p>예비사회적기업으로 시작했는데 수익 구조를 못 만들었고 팀 여력도 부족해서 1년 만에 정리했습니다.</p>
+        <p class="learn"><b>남은 것.</b> 폐업한 뒤에도 팀원들과 하기로 했던 '바카티오' 툴킷은 크라우드펀딩으로 끝까지 냈습니다.</p>
+      </div>
+      <div class="fail">
+        <h3>점선면 스튜디오. 1년 7개월</h3>
+        <p>고양시에서 사진관과 공간 대관, 디자인 외주를 같이 했습니다. 디자인 외주는 어느 정도 돌아갔지만 공간 쪽은 지역 수요가 나오지 않았습니다. 수요를 확인하지 않고 시작한 게 문제였습니다.</p>
+        <p class="learn"><b>남은 것.</b> 이후로는 리서치를 먼저 합니다. 다리잇다의 페르소나를 실태조사 수치로 잡은 것도 이때 경험 때문입니다.</p>
+      </div>
+      <div class="fail">
+        <h3>공익활동가 경력 인정. 1차 불채택</h3>
+        <p>행정안전부 1차 심사에서 떨어졌습니다. 비영리 경력의 가치를 행정이 쓰는 기준으로 옮기는 일이 생각보다 어려웠습니다.</p>
+        <p class="learn"><b>남은 것.</b> 당사자 데이터 없이 주장만 하면 검토가 진행되지 않는다는 걸 알았습니다. 근거를 보강해 재심사를 요청해 둔 상태입니다.</p>
+      </div>
+      <div class="fail">
+        <h3>생애주기형 공동체 주택. 1차 불채택</h3>
+        <p>국토교통부에 낸 제안입니다. 청년의 지분 취득과 노인 돌봄을 묶은 주거 모델이었는데, 기존 정책과 무엇이 다른지 설명이 부족했습니다.</p>
+        <p class="learn"><b>남은 것.</b> 아이디어 단계와 심사받을 수 있는 문서 사이에 거리가 꽤 있다는 걸 알았고, 그 거리를 좁히는 게 다리잇다에서 하려는 일이 됐습니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 뉴웨이즈 연결 ══════════ -->
+<section class="reveal">
+  <div class="wrap">
+    <div class="eyebrow">뉴웨이즈에 지원한 이유</div>
+    <h2 class="big">혼자 더듬던 문제를<br>Proof 팀은 이미<br>더 정확하게 잡고 있었습니다</h2>
+    <div class="tblwrap mt">
+      <table class="maptbl">
+        <thead><tr><th>공고가 요구하는 것</th><th>제가 해 본 것</th><th>합류하면 해 보고 싶은 것</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>양면 플랫폼(젊치인 ↔ 유권자)을 주도적으로 설계</td>
+            <td>다리잇다를 만들면서 시민이 쓰는 말과 행정이 쓰는 기준 사이에서 무엇을 옮겨야 하는지 다뤄 봤습니다. 아직 사용자 검증 단계까지는 가지 못했습니다.</td>
+            <td>구독과 피드백, 요구가 이어지는 흐름을 화면 단위가 아니라 여정 전체로 놓고 다시 보고 싶습니다. 다만 팀에서 이미 시도한 게 있을 테니 그 기록부터 읽는 게 먼저일 것 같습니다.</td>
+          </tr>
+          <tr>
+            <td>콘텐츠 유입 → 가입 → 행동의 루프를 가설·검증으로 운영</td>
+            <td>청년월세 상담 데이터로 어느 단계에서 이탈이 생기는지 찾아 12단계를 5단계로 줄이는 안을 냈습니다.</td>
+            <td>유권자가 한 행동이 젊치인에게 전달됐다는 걸 확인할 수 있는 구조를 만들어 보고 싶습니다. 아직은 가설이라 데이터로 먼저 확인해야 합니다.</td>
+          </tr>
+          <tr>
+            <td>바이브 코딩으로 기획부터 개발까지 직접 구현</td>
+            <td>Next.js 16·React 19·FastAPI·Supabase(pgvector)·LLM 라우팅을 AI 페어 코딩으로 직접 구현·배포. 접근성·XSS·API 계약을 <b>배포 게이트</b>로 자동 강제.</td>
+            <td>공고에 적힌 "보안·안전성은 외부 파트너와 협력"이라는 분담에 동의합니다. 제가 어디까지 할 수 있고 어디부터는 넘겨야 하는지는 비교적 분명하게 아는 편입니다.</td>
+          </tr>
+          <tr>
+            <td>복잡한 오프라인 경험을 쉬운 온라인 경험으로 전환 <span style="color:var(--ink-3);font-weight:400">(우대)</span></td>
+            <td>다리잇다가 하려는 일이 이것입니다. 시민이 쓴 한 줄을 공직자가 검토할 수 있는 제안서 형태로 바꾸는 것입니다. 실제로 되는지는 아직 확인하지 못했습니다.</td>
+            <td>정담회나 상담소, 민원처럼 오프라인에서 이뤄지던 관계를 온라인으로 옮길 때 어떤 부분이 빠지면 안 되는지는 조금 말씀드릴 수 있을 것 같습니다.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">
+      <b>초당성에 대해 미리 말씀드립니다.</b> 출마 계획은 없습니다. 지방의회 사무처 임기제공무원으로 일하는 동안 「지방공무원법」상 정치적 중립 의무를 지켰습니다. 정책 제안도 정당을 통하지 않고 부처와 지자체의 공식 제안 제도만 이용했습니다. 재직 중에는 예산에 영향을 줄 수 있는 제안을 스스로 뺐고, 그 내용이 이력서에도 적혀 있습니다. 2026년 4월에 퇴직한 뒤로는 같은 문제를 제안서 대신 제품으로 다뤄보고 있습니다.
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 기술 명세 ══════════ -->
+<section class="reveal">
+  <div class="wrap">
+    <div class="eyebrow">이 페이지에 쓴 기술</div>
+    <h2 class="big">이 페이지를<br>만든 방법</h2>
+    <p class="lede mt-s">글로 설명하기보다 직접 보시는 게 빠를 것 같아 이 페이지를 예시로 두었습니다. 프레임워크나 빌드 도구, 외부 스크립트 없이 HTML 파일 하나로 동작합니다. 어려운 구현은 아니고, 최근 브라우저에 들어온 기능을 어디에 쓸지 정도를 판단한 수준입니다.</p>
+    <div class="tech mt">
+      <div><code>animation-timeline: view()</code><span>스크롤 구동 애니메이션. JS 스크롤 리스너 없이 CSS만으로 진입 연출을 처리합니다.</span></div>
+      <div><code>@property --sweep</code><span>타입 지정 커스텀 속성. 퍼센트 값을 보간해 히어로 밑줄이 부드럽게 그어집니다.</span></div>
+      <div><code>container-type: inline-size</code><span>컨테이너 쿼리. 카드가 뷰포트가 아니라 자기 폭에 반응해 레이아웃을 바꿉니다.</span></div>
+      <div><code>startViewTransition()</code><span>View Transitions API. 아카이브 필터가 잘리지 않고 이어지며 전환됩니다.</span></div>
+      <div><code>Canvas 2D · flow field</code><span>히어로 배경의 경로 흐름. 커지는 화면에 맞춰 재생성되고 reduce-motion에서 정지합니다.</span></div>
+      <div><code>WCAG relative luminance</code><span>자가 검증 게이트. 실제 계산 색을 읽어 대비비를 산출합니다. 하드코딩 없음.</span></div>
+      <div><code>:root / prefers-color-scheme / [data-theme]</code><span>3상태 테마. 시스템 설정과 명시 선택 어느 쪽에서도 색이 세트로 해결됩니다.</span></div>
+      <div><code>prefers-reduced-motion</code><span>모션 민감 사용자를 위해 모든 애니메이션과 스무스 스크롤을 끕니다. 선택이 아니라 기본값.</span></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <h3 style="font-size:26px">오두영 <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:400;color:var(--ink-3)">Oh Dooyoung</span></h3>
+        <p style="margin-top:10px;color:var(--ink-3);font-size:14px">프로덕트 디자이너 &amp; 빌더 · 경기 고양</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;align-items:flex-start">
+        <a href="mailto:thinkinging@naver.com">thinkinging@naver.com</a>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--ink-3)">연락처는 제출한 이력서에 있습니다</span>
+        <a href="https://tag520.com">tag520.com</a>
+      </div>
+    </div>
+    <p style="margin-top:38px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--ink-3);letter-spacing:.04em">
+      뉴웨이즈 프로덕트 디자이너(시니어) 지원 · 2026.09 · 함께 제출한 PDF 포트폴리오에는 개발 중 프로젝트가 포함되어 있어 인사담당자 외 공유를 제한합니다.
+    </p>
+  </div>
+</footer>
+
+<script>
+"use strict";
+const RM = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* ── 척추 진행도 ──────────────────────────────── */
+const spine = document.querySelector(".spine");
+const onScroll = () => {
+  const max = document.documentElement.scrollHeight - innerHeight;
+  spine.style.setProperty("--p", max > 0 ? (scrollY / max).toFixed(4) : 0);
+};
+addEventListener("scroll", onScroll, { passive: true });
+addEventListener("resize", onScroll);
+onScroll();
+
+/* ── 히어로 flow field ────────────────────────────
+   '경로'를 시각화한다. 점들이 왼쪽에서 출발해 오른쪽 목적지로 흐르되,
+   일부는 도달하지 못하고 흩어진다 — 페이지의 주제 그대로. */
+(() => {
+  const cv = document.getElementById("flow");
+  const ctx = cv.getContext("2d", { alpha: true });
+  let W, H, parts, raf;
+  const DPR = Math.min(devicePixelRatio || 1, 2);
+
+  const seed = () => {
+    const n = Math.round(Math.min(320, (W * H) / 4200));
+    parts = Array.from({ length: n }, () => ({
+      x: Math.random() * W, y: Math.random() * H,
+      v: 0.25 + Math.random() * 0.75,
+      a: Math.random() * 6.28,
+      life: Math.random(),
+      arrive: Math.random() > 0.42,  // 58%만 도달한다
+    }));
+  };
+  const size = () => {
+    const r = cv.getBoundingClientRect();
+    W = r.width; H = r.height;
+    cv.width = W * DPR; cv.height = H * DPR;
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    seed();
+  };
+  const field = (x, y) => Math.sin(x * 0.0022 + y * 0.0013) * 1.5 + Math.cos(y * 0.0031) * 0.8;
+
+  const frame = () => {
+    ctx.clearRect(0, 0, W, H);
+    const col = getComputedStyle(document.body).getPropertyValue("--flow").trim();
+    for (const p of parts) {
+      p.a += (field(p.x, p.y) - p.a) * 0.045;
+      p.x += Math.cos(p.a) * p.v + 0.55;
+      p.y += Math.sin(p.a) * p.v * 0.6;
+      p.life += 0.0035;
+      if (!p.arrive && p.life > 0.55) p.v *= 0.972;      // 도달 못 하는 입자는 힘을 잃는다
+      if (p.x > W + 20 || p.y < -20 || p.y > H + 20 || p.life > 1.25) {
+        p.x = -15; p.y = Math.random() * H; p.life = 0;
+        p.v = 0.25 + Math.random() * 0.75; p.arrive = Math.random() > 0.42;
+      }
+      const fade = Math.max(0, 1 - Math.abs(p.life - 0.5) * 1.7);
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.arrive ? 1.9 : 1.2, 0, 6.283);
+      ctx.fillStyle = col;
+      ctx.globalAlpha = fade * (p.arrive ? 1 : 0.45);
+      ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+    raf = requestAnimationFrame(frame);
+  };
+
+  size();
+  addEventListener("resize", size);
+  if (RM) { frame(); cancelAnimationFrame(raf); }   // 정지 프레임 1장만
+  else frame();
+})();
+
+/* ── 12 → 5 인터랙티브 ───────────────────────── */
+const STEPS = [
+  { t: "공고 확인 · 자격 자가진단", keep: 1 },
+  { t: "주민등록등본 발급", keep: 0 },
+  { t: "가족관계증명서 발급", keep: 0 },
+  { t: "임대차계약서 사본 준비", keep: 1 },
+  { t: "월세 이체 증빙 6개월치 수집", keep: 0 },
+  { t: "건강보험 자격득실확인서 발급", keep: 0 },
+  { t: "소득·재산 서류 준비", keep: 0 },
+  { t: "온라인 신청서 작성", keep: 1 },
+  { t: "서류 스캔·업로드", keep: 1 },
+  { t: "구청 방문 원본 대조", keep: 0 },
+  { t: "보완 요청 대응 · 재방문", keep: 0 },
+  { t: "결과 통보 대기 · 개별 문의", keep: 1 },
+];
+const stepsEl = document.getElementById("steps");
+stepsEl.innerHTML = STEPS.map((s, i) =>
+  `<div class="step" data-keep="${s.keep}"><span class="n">STEP ${String(i + 1).padStart(2, "0")}</span><span class="t">${s.t}</span></div>`
+).join("");
+
+const cnt = document.getElementById("cnt"), docs = document.getElementById("docs"),
+      visit = document.getElementById("visit"), delta = document.getElementById("delta");
+
+const setState = (collapsed) => {
+  stepsEl.querySelectorAll(".step").forEach(el => el.classList.toggle("collapsed", collapsed));
+  cnt.textContent  = collapsed ? "5" : "12";
+  docs.textContent = collapsed ? "1" : "4";
+  visit.textContent = collapsed ? "0" : "2";
+  delta.textContent = collapsed ? "→ 사용자가 직접 떼어야 할 서류 4종 → 1종, 기관 방문 2회 → 0회" : "";
+};
+document.getElementById("collapse").addEventListener("click", () => setState(true));
+document.getElementById("reset").addEventListener("click", () => setState(false));
+
+/* ── 자가 검증 게이트: 실제 계산 색으로 WCAG 대비 산출 ──
+   하드코딩된 결과가 아니라, 지금 렌더된 토큰을 읽어 계산한다. */
+const srgb = c => (c /= 255) <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+const lum = ([r, g, b]) => 0.2126 * srgb(r) + 0.7152 * srgb(g) + 0.0722 * srgb(b);
+const parse = v => {
+  const d = document.createElement("div");
+  d.style.color = v; document.body.appendChild(d);
+  const m = getComputedStyle(d).color.match(/[\d.]+/g).slice(0, 3).map(Number);
+  d.remove(); return m;
+};
+const ratio = (a, b) => {
+  const [x, y] = [lum(parse(a)), lum(parse(b))].sort((p, q) => q - p);
+  return (x + 0.05) / (y + 0.05);
+};
+const PAIRS = [
+  ["본문 텍스트",        "--ink",   "--paper",  4.5, "AA 본문"],
+  ["보조 텍스트",        "--ink-2", "--paper",  4.5, "AA 본문"],
+  ["캡션·라벨",          "--ink-3", "--paper",  4.5, "AA 본문"],
+  ["강조 색(링크·아이브로우)", "--acc",   "--paper",  4.5, "AA 본문"],
+  ["카드 위 본문",        "--ink",   "--card",   4.5, "AA 본문"],
+  ["카드 위 보조",        "--ink-2", "--card",   4.5, "AA 본문"],
+  ["상태 · 채택",         "--ok",    "--paper",  4.5, "AA 본문"],
+  ["상태 · 심사 중",      "--wait",  "--paper",  4.5, "AA 본문"],
+  ["상태 · 불채택",       "--no",    "--paper",  4.5, "AA 본문"],
+  ["큰 제목",            "--ink",   "--paper",  3.0, "AA 큰글씨"],
+];
+const gateRows = document.getElementById("gateRows");
+const runGate = () => {
+  const cs = getComputedStyle(document.documentElement);
+  let pass = 0;
+  gateRows.innerHTML = PAIRS.map(([label, fg, bg, min, std]) => {
+    const fv = cs.getPropertyValue(fg).trim(), bv = cs.getPropertyValue(bg).trim();
+    const r = ratio(fv, bv), ok = r >= min;
+    if (ok) pass++;
+    return `<tr>
+      <td>${label}</td>
+      <td><span class="swatch" style="background:${fv}"></span><span class="swatch" style="background:${bv}"></span>${fg} / ${bg}</td>
+      <td>${r.toFixed(2)} : 1</td>
+      <td>≥ ${min.toFixed(1)} · ${std}</td>
+      <td class="verdict" data-pass="${ok ? 1 : 0}">${ok ? "PASS" : "FAIL"}</td>
+    </tr>`;
+  }).join("");
+  const all = pass === PAIRS.length;
+  const ec = document.getElementById("exitCode");
+  ec.textContent = `EXIT ${all ? 0 : 1}`;
+  ec.style.color = `var(--${all ? "ok" : "no"})`;
+  document.getElementById("gateMeta").textContent =
+    `${pass}/${PAIRS.length} 통과 · 현재 테마: ${matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"} · 계산 시각 렌더 시점`;
+};
+runGate();
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => setTimeout(runGate, 60));
+new MutationObserver(() => setTimeout(runGate, 60))
+  .observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+
+/* ── 정책 아카이브 + View Transitions ────────── */
+const ARCH = [
+  { d: "법제처",            t: "대한민국 법제실록 제작", s: "ok",   n: "채택 → 대한국민실록 제품으로 발전" },
+  { d: "권익위 · 행안부",    t: "국민 참여 플랫폼을 통한 참여민주주의 강화", s: "wait", n: "다부처 심사 요청" },
+  { d: "행정안전부",        t: "시민사회 활성화·공익활동 증진 기본법 제정", s: "wait", n: "심사 진행" },
+  { d: "행정안전부",        t: "범정부 행정기술 개발", s: "wait", n: "디지털 정부 서비스 품질 보장" },
+  { d: "법무부",            t: "제도 밖 외국인 안전망", s: "wait", n: "통보 의무 면제 확대 · 다국어 재난 알림" },
+  { d: "인사혁신처 외 3부처", t: "민간 인재 발굴과 임기제 공무원 운영 혁신", s: "wait", n: "공직 다양성 확대" },
+  { d: "고용노동부",        t: "노동24 기반 경력증빙서류 발급 창구", s: "wait", n: "사용증명서 제도" },
+  { d: "문화체육관광부",     t: "ebook 소비자 보호 방안", s: "wait", n: "저작권 · 소비자 권리" },
+  { d: "기획재정부",        t: "제도 기준 포용 제도", s: "wait", n: "기준 1점 차이가 만드는 절벽" },
+  { d: "국토교통부",        t: "생애주기형 공동체 주택", s: "no",   n: "1차 불채택 → 순환 지분 구조 논리 보완 중" },
+  { d: "행정안전부",        t: "공익활동가 경력 인정 제도화", s: "no",   n: "1차 불채택 → 재심사 요청 중" },
+  { d: "경기도",            t: "청년 거버넌스 구조 개선", s: "ok",   n: "운영 조례 · 예산 편성권 실질화" },
+  { d: "경기도",            t: "데이터 기반 안전 정책 설계", s: "ok",   n: "안전 의식 실태조사 기반 커리큘럼" },
+  { d: "국무조정실",        t: "청년기본법 개정 청원", s: "wait", n: "헌법 제26조 청원권 경로" },
+];
+const LBL = { ok: "채택 · 진행", wait: "심사 중", no: "보완 중" };
+const archEl = document.getElementById("arch");
+const paint = (f) => {
+  archEl.innerHTML = ARCH.filter(a => f === "all" || a.s === f).map(a =>
+    `<div class="row"><span class="dept">${a.d}</span><span class="ttl">${a.t}<small>${a.n}</small></span><span class="st" data-s="${a.s}">${LBL[a.s]}</span></div>`
+  ).join("");
+};
+paint("all");
+document.getElementById("filters").addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b) return;
+  document.querySelectorAll("#filters button").forEach(x => x.setAttribute("aria-pressed", x === b));
+  const go = () => paint(b.dataset.f);
+  document.startViewTransition && !RM ? document.startViewTransition(go) : go();
+});
+</script>
+
+</body>
+</html>
