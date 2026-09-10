@@ -73,7 +73,7 @@ p{margin:0}
 a{color:inherit}
 .mono{font-family:"IBM Plex Mono",ui-monospace,monospace; font-variant-numeric:tabular-nums}
 
-/* ═══ 척추(SPINE) — 페이지 전체를 관통하는 '경로' ═══ */
+/* 척추(SPINE): 페이지 전체를 관통하는 진행 표시 */
 .spine{position:fixed; left:max(18px,calc(50vw - 560px)); top:0; bottom:0; width:2px;
   background:var(--rule-soft); z-index:5; pointer-events:none}
 .spine::after{content:""; position:absolute; inset:0 auto 0 0; width:2px;
@@ -588,7 +588,7 @@ onScroll();
 
 /* ── 히어로 flow field ────────────────────────────
    '경로'를 시각화한다. 점들이 왼쪽에서 출발해 오른쪽 목적지로 흐르되,
-   일부는 도달하지 못하고 흩어진다 — 페이지의 주제 그대로. */
+   일부는 도달하지 못하고 흩어진다. */
 (() => {
   const cv = document.getElementById("flow");
   const ctx = cv.getContext("2d", { alpha: true });
