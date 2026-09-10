@@ -5,393 +5,601 @@
 <title>오두영 포트폴리오</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<meta name="description" content="오두영 프로덕트 디자이너. 뉴웨이즈 Proof 팀 지원 포트폴리오.">
+<meta name="description" content="오두영. 정책 개발자 & 프로덕트 디자이너. 뉴웨이즈 Proof 팀 지원 포트폴리오.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@400;600;800&family=IBM+Plex+Sans+KR:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;700;900&family=IBM+Plex+Sans+KR:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 
 <style>
-/* ═══ TOKENS ════════════════════════════════════════════
-   light = 종이(warm-neutral, citron 편향) / dark = 야간 계기판
-   모든 색은 토큰으로만 정의한다. 미디어쿼리 안에서 색을 처음 선언하지 않는다. */
+/* ═══════════ 토큰 ═══════════
+   원본 인쇄물의 색을 그대로 옮김. 표지는 웜블랙, 내지는 아이보리. */
 :root{
-  --paper:#F3F4EC; --paper-2:#EAECE0; --paper-3:#DFE2D2;
-  --ink:#171A14; --ink-2:#454A3C; --ink-3:#69705C;
-  --rule:#CFD3C0; --rule-soft:#E1E4D6;
-  --acc:#566E00;        /* 본문 대비 안전한 시트론 */
-  --acc-bright:#A8CE1A; /* 면·칩용 */
-  --acc-wash:rgba(168,206,26,.16);
-  --ok:#4B7A2A; --wait:#7A6A2A; --no:#8A6248;
-  --card:#FBFBF6; --card-2:#F7F8F0;
-  --shadow:0 1px 0 rgba(23,26,20,.05), 0 8px 24px -18px rgba(23,26,20,.35);
-  --flow:rgba(86,110,0,.5);
+  --ink:#241F1A; --ink-2:#4A423A; --ink-3:#665C50;
+  --paper:#F4F0E6; --paper-2:#EAE4D5; --card:#FBF9F3;
+  --rule:#DCD4C2; --rule-soft:#E7E1D2;
+  --tan:#6E5133; --signal:#993024;
+  --lime:#D8E84F;
+  --ok:#3B6329; --wait:#6E521A; --no:#8A4030;
+  --cover:#241F1A; --cover-ink:#EFEADD;
+  --shadow:0 1px 0 rgba(36,31,26,.04), 0 10px 30px -22px rgba(36,31,26,.4);
 }
 :root:not([data-theme="light"]){
   @media (prefers-color-scheme: dark){
-    --paper:#101208; --paper-2:#171A0F; --paper-3:#1F2315;
-    --ink:#E9ECDC; --ink-2:#B4BAA2; --ink-3:#7E856C;
-    --rule:#2E3320; --rule-soft:#232817;
-    --acc:#C3E63F; --acc-bright:#D6F55C; --acc-wash:rgba(195,230,63,.13);
-    --ok:#8FCB5B; --wait:#CDBB58; --no:#C79A78;
-    --card:#161910; --card-2:#1B1F13;
-    --shadow:0 1px 0 rgba(0,0,0,.5), 0 10px 30px -20px #000;
-    --flow:rgba(195,230,63,.42);
+    --ink:#EFEADD; --ink-2:#C3BAA9; --ink-3:#9A9182;
+    --paper:#241F1A; --paper-2:#2E2822; --card:#2E2822;
+    --rule:#443C33; --rule-soft:#372F27;
+    --tan:#CFA872; --signal:#E89A82;
+    --ok:#9BC97A; --wait:#D6BA6A; --no:#DC9782;
+    --cover:#1A1613; --cover-ink:#EFEADD;
+    --shadow:0 1px 0 rgba(0,0,0,.4), 0 12px 34px -24px #000;
   }
 }
 :root[data-theme="dark"]{
-  --paper:#101208; --paper-2:#171A0F; --paper-3:#1F2315;
-  --ink:#E9ECDC; --ink-2:#B4BAA2; --ink-3:#7E856C;
-  --rule:#2E3320; --rule-soft:#232817;
-  --acc:#C3E63F; --acc-bright:#D6F55C; --acc-wash:rgba(195,230,63,.13);
-  --ok:#8FCB5B; --wait:#CDBB58; --no:#C79A78;
-  --card:#161910; --card-2:#1B1F13;
-  --shadow:0 1px 0 rgba(0,0,0,.5), 0 10px 30px -20px #000;
-  --flow:rgba(195,230,63,.42);
+  --ink:#EFEADD; --ink-2:#C3BAA9; --ink-3:#9A9182;
+  --paper:#241F1A; --paper-2:#2E2822; --card:#2E2822;
+  --rule:#443C33; --rule-soft:#372F27;
+  --tan:#CFA872; --signal:#E89A82;
+  --ok:#9BC97A; --wait:#D6BA6A; --no:#DC9782;
+  --cover:#1A1613; --cover-ink:#EFEADD;
+  --shadow:0 1px 0 rgba(0,0,0,.4), 0 12px 34px -24px #000;
 }
-
-@property --sweep{ syntax:'<percentage>'; inherits:false; initial-value:0%; }
 
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{
   margin:0; background:var(--paper); color:var(--ink);
   font-family:"IBM Plex Sans KR",-apple-system,"Apple SD Gothic Neo",sans-serif;
-  font-weight:400; font-size:16px; line-height:1.72;
+  font-size:16px; line-height:1.75;
   word-break:keep-all; overflow-wrap:normal; line-break:strict;
   -webkit-font-smoothing:antialiased;
 }
-/* 한국어 조판: 양쪽정렬 + 어절 단위 줄바꿈 */
-p,dd,li,td,.lede,.hero-sub,.note,.stackline{text-align:justify; text-justify:inter-word;
-  word-break:keep-all; overflow-wrap:normal}
-h1,h2,h3,.eyebrow,.tagline,.chip,.mono,.kpis b,.kpis span,.maptbl th,dl.kv dt,.pill{text-align:left}
-::selection{background:var(--acc-wash); color:var(--ink)}
-:focus-visible{outline:2.5px solid var(--acc); outline-offset:3px; border-radius:2px}
-
-h1,h2,h3{font-family:"Hahmlet",serif; font-weight:800; letter-spacing:-.03em;
-  line-height:1.28; text-wrap:balance; margin:0}
-p{margin:0}
-a{color:inherit}
+/* 한국어 양쪽정렬: 어절 간격이 벌어지지 않도록 글자 사이로 분배 */
+p,dd,li,td,.lede{text-align:justify; text-justify:inter-character;
+  word-break:keep-all; overflow-wrap:normal; hanging-punctuation:allow-end}
+/* 좁은 단에서는 양쪽정렬을 풀어 자간 왜곡을 막는다 */
+@media (max-width:560px){ p,dd,li,td,.lede{text-align:left} }
+.card p, .card dd, .err p, .steps4 p, .stack{text-align:left}
+h1,h2,h3,h4,th,dt,.rail,.mono,.tag{text-align:left}
+h1,h2,h3,h4{font-family:"Gothic A1",sans-serif; font-weight:900;
+  letter-spacing:-.035em; line-height:1.24; margin:0; text-wrap:balance}
+p{margin:0} a{color:inherit}
 .mono{font-family:"IBM Plex Mono",ui-monospace,monospace; font-variant-numeric:tabular-nums}
+::selection{background:var(--lime); color:#241F1A}
+:focus-visible{outline:2.5px solid var(--tan); outline-offset:3px}
 
-/* 척추(SPINE): 페이지 전체를 관통하는 진행 표시 */
-.spine{position:fixed; left:max(18px,calc(50vw - 560px)); top:0; bottom:0; width:2px;
-  background:var(--rule-soft); z-index:5; pointer-events:none}
-.spine::after{content:""; position:absolute; inset:0 auto 0 0; width:2px;
-  background:linear-gradient(180deg,var(--acc),var(--acc-bright));
-  transform-origin:top; transform:scaleY(var(--p,0));}
-@media (max-width:1000px){ .spine{display:none} }
+/* ═══════════ 세로 레일 (지면의 판면을 웹으로) ═══════════ */
+.rail{position:fixed; top:0; bottom:0; width:34px; z-index:40; pointer-events:none;
+  display:flex; align-items:center; justify-content:center;
+  font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.22em;
+  color:var(--ink-3); mix-blend-mode:normal}
+.rail span{writing-mode:vertical-rl; white-space:nowrap; max-height:78vh;
+  overflow:hidden; text-overflow:ellipsis}
+.rail-l{left:0} .rail-r{right:0}
+.rail-r{color:var(--signal)}
+.rail-r::before{content:"●"; font-size:7px; margin-bottom:10px; line-height:1}
+.rail-r{flex-direction:column}
+@media (max-width:900px){ .rail{display:none} }
 
-/* ═══ 레이아웃 ═══ */
-.wrap{max-width:1120px; margin:0 auto; padding:0 24px}
-section{padding:clamp(56px,7vw,104px) 0; border-top:1px solid var(--rule-soft)}
-section:first-of-type{border-top:0}
-.eyebrow{font-family:"IBM Plex Sans KR",sans-serif; font-size:13px; font-weight:700;
-  letter-spacing:.01em; color:var(--acc);
-  display:flex; align-items:center; gap:10px; margin-bottom:14px}
-.eyebrow::before{content:""; width:22px; height:2px; background:var(--acc); flex:none}
-.lede{font-size:clamp(17px,1.6vw,19px); color:var(--ink-2); max-width:62ch; line-height:1.78}
+/* 스크롤 진행: 좌측 레일에 붙는 실선 */
+.progress{position:fixed; left:33px; top:0; width:2px; height:100vh; z-index:41;
+  background:var(--rule-soft); pointer-events:none}
+.progress i{display:block; width:2px; background:var(--tan);
+  height:100%; transform-origin:top; transform:scaleY(var(--p,0))}
+@media (max-width:900px){ .progress{left:0; width:100%; height:2px; background:transparent}
+  .progress i{width:100%; height:2px; transform-origin:left; transform:scaleX(var(--p,0))} }
 
-/* ═══ HERO ═══ */
-#hero{position:relative; min-height:min(100svh,860px); display:grid; align-content:center;
-  padding-block:clamp(72px,10vw,120px); overflow:hidden}
-#flow{position:absolute; inset:0; width:100%; height:100%; z-index:0; opacity:.85}
-#hero .wrap{position:relative; z-index:1}
-.tagline{font-family:"IBM Plex Sans KR",sans-serif; font-size:13.5px; letter-spacing:.01em;
-  color:var(--ink-3); margin-bottom:26px}
-#hero h1{font-size:clamp(34px,6.2vw,74px); line-height:1.16; letter-spacing:-.045em; max-width:17ch}
-#hero h1 .q{color:var(--ink-3)}
-#hero h1 mark{background:none; color:var(--acc);
-  background-image:linear-gradient(var(--acc),var(--acc)); background-repeat:no-repeat;
-  background-position:0 92%; background-size:var(--sweep) 3px;
-  animation:sweep 1.4s .5s cubic-bezier(.2,.7,.2,1) forwards}
-@keyframes sweep{ to{ --sweep:100% } }
-.hero-sub{margin-top:30px; max-width:56ch; font-size:clamp(16px,1.5vw,18.5px); color:var(--ink-2)}
-.hero-meta{margin-top:40px; display:flex; flex-wrap:wrap; gap:10px 26px; align-items:center;
-  font-size:13.5px; color:var(--ink-3)}
-.hero-meta b{color:var(--ink); font-weight:600}
-.pill{display:inline-flex; align-items:center; gap:7px; padding:6px 13px;
-  border:1px solid var(--rule); border-radius:999px; background:var(--card);
-  font-size:12.5px; color:var(--ink-2)}
-.pill .dot{width:6px;height:6px;border-radius:50%;background:var(--acc-bright);
-  box-shadow:0 0 0 3px var(--acc-wash)}
+/* ═══════════ 레이아웃 ═══════════ */
+.wrap{max-width:1080px; margin:0 auto; padding:0 clamp(24px,5vw,64px)}
+section{padding:clamp(60px,7.5vw,116px) 0; border-top:1px solid var(--rule-soft)}
+.eyebrow{font-family:"IBM Plex Mono",monospace; font-size:10.5px; font-weight:600;
+  letter-spacing:.2em; color:var(--tan); display:flex; align-items:center; gap:10px;
+  margin-bottom:18px; text-transform:uppercase}
+.eyebrow::before{content:""; width:20px; height:1.5px; background:var(--tan); flex:none}
+h2.t{font-size:clamp(27px,4.1vw,46px); max-width:19ch}
+h3.s{font-size:clamp(17px,1.7vw,20px); letter-spacing:-.03em}
+.lede{font-size:clamp(16px,1.45vw,18px); color:var(--ink-2); max-width:60ch; margin-top:18px}
+.mt{margin-top:36px} .mt-s{margin-top:20px} .mt-l{margin-top:56px}
 
-/* ═══ 지표 ═══ */
-.kpis{display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:1px;
-  background:var(--rule-soft); border:1px solid var(--rule-soft); margin-top:52px}
-.kpis > div{background:var(--paper); padding:20px 20px 22px}
-.kpis b{display:block; font-family:"Hahmlet",serif; font-size:clamp(28px,3.4vw,40px);
-  font-weight:800; letter-spacing:-.05em; line-height:1; font-variant-numeric:tabular-nums}
-.kpis span{display:block; margin-top:9px; font-size:12.5px; color:var(--ink-3); line-height:1.55}
+/* ═══════════ 표지 ═══════════ */
+#cover{background:var(--cover); color:var(--cover-ink); border-top:0;
+  min-height:100svh; display:grid; align-content:center; position:relative; overflow:hidden}
+#cover .wrap{position:relative; z-index:2}
+#grain{position:absolute; inset:0; width:100%; height:100%; z-index:1; opacity:.45}
+.kicker{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.24em;
+  color:#9A9182; margin-bottom:34px}
+#cover h1{font-size:clamp(34px,7.4vw,86px); line-height:1.14; letter-spacing:-.05em;
+  color:var(--cover-ink); max-width:15ch}
+#cover h1 b{font-weight:900; color:var(--lime)}
+.flow-eq{font-family:"IBM Plex Mono",monospace; font-size:clamp(12px,1.5vw,16px);
+  letter-spacing:.12em; color:#C9A16A; margin-bottom:22px}
+.byline{margin-top:44px; padding-top:24px; border-top:1px solid #453C33;
+  display:flex; flex-wrap:wrap; gap:14px 40px; align-items:baseline;
+  font-size:14.5px; color:#C3BAA9}
+.byline b{color:var(--cover-ink); font-weight:600; font-size:17px;
+  font-family:"Gothic A1",sans-serif}
+.notice{margin-top:34px; max-width:64ch; border:1px solid #6B4A3A; background:rgba(153,48,36,.1);
+  padding:16px 18px; font-size:13.5px; line-height:1.72; color:#C3BAA9}
+.notice b{color:#E89A82}
 
-/* ═══ 카드 공통 ═══ */
-.grid{display:grid; gap:20px}
-.g2{grid-template-columns:repeat(auto-fit,minmax(340px,1fr))}
-.card{background:var(--card); border:1px solid var(--rule-soft); padding:24px;
-  box-shadow:var(--shadow); container-type:inline-size}
-.card h3{font-size:21px; letter-spacing:-.035em}
-.card .en{font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--ink-3);
-  letter-spacing:.08em; margin-top:5px}
-.card p{margin-top:12px; font-size:14.5px; color:var(--ink-2); line-height:1.7}
-.chip{display:inline-block; font-family:"IBM Plex Mono",monospace; font-size:10.5px;
-  font-weight:600; letter-spacing:.1em; padding:4px 9px; border:1px solid var(--rule);
-  color:var(--ink-2); margin:4px 4px 0 0}
-.chip.hot{border-color:var(--acc); color:var(--acc); background:var(--acc-wash)}
-dl.kv{margin:16px 0 0; display:grid; grid-template-columns:88px 1fr; gap:8px 14px;
-  font-size:13.5px; line-height:1.65}
-@container (max-width:400px){ dl.kv{grid-template-columns:1fr; gap:2px 0} dl.kv dt{margin-top:8px} }
-dl.kv dt{font-family:"IBM Plex Sans KR",sans-serif; font-size:12px; font-weight:700;
-  letter-spacing:.01em; color:var(--ink-3); padding-top:3px}
+/* ═══════════ 근거 등급 칩 ═══════════ */
+.tag{display:inline-flex; align-items:center; gap:6px; font-family:"IBM Plex Mono",monospace;
+  font-size:10px; font-weight:600; letter-spacing:.1em; padding:3px 9px; white-space:nowrap}
+.tag.v{background:var(--ink); color:var(--paper)}
+.tag.h{border:1px dashed var(--tan); color:var(--tan)}
+.tag.p{border:1px solid var(--rule); color:var(--ink-3)}
+.tag::before{font-size:8px}
+.tag.v::before{content:"●"} .tag.h::before{content:"◇"} .tag.p::before{content:"▲"}
+
+/* ═══════════ 카드 ═══════════ */
+.grid{display:grid; gap:18px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.card{background:var(--card); border:1px solid var(--rule-soft); padding:22px 24px;
+  container-type:inline-size}
+.card.acc{border-left:2.5px solid var(--tan)}
+.card .hd{display:flex; align-items:flex-start; gap:12px; justify-content:space-between}
+.card p{margin-top:11px; font-size:14.5px; color:var(--ink-2); line-height:1.72}
+dl.kv{margin:16px 0 0; display:grid; grid-template-columns:74px 1fr; gap:9px 16px;
+  font-size:14px; line-height:1.7}
+@container (max-width:390px){ dl.kv{grid-template-columns:1fr; gap:2px 0} dl.kv dt{margin-top:9px} }
+dl.kv dt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; font-weight:600;
+  letter-spacing:.09em; color:var(--ink-3); padding-top:4px; text-transform:uppercase}
 dl.kv dd{margin:0; color:var(--ink-2)}
-dl.kv dd b{color:var(--ink); font-weight:600}
-.stackline{margin-top:16px; padding-top:13px; border-top:1px dashed var(--rule);
-  font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--ink-3); line-height:1.75}
+dl.kv dd b, .card p b{color:var(--ink); font-weight:600}
+.stack{margin-top:16px; padding-top:13px; border-top:1px dashed var(--rule);
+  font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--ink-3); line-height:1.8}
 
-/* ═══ 12→5 인터랙티브 ═══ */
-.demo{background:var(--card-2); border:1px solid var(--rule); padding:clamp(20px,3vw,34px)}
-.demo-head{display:flex; flex-wrap:wrap; gap:16px; align-items:flex-end;
-  justify-content:space-between; margin-bottom:24px}
-.btn{font-family:"IBM Plex Mono",monospace; font-size:12px; font-weight:600; letter-spacing:.08em;
-  padding:11px 20px; border:1.5px solid var(--ink); background:var(--ink); color:var(--paper);
-  cursor:pointer; transition:transform .16s, background .16s}
+/* ═══════════ 지표 ═══════════ */
+.figs{display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+  gap:1px; background:var(--rule-soft); border:1px solid var(--rule-soft)}
+.figs > div{background:var(--paper); padding:22px}
+.figs b{display:block; font-family:"Gothic A1",sans-serif; font-weight:900;
+  font-size:clamp(30px,3.8vw,44px); letter-spacing:-.05em; line-height:1;
+  font-variant-numeric:tabular-nums; color:var(--tan)}
+.figs .lbl{display:block; margin-top:10px; font-size:13px; font-weight:600; color:var(--ink)}
+.figs .sub{display:block; margin-top:5px; font-size:12.5px; color:var(--ink-3); line-height:1.6}
+
+/* ═══════════ 일하는 순서 ═══════════ */
+.steps4{display:grid; grid-template-columns:repeat(auto-fit,minmax(215px,1fr)); gap:16px}
+.steps4 > div{border-top:2px solid var(--ink); padding-top:14px}
+.steps4 .n{font-family:"IBM Plex Mono",monospace; font-size:11px; font-weight:600;
+  letter-spacing:.14em; color:var(--tan)}
+.steps4 h3{margin-top:8px; font-size:17px}
+.steps4 p{margin-top:9px; font-size:14px; color:var(--ink-2); line-height:1.7}
+
+/* ═══════════ 표 ═══════════ */
+.tw{overflow-x:auto}
+table.tb{width:100%; border-collapse:collapse; font-size:14px}
+table.tb th{background:var(--ink); color:var(--paper); font-family:"IBM Plex Sans KR",sans-serif;
+  font-size:12px; font-weight:700; text-align:left; padding:10px 13px; white-space:nowrap}
+table.tb td{border-bottom:1px solid var(--rule-soft); padding:12px 13px;
+  vertical-align:top; color:var(--ink-2); line-height:1.7}
+table.tb td:first-child{color:var(--ink); font-weight:600}
+table.tb tr:last-child td{border-bottom:0}
+.st{font-family:"IBM Plex Mono",monospace; font-size:11px; font-weight:600; white-space:nowrap}
+.st.ok{color:var(--ok)} .st.wait{color:var(--wait)} .st.no{color:var(--no)}
+
+/* ═══════════ 12→5 ═══════════ */
+.demo{background:var(--paper-2); border:1px solid var(--rule); padding:clamp(20px,3vw,32px)}
+.btn{font-family:"IBM Plex Mono",monospace; font-size:12px; font-weight:600; letter-spacing:.06em;
+  padding:11px 19px; border:1.5px solid var(--ink); background:var(--ink); color:var(--paper);
+  cursor:pointer; transition:transform .16s}
 .btn:hover{transform:translateY(-2px)}
-.btn.ghost{background:transparent; color:var(--ink)}
-.steps{display:flex; flex-wrap:wrap; gap:8px; align-items:stretch}
-.step{flex:1 1 132px; min-height:82px; background:var(--card); border:1px solid var(--rule);
-  padding:11px 12px; display:flex; flex-direction:column; gap:5px;
-  transition:opacity .4s, filter .4s, border-color .3s}
-.step .n{font-family:"IBM Plex Mono",monospace; font-size:10px; font-weight:600;
+.btn.g{background:transparent; color:var(--ink)}
+.steps{display:flex; flex-wrap:wrap; gap:7px}
+.step{flex:1 1 128px; min-height:78px; background:var(--card); border:1px solid var(--rule);
+  padding:10px 11px; display:flex; flex-direction:column; gap:5px;
+  transition:opacity .38s, filter .38s, border-color .28s}
+.step .n{font-family:"IBM Plex Mono",monospace; font-size:9.5px; font-weight:600;
   letter-spacing:.1em; color:var(--ink-3)}
-.step .t{font-size:13px; line-height:1.45; color:var(--ink)}
-.step[data-keep="0"].collapsed{opacity:.2; filter:grayscale(1)}
-.step[data-keep="1"].collapsed{border-color:var(--acc); background:var(--acc-wash)}
-.step[data-keep="1"].collapsed .n{color:var(--acc)}
-.readout{margin-top:22px; display:flex; flex-wrap:wrap; gap:10px 30px; align-items:baseline;
+.step .t{font-size:12.5px; line-height:1.45}
+.step[data-k="0"].on{opacity:.22; filter:grayscale(1)}
+.step[data-k="1"].on{border-color:var(--tan); background:var(--card)}
+.step[data-k="1"].on .n{color:var(--tan)}
+.readout{margin-top:20px; display:flex; flex-wrap:wrap; gap:10px 28px; align-items:baseline;
   font-family:"IBM Plex Mono",monospace; font-size:13px; color:var(--ink-2)}
-.readout b{font-family:"Hahmlet",serif; font-size:30px; font-weight:800; color:var(--ink);
-  letter-spacing:-.04em}
-.readout .delta{color:var(--acc)}
+.readout b{font-family:"Gothic A1",sans-serif; font-weight:900; font-size:28px;
+  color:var(--ink); letter-spacing:-.04em}
+.readout .d{color:var(--tan)}
 
-/* ═══ 자가 검증 게이트 ═══ */
-.gate{background:var(--paper-2); border:1px solid var(--rule); padding:clamp(20px,3vw,30px)}
-.gate table{width:100%; border-collapse:collapse; font-family:"IBM Plex Mono",monospace;
-  font-size:12.5px}
-.gate th{text-align:left; font-size:10px; letter-spacing:.13em; text-transform:uppercase;
-  color:var(--ink-3); padding:0 10px 9px 0; border-bottom:1px solid var(--rule); font-weight:600}
+/* ═══════════ 검사 게이트 ═══════════ */
+.gate{background:var(--paper-2); border:1px solid var(--rule); padding:clamp(20px,3vw,28px)}
+.gate table{width:100%; border-collapse:collapse; font-family:"IBM Plex Mono",monospace; font-size:12.5px}
+.gate th{text-align:left; font-size:10px; letter-spacing:.12em; color:var(--ink-3);
+  padding:0 10px 9px 0; border-bottom:1px solid var(--rule); font-weight:600}
 .gate td{padding:8px 10px 8px 0; border-bottom:1px solid var(--rule-soft); color:var(--ink-2)}
 .gate td:first-child{color:var(--ink)}
-.swatch{display:inline-block; width:13px; height:13px; border:1px solid var(--rule);
-  vertical-align:-2px; margin-right:7px}
-.verdict{font-weight:600}
-.verdict[data-pass="1"]{color:var(--ok)}
-.verdict[data-pass="0"]{color:var(--no)}
-.gate-foot{margin-top:16px; font-family:"IBM Plex Mono",monospace; font-size:12px}
-.gate-foot .exit{padding:4px 10px; border:1.5px solid currentColor; font-weight:600}
+.sw{display:inline-block; width:12px; height:12px; border:1px solid var(--rule);
+  vertical-align:-2px; margin-right:6px}
+.vd{font-weight:600}
+.vd[data-p="1"]{color:var(--ok)} .vd[data-p="0"]{color:var(--no)}
+.gfoot{margin-top:15px; font-family:"IBM Plex Mono",monospace; font-size:12px}
+.gfoot .ec{padding:4px 10px; border:1.5px solid currentColor; font-weight:600}
 
-/* ═══ 아카이브 필터 ═══ */
-.filters{display:flex; flex-wrap:wrap; gap:8px; margin:22px 0 24px}
-.filters button{font-family:"IBM Plex Mono",monospace; font-size:11.5px; letter-spacing:.07em;
-  padding:8px 15px; border:1px solid var(--rule); background:transparent; color:var(--ink-2);
-  cursor:pointer; transition:all .18s}
+/* ═══════════ 필터 ═══════════ */
+.filters{display:flex; flex-wrap:wrap; gap:7px; margin:22px 0}
+.filters button{font-family:"IBM Plex Mono",monospace; font-size:11.5px;
+  padding:8px 14px; border:1px solid var(--rule); background:transparent;
+  color:var(--ink-2); cursor:pointer; transition:all .18s}
 .filters button[aria-pressed="true"]{background:var(--ink); color:var(--paper); border-color:var(--ink)}
-.arch{display:grid; gap:1px; background:var(--rule-soft); border:1px solid var(--rule-soft)}
-.row{background:var(--paper); display:grid; grid-template-columns:118px 1fr 130px; gap:18px;
-  padding:15px 18px; align-items:baseline}
-@media (max-width:720px){ .row{grid-template-columns:1fr; gap:5px} }
-.row .dept{font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--ink-3);
+
+/* ═══════════ 실수 기록 ═══════════ */
+.err{border-left:2.5px solid var(--tan); padding:2px 0 2px 20px}
+.err .meta{font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--ink-3);
   letter-spacing:.05em}
-.row .ttl{font-size:15px; color:var(--ink); font-weight:500}
-.row .ttl small{display:block; font-weight:400; font-size:13px; color:var(--ink-3); margin-top:3px}
-.row .st{font-family:"IBM Plex Mono",monospace; font-size:11px; font-weight:600; letter-spacing:.06em}
-.st[data-s="ok"]{color:var(--ok)} .st[data-s="wait"]{color:var(--wait)} .st[data-s="no"]{color:var(--no)}
+.err h3{margin-top:7px; font-size:17px}
+.err p{margin-top:9px; font-size:14.5px; color:var(--ink-2); line-height:1.72}
+.err .fix{margin-top:11px; padding-top:11px; border-top:1px dashed var(--rule); font-size:14px}
+.err .fix b{color:var(--tan)}
 
-/* ═══ 실패 ═══ */
-.fail{border-left:3px solid var(--no); padding:2px 0 2px 20px}
-.fail h3{font-size:18px}
-.fail p{margin-top:9px; font-size:14.5px; color:var(--ink-2)}
-.fail .learn{margin-top:11px; padding-top:11px; border-top:1px dashed var(--rule); font-size:14px}
-.fail .learn b{color:var(--acc)}
-
-/* ═══ 연결 표 ═══ */
-.maptbl{width:100%; border-collapse:collapse; font-size:14.5px}
-.maptbl th{background:var(--ink); color:var(--paper); font-family:"IBM Plex Sans KR",sans-serif;
-  font-size:12px; letter-spacing:.01em; text-align:left;
-  padding:11px 14px; font-weight:700}
-.maptbl td{border-bottom:1px solid var(--rule-soft); padding:15px 14px; vertical-align:top;
-  color:var(--ink-2); line-height:1.68}
-.maptbl td:first-child{color:var(--ink); font-weight:600; width:26%}
-.maptbl b{color:var(--ink); font-weight:600}
-.tblwrap{overflow-x:auto}
-
-/* ═══ 기술 명세 ═══ */
-.tech{display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:1px;
-  background:var(--rule-soft); border:1px solid var(--rule-soft)}
-.tech > div{background:var(--paper); padding:17px 18px}
-.tech code{font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--acc);
-  font-weight:600; display:block; letter-spacing:-.01em}
-.tech span{display:block; margin-top:7px; font-size:13px; color:var(--ink-3); line-height:1.6}
-
-/* ═══ 푸터 ═══ */
-footer{padding:56px 0 72px; border-top:1px solid var(--rule)}
-.foot-grid{display:flex; flex-wrap:wrap; gap:26px 48px; justify-content:space-between; align-items:flex-end}
-.foot-grid a{font-family:"IBM Plex Mono",monospace; font-size:13px; text-decoration:none;
-  border-bottom:1px solid var(--rule); padding-bottom:2px}
-.foot-grid a:hover{border-color:var(--acc); color:var(--acc)}
-.note{margin-top:34px; padding:16px 18px; background:var(--paper-2);
-  border-left:3px solid var(--acc); font-size:13.5px; color:var(--ink-2); line-height:1.7}
+.note{margin-top:30px; padding:17px 19px; background:var(--paper-2);
+  border-left:2.5px solid var(--tan); font-size:14px; color:var(--ink-2); line-height:1.75}
 .note b{color:var(--ink)}
 
-/* ═══ 스크롤 진입 ═══ */
+/* ═══════════ 푸터 ═══════════ */
+footer{padding:60px 0 84px; border-top:1px solid var(--rule)}
+.fgrid{display:flex; flex-wrap:wrap; gap:26px 52px; justify-content:space-between; align-items:flex-end}
+.fgrid a{font-family:"IBM Plex Mono",monospace; font-size:13.5px; text-decoration:none;
+  border-bottom:1px solid var(--rule); padding-bottom:2px}
+.fgrid a:hover{border-color:var(--tan); color:var(--tan)}
+
+
+
+/* ═══════════ 테마 전환 ═══════════ */
+.theme{position:fixed; top:14px; right:46px; z-index:60;
+  display:flex; align-items:center; gap:2px; padding:3px;
+  border:1px solid var(--rule); border-radius:999px;
+  background:color-mix(in srgb, var(--paper) 82%, transparent);
+  backdrop-filter:blur(10px) saturate(1.2); -webkit-backdrop-filter:blur(10px) saturate(1.2);
+  isolation:isolate}
+#cover ~ .theme, .theme[data-over="cover"]{border-color:#4A4038}
+.theme .knob{position:absolute; top:3px; left:3px; width:32px; height:28px;
+  border-radius:999px; background:var(--ink); z-index:-1;
+  transition:transform .34s cubic-bezier(.34,1.3,.5,1), width .34s cubic-bezier(.34,1.3,.5,1)}
+.theme button{width:32px; height:28px; display:grid; place-items:center;
+  border:0; background:none; cursor:pointer; color:var(--ink-3);
+  border-radius:999px; transition:color .22s}
+.theme button[aria-pressed="true"]{color:var(--paper)}
+.theme button:hover{color:var(--ink)}
+.theme button[aria-pressed="true"]:hover{color:var(--paper)}
+.theme svg{width:15px; height:15px; fill:none; stroke:currentColor;
+  stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round}
+.theme .lbl{position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%)}
+@media (max-width:900px){ .theme{right:12px; top:10px} }
+
+/* 테마 전환 시 원형 확산 */
+@media (prefers-reduced-motion: no-preference){
+  ::view-transition-old(root){animation:none}
+  ::view-transition-new(root){animation:reveal .5s cubic-bezier(.3,.7,.2,1)}
+  @keyframes reveal{from{clip-path:circle(0% at var(--tx,92%) var(--ty,3%))}
+                    to{clip-path:circle(150% at var(--tx,92%) var(--ty,3%))}}
+}
+
+/* ═══════════ 인터랙션 ═══════════ */
+/* 표지 진입 시퀀스 */
+@media (prefers-reduced-motion: no-preference){
+  .flow-eq i{opacity:.25; font-style:normal; transition:opacity .5s ease}
+  .flow-eq.go i{opacity:1}
+  .flow-eq.go i:nth-child(1){transition-delay:.15s}
+  .flow-eq.go i:nth-child(2){transition-delay:.45s}
+  .flow-eq.go i:nth-child(3){transition-delay:.75s}
+  .flow-eq.go i:nth-child(4){transition-delay:1.05s}
+  #cover h1,.byline,.notice{opacity:0; transform:translateY(16px)}
+  #cover.go h1{animation:up .8s 1.2s cubic-bezier(.2,.75,.25,1) forwards}
+  #cover.go .byline{animation:up .8s 1.5s cubic-bezier(.2,.75,.25,1) forwards}
+  #cover.go .notice{animation:up .8s 1.7s cubic-bezier(.2,.75,.25,1) forwards}
+  @keyframes up{to{opacity:1; transform:none}}
+}
+.flow-eq i{font-style:normal}
+
+/* 근거 등급 필터 */
+.tierbar{position:sticky; top:0; z-index:30; background:var(--paper);
+  border-bottom:1px solid var(--rule-soft); padding:11px 0;
+  margin-bottom:0}
+.tierbar .in{max-width:1080px; margin:0 auto; padding:0 clamp(24px,5vw,64px);
+  display:flex; flex-wrap:wrap; gap:8px 14px; align-items:center}
+.tierbar .cap{font-family:"IBM Plex Mono",monospace; font-size:10.5px;
+  letter-spacing:.14em; color:var(--ink-3); margin-right:4px}
+.tierbar button{background:none; border:0; padding:0; cursor:pointer; font:inherit}
+.tierbar .tag{cursor:pointer; transition:opacity .2s, transform .12s}
+.tierbar button:hover .tag{transform:translateY(-1px)}
+.tierbar button[aria-pressed="false"] .tag{opacity:.34}
+.tierbar .cnt{font-family:"IBM Plex Mono",monospace; font-size:10.5px; color:var(--ink-3)}
+[data-tier]{transition:opacity .3s ease, filter .3s ease}
+[data-tier].dim{opacity:.16; filter:grayscale(1)}
+
+/* 일하는 순서: 스크롤에 따라 차례로 그어짐 */
+.steps4 > div{position:relative}
+.steps4 > div::before{content:""; position:absolute; left:0; top:-2px; height:2px;
+  width:100%; background:var(--tan); transform-origin:left; transform:scaleX(0)}
 @supports (animation-timeline: view()){
   @media (prefers-reduced-motion: no-preference){
-    .reveal{ animation:rise linear both; animation-timeline:view(); animation-range:entry 5% cover 26%; }
-    @keyframes rise{ from{opacity:0; transform:translateY(22px)} to{opacity:1; transform:none} }
+    .steps4 > div::before{animation:draw linear both; animation-timeline:view();}
+    .steps4 > div:nth-child(1)::before{animation-range:entry 10% cover 26%}
+    .steps4 > div:nth-child(2)::before{animation-range:entry 16% cover 32%}
+    .steps4 > div:nth-child(3)::before{animation-range:entry 22% cover 38%}
+    .steps4 > div:nth-child(4)::before{animation-range:entry 28% cover 44%}
+    @keyframes draw{to{transform:scaleX(1)}}
+  }
+}
+@media (prefers-reduced-motion: reduce){ .steps4 > div::before{transform:scaleX(1)} }
+
+/* 12→5 FLIP */
+.step.gone{pointer-events:none}
+
+/* ═══════════ 모션 ═══════════ */
+@supports (animation-timeline: view()){
+  @media (prefers-reduced-motion: no-preference){
+    .rv{animation:rise linear both; animation-timeline:view(); animation-range:entry 4% cover 24%}
+    @keyframes rise{from{opacity:0; transform:translateY(18px)} to{opacity:1; transform:none}}
   }
 }
 @media (prefers-reduced-motion: reduce){
   *{animation-duration:.001ms !important; transition-duration:.001ms !important}
   html{scroll-behavior:auto}
 }
-.mt{margin-top:34px} .mt-s{margin-top:20px} .mt-l{margin-top:48px}
-h2.big{font-size:clamp(26px,3.6vw,42px); letter-spacing:-.04em; max-width:20ch}
 </style>
 </head>
 <body>
 
 
-<div class="spine" aria-hidden="true"></div>
+<div class="theme" id="theme" role="group" aria-label="화면 테마">
+  <span class="knob" id="knob" aria-hidden="true"></span>
+  <button data-m="light" aria-pressed="false"><span class="lbl">밝게</span>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v2.2M12 19.2v2.2M4.2 12H2M22 12h-2.2M6.3 6.3 4.8 4.8M19.2 19.2l-1.5-1.5M17.7 6.3l1.5-1.5M4.8 19.2l1.5-1.5"/></svg></button>
+  <button data-m="dark" aria-pressed="false"><span class="lbl">어둡게</span>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.2A8.4 8.4 0 1 1 9.8 4a6.6 6.6 0 0 0 10.2 10.2Z"/></svg></button>
+  <button data-m="system" aria-pressed="true"><span class="lbl">시스템 설정 따르기</span>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.8" y="4.4" width="18.4" height="12.4" rx="1.6"/><path d="M8.4 20h7.2"/></svg></button>
+</div>
+<div class="rail rail-l" aria-hidden="true"><span id="railL">표지</span></div>
+<div class="rail rail-r" aria-hidden="true"><span>인사담당자 외 공유 금지</span></div>
+<div class="progress" aria-hidden="true"><i></i></div>
 
-<!-- ══════════ HERO ══════════ -->
-<section id="hero">
-  <canvas id="flow" aria-hidden="true"></canvas>
+<!-- ══════════ 표지 ══════════ -->
+<section id="cover" data-rail="표지">
+  <canvas id="grain" aria-hidden="true"></canvas>
   <div class="wrap">
-    <div class="tagline">오두영 · 정책 개발자 &amp; 프로덕트 디자이너 &nbsp;/&nbsp; 뉴웨이즈 Proof 팀 지원</div>
-    <h1>시민의 말이 정책에 닿는 과정을<br><mark>온라인으로 옮기는 일</mark>을<br><span class="q">하고 있습니다.</span></h1>
-    <p class="hero-sub">2024년 7월부터 2026년 4월까지 경기도의회 고양 지역상담소를 맡았습니다. 도민이 요구를 전하고 그것이 의정 활동으로 옮겨가는 과정을 가까이서 봤습니다. 대부분 오프라인으로 이뤄졌고, 요구를 낸 분들은 자기 말이 어디까지 갔는지 확인할 방법이 없었습니다. 이 부분을 제품으로 다뤄보고 싶어 퇴직했고, 지금은 관련 서비스를 만들고 있습니다. 혼자 하다 보니 잘못 판단해도 짚어줄 사람이 없어서, 실수를 그때그때 기록해 두는 방식으로 일합니다.</p>
-    <div class="hero-meta">
-      <span class="pill"><span class="dot"></span>. 경기도의회 사무처 임기제공무원 2024.07~2026.04</span>
-      <span class="pill">만들다 되돌린 것도 함께 적었습니다</span>
-      <span class="pill">출마 계획 없음 · 초당적 활동 가능</span>
+    <div class="kicker">PRODUCT DESIGN PORTFOLIO · 2026</div>
+    <div class="flow-eq" id="flowEq"><i>문제</i> → <i>루프</i> → <i>화면</i> → <i>검증</i></div>
+    <h1>이 <b>순서</b>로<br>일합니다</h1>
+    <div class="byline">
+      <span><b>오두영</b> Oh Dooyoung</span>
+      <span>정책 개발자 &amp; 프로덕트 디자이너</span>
+      <span>뉴웨이즈 Proof 팀 · 프로덕트 디자이너(시니어) 지원</span>
     </div>
-    <div class="kpis">
-      <div><b>12→5</b><span>청년월세 신청 절차<br>단계 축소 제안</span></div>
-      <div><b>1,500+</b><span>회원 CMS 서비스<br>UX 재설계·리브랜딩</span></div>
-      <div><b>10종</b><span>정부 공공데이터 연동<br>다리잇다</span></div>
-      <div><b>28</b><span>PR로 나눠 올린 변경<br>대한국민실록, 되돌린 것 포함</span></div>
+    <div class="notice">
+      <b>열람 제한 안내.</b> 이 문서에는 현재 개발과 설계가 진행 중인 프로젝트가 포함되어 있습니다.
+      채용 검토 목적에 한해 열람해 주시고, 사내 채용 담당자 외 제3자 공유와 배포, 온라인 게시를 삼가 주시기 바랍니다.
+      일부 구현 상세는 가림 처리했습니다.
     </div>
   </div>
 </section>
 
-<!-- ══════════ 만든 것 ══════════ -->
-<section class="reveal">
+<div class="tierbar" id="tierbar">
+  <div class="in">
+    <span class="cap">근거 등급으로 걸러 읽기</span>
+    <button aria-pressed="true" data-t="v"><span class="tag v">검증됨</span></button>
+    <button aria-pressed="true" data-t="h"><span class="tag h">가설</span></button>
+    <button aria-pressed="true" data-t="p"><span class="tag p">검증 계획</span></button>
+    <span class="cnt" id="tierCnt"></span>
+  </div>
+</div>
+<!-- ══════════ 이 문서를 읽는 법 ══════════ -->
+<section class="rv" data-rail="읽는 법">
   <div class="wrap">
-    <div class="eyebrow">만들고 있는 것</div>
-    <h2 class="big">아직 완성한 것은<br>없습니다.</h2>
-    <p class="lede mt-s">아래 두 가지 모두 개발 중이고 사용자 검증도 하지 못한 단계입니다. 내세울 성과가 없어서 대신 <b>무엇을 결정했고 어떤 판단이 틀렸는지</b>를 정리했습니다.</p>
+    <div class="eyebrow">How to read</div>
+    <h2 class="t">검증된 것과<br>아직 아닌 것을 구분했습니다</h2>
+    <p class="lede">포트폴리오의 모든 주장에는 검증 상태 라벨을 붙였습니다. 검증되지 않은 것을 검증된 것처럼 쓰면 읽는 분의 시간을 낭비시킨다고 생각합니다.</p>
+    <div class="grid g3 mt">
+      <div class="card">
+        <span class="tag v">검증됨</span>
+        <h3 class="s mt-s">외부에서 확인받은 것</h3>
+        <p>정부 기관 공식 채택, 실제 운영 데이터, 현장에서 직접 다룬 사실. 제3자가 확인 가능한 근거가 있습니다.</p>
+      </div>
+      <div class="card">
+        <span class="tag h">가설</span>
+        <h3 class="s mt-s">근거는 있으나 미검증</h3>
+        <p>현장 관찰과 선행 사례에 기반해 세운 판단이지만, 아직 사용자 검증을 거치지 않았습니다.</p>
+      </div>
+      <div class="card">
+        <span class="tag p">검증 계획</span>
+        <h3 class="s mt-s">측정 방법이 정의된 것</h3>
+        <p>무엇을, 어떻게, 어떤 조건에서 확인할지 이미 설계되어 있는 항목입니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 요약 ══════════ -->
+<section class="rv" data-rail="요약">
+  <div class="wrap">
+    <div class="eyebrow">Executive summary</div>
+    <h2 class="t">완성한 것은 아직 없습니다.<br>만들고 고치는 중입니다.</h2>
+    <div class="figs mt">
+      <div><b>20건</b><span class="lbl">국민제안 제출</span><span class="sub">법제처 1건, 행정안전부 1건 채택</span></div>
+      <div><b>3만</b><span class="lbl">청년월세 신청자 규모</span><span class="sub">그중 5천 명 지급 심사 수행</span></div>
+      <div><b>1,500</b><span class="lbl">회원 데이터 운영</span><span class="sub">민달팽이유니온 소통형 관리</span></div>
+      <div><b>200건</b><span class="lbl">연간 의정 협업</span><span class="sub">광역·기초 간, 경기도의회</span></div>
+    </div>
+    <div class="grid g3 mt">
+      <div class="card acc">
+        <h3 class="s">정치와 정책의 안쪽</h3>
+        <p>경기도의회 사무처 총무과에서 고양 지역상담소를 총괄했습니다. 도민의 민원과 정책 건의를 행정 언어로 정리해 관계 부서와 연결하는 일을 맡았습니다.</p>
+      </div>
+      <div class="card acc">
+        <h3 class="s">참여의 바깥</h3>
+        <p>서울과 경기에서 청년 민관협치에 약 5년 참여했습니다. 관찰, 정의, 발산, 수렴 네 단계 논의를 실제 이해관계자와 반복했습니다.</p>
+      </div>
+      <div class="card acc">
+        <h3 class="s">화면까지 직접</h3>
+        <p>기획과 디자인, 화면 구현을 혼자 진행합니다. AI 도구 약 10종을 함께 쓰면서 결과물을 서로 비교해 확인합니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 일하는 순서 ══════════ -->
+<section class="rv" data-rail="일하는 순서">
+  <div class="wrap">
+    <div class="eyebrow">Method</div>
+    <h2 class="t">화면부터 그리지 않습니다</h2>
+    <p class="lede">현장에서 사람이 실제로 멈추는 지점을 찾고, 유입과 행동과 재방문의 순환을 먼저 그린 다음, 각 단계를 표면으로 옮깁니다. 마지막으로 무엇이 틀렸을 때 어떻게 알 수 있는지를 설계합니다.</p>
+    <div class="steps4 mt">
+      <div><span class="n">01 · 문제</span><h3>사람이 멈추는 지점</h3><p>현장에서 실제로 멈추는 곳을 찾습니다. 화면 안이 아닌 경우가 더 많았습니다.</p></div>
+      <div><span class="n">02 · 루프</span><h3>순환을 먼저</h3><p>유입, 행동, 재방문이 이어지는 구조를 그립니다. 화면 목록보다 앞에 옵니다.</p></div>
+      <div><span class="n">03 · 화면</span><h3>표면으로 옮기기</h3><p>루프의 각 단계를 화면으로 만듭니다. 이 단계에서 처음 시각 요소를 다룹니다.</p></div>
+      <div><span class="n">04 · 검증</span><h3>틀렸을 때 아는 법</h3><p>무엇이 틀렸는지 알 수 있는 지표와 조건을 함께 정합니다.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 포지셔닝 ══════════ -->
+<section class="rv" data-rail="포지셔닝">
+  <div class="wrap">
+    <div class="eyebrow">Positioning</div>
+    <h2 class="t">비주얼 출신이 아니라<br>문제해결 출신 디자이너입니다</h2>
+    <div class="grid g2 mt">
+      <div>
+        <p class="lede" style="margin-top:0">6년간 정책 생태계의 여러 자리에 있었습니다. 지원금을 심사하는 자리, 상담 창구에서 신청자를 만나는 자리, 비영리단체에서 캠페인을 만드는 자리, 민관협치 위원으로 토론하는 자리, 광역의회에서 의정을 지원하는 자리입니다.</p>
+        <p class="lede">그 모든 자리에서 같은 장면을 반복해서 봤습니다. 사람들은 정책이 없어서 막히지 않았습니다. 그 정책이 자기 얘기인지 알 수 없어서, 어디로 가야 하는지 몰라서 포기했습니다.</p>
+      </div>
+      <div class="card">
+        <h3 class="s">그래서 하는 일</h3>
+        <p>참여한 사람이 자기 말이 들어와서 한 번 행동하고, 그 행동이 끝내 닿지 못하는 것을 다시 확인하는 구조를 설계합니다. 화면 디자인은 그 구조를 튼튼하게 세우고, 시각과 접근성을 모두 고려한 다음에 시작합니다.</p>
+        <div class="stack">AI 협업 바이브 코딩(기획에서 구현까지) · 디자인 시스템 설계 · 서비스 여정 설계 · 정책과 행정 문서 작성 · 사용자 리서치 · 접근성 기준 적용</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 대한국민실록 ══════════ -->
+<section class="rv" data-rail="대한국민실록">
+  <div class="wrap">
+    <div class="eyebrow">Case 01 · 대한국민실록</div>
+    <h2 class="t">채택 후 개편을 기다리기보다<br>직접 만들기로 했습니다</h2>
+    <p class="lede">법제처 국민제안 「대한민국 법제실록」이 채택되었고, 2028년 국가법령정보센터 누리집 개편안에 반영될 예정입니다. 다만 그 사이에 시민이 지금 쓸 수 있는 것은 없습니다. 그래서 국민제안으로 낸 정책 가운데 채택된 것을, 시민에게 지금 필요하다고 생각하는 방향으로 제 방식대로 풀어나가기 시작했습니다.</p>
 
     <div class="grid g2 mt">
-      <article class="card">
-        <h3>다리잇다</h3>
-        <div class="en">다리잇다 · 개발 중</div>
-        <p>시민이 쓴 한 줄에 법령·통계·예산·선례 근거를 붙여, 공직자가 읽을 수 있는 제안서로 바꾸는 AI 어시스턴트.</p>
+      <div class="card" data-tier="v">
+        <div class="hd"><h3 class="s">공식 채택</h3><span class="tag v">검증됨</span></div>
         <dl class="kv">
-          <dt>문제</dt><dd>제안이 반려되는 사유는 대개 세 가지입니다. 근거가 부족하거나, 어느 부처 일인지 불명확하거나, 실현 가능한지 따져본 흔적이 없는 경우입니다. 제출하기 전에 이 세 가지를 점검하는 쪽으로 범위를 좁혔습니다.</dd>
-          <dt>리서치</dt><dd>1차 실태조사 결과를 바탕으로 페르소나 6인을 정리했습니다. 고립·은둔 청년의 경우 지원사업을 모른다는 응답이 71.6%, 온라인이 유일한 창구라는 응답이 43%였습니다. 이런 수치를 설계 근거로 문서에 적어두고 논의할 때마다 다시 봅니다.</dd>
-          <dt>결정</dt><dd>로그인 전 화면에서는 외부 API를 호출하지 않기로 했습니다. 콜드스타트 지연이나 LLM 비용, 외부 장애의 영향을 아직 아무것도 하지 않은 방문자가 떠안을 이유가 없다고 봤습니다.</dd>
-          <dt>원칙</dt><dd>"채택을 약속하지 않는다"를 제품 규칙으로 적어뒀습니다. 채택 여부는 제가 통제할 수 없으니, 지킬 수 없는 약속을 카피에 넣지 않기 위해서입니다.</dd>
-          <dt>못한 것</dt><dd>가격, 도입처, 파일럿 실적은 아직 정해진 게 없습니다. 디자인 시스템은 한 번 폐기하고 다시 시작했는데, 제약을 너무 많이 걸어놔서 어떤 시안을 그려도 비슷하게 나왔기 때문입니다.</dd>
+          <dt>제안</dt><dd>법제처 국민제안 「대한민국 법제실록」</dd>
+          <dt>결과</dt><dd>채택. <b>2028년 국가법령정보센터 누리집 개편안</b>에 반영 예정</dd>
+          <dt>내용</dt><dd>법령이 왜, 어떻게 바뀌었는지의 맥락을 시민이 읽을 수 있게 남기는 기록 체계</dd>
         </dl>
-        <div class="mt-s">
-          <span class="chip hot">공공데이터 어댑터 10종</span><span class="chip hot">AI 워크플로 8개</span>
-          <span class="chip">FastAPI</span><span class="chip">Gemini→Claude 폴백</span><span class="chip">디자인 토큰</span>
-        </div>
-        <div class="stackline">배포 전 검사: 색 대비 8모드 152쌍 WCAG AA, 모션(reduce 대응 필수, 무한반복 금지), API 계약 4건, XSS 회귀 6건. 전부 통과해야 배포됩니다.</div>
-      </article>
-
-      <article class="card">
-        <h3>대한국민실록</h3>
-        <div class="en">대한국민실록 · 개발 중</div>
-        <p>시민이 헌법 개정안을 함께 써보는 숙의 플랫폼입니다. 법제처에 낸 제안이 채택된 뒤, 그 내용을 직접 제품으로 만들어 보고 있습니다.</p>
+      </div>
+      <div class="card" data-tier="h">
+        <div class="hd"><h3 class="s">제출을 3단계로 나눈 결정</h3><span class="tag h">가설</span></div>
+        <p>참여 서비스의 상식은 마찰을 없애는 쪽입니다. 이 제품은 반대로 했습니다. 헌법 조문을 다루는 화면에서 3초 만에 쓴 제안과 오래 고민한 제안이 같은 무게로 쌓이면, 읽는 쪽에서 결국 다 읽지 않게 됩니다.</p>
         <dl class="kv">
-          <dt>핵심</dt><dd>제출을 3단계로 나눠 사이에 시간을 두는 구조를 넣었습니다. 참여를 늘리려면 마찰을 없애는 게 보통인데, 헌법 조문을 다루는 화면에서는 3초 만에 쓴 제안과 오래 고민한 제안이 같은 무게로 쌓이는 게 더 문제라고 봤습니다.</dd>
-          <dt>만든 것</dt><dd>조문 편집 화면(TipTap 확장), 선례를 찾아 붙여주는 검색, 법률 용어를 쉬운 말로 바꿔주는 기능, 온보딩과 동의 절차, 대시보드를 만들었습니다.</dd>
-          <dt>작업 방식</dt><dd>혼자 만들지만 브랜치와 PR로 나눠 올리고 CI를 통과시킵니다. 한 번에 몰아서 커밋하면 나중에 어디서 잘못됐는지 찾기 어렵습니다. 지금까지 PR 28건입니다.</dd>
-          <dt>지운 것</dt><dd>비밀투표를 넣으면서 '사관 등급' 기능을 뺐습니다. 참여를 유도하려고 만든 장치였는데 익명성과 맞지 않았습니다.</dd>
+          <dt>넣은 것</dt><dd>초안을 쓴 뒤 AI가 신구대비와 조문 충돌을 보여주고 되묻는 단계. 그걸 확인한 다음 제출 여부를 다시 정합니다. 철회도 정상 경로입니다.</dd>
+          <dt>기준</dt><dd>생각할 시간에는 마찰을 걸고 언어 장벽에는 걸지 않습니다. 법률 용어를 쉬운 말로 바꿔주는 기능을 같은 화면에 넣었습니다.</dd>
         </dl>
-        <div class="mt-s">
-          <span class="chip">Next.js 16</span><span class="chip">React 19</span><span class="chip hot">Supabase pgvector</span>
-          <span class="chip">Claude + Embeddings</span><span class="chip">TipTap</span><span class="chip">Zustand</span>
-        </div>
-        <div class="stackline">그동안 낸 제안 열다섯 건 중 제품 단계까지 간 것은 이 하나입니다.</div>
-      </article>
+      </div>
+    </div>
 
-
+    <div class="card mt" data-tier="p">
+      <div class="hd"><h3 class="s">무엇이 틀렸을 때 알 수 있는가</h3><span class="tag p">검증 계획</span></div>
+      <p>핵심 가설 3개에 대해 측정 방법과 판단 기준까지 정리해 둔 상태입니다. 아직 사용자 검증 전이며, 이탈률이 예상보다 크게 오르면 제출 단계 설계부터 다시 봅니다.</p>
+      <div class="stack">Next.js 16 · React 19 · TypeScript · Supabase(PostgreSQL, pgvector) · TipTap · Claude · Zustand · Tailwind CSS v4 · 브랜치와 PR 기반 작업, 지금까지 PR 28건</div>
     </div>
   </div>
 </section>
 
-<!-- ══════════ 12 → 5 ══════════ -->
-<section class="reveal">
+<!-- ══════════ 다리잇다 ══════════ -->
+<section class="rv" data-rail="다리잇다">
   <div class="wrap">
-    <div class="eyebrow">사례 · 청년월세지원 신청 절차</div>
-    <h2 class="big">화면보다 절차에서<br>더 많이 막혔습니다.</h2>
-    <p class="lede mt-s">서울시 청년월세지원상담센터에서 교육·홍보를 맡았을 때, 걸려오는 상담 전화의 상당수가 제도 자체에 대한 질문이 아니었습니다. 신청 절차를 넘기지 못해 전화한 경우가 많았습니다. 상담 기록과 신청자 데이터를 정리해 어느 단계에서 멈추는지 찾았고, 12단계를 5단계로 줄이는 안을 만들어 제안했습니다. 아래에 그때 판단을 그대로 옮겼습니다.</p>
+    <div class="eyebrow">Case 02 · 다리잇다</div>
+    <h2 class="t">언어와 효능감,<br>두 지점에서 멈춥니다</h2>
+    <p class="lede">시민이 쓴 한 줄에 법령과 통계, 예산, 선례 근거를 붙여 지방의회와 공직자가 읽을 수 있는 제안서로 바꿉니다. 현장에서 반복해서 관찰한 두 가지 문제를 다룹니다.</p>
+
+    <div class="grid g2 mt">
+      <div class="card acc">
+        <span class="mono" style="font-size:11px;color:var(--ink-3)">01</span>
+        <h3 class="s mt-s">언어의 장벽</h3>
+        <p>정책은 있는데 그 정책이 시민의 말로 쓰여 있지 않습니다. 복잡한 자격 요건 앞에서 신청 자체를 포기하는 사례를 상담 창구에서 반복해서 봤습니다. 정책의 부재가 아니라 <b>접근성의 문제</b>로 판단했습니다.</p>
+      </div>
+      <div class="card acc">
+        <span class="mono" style="font-size:11px;color:var(--ink-3)">02</span>
+        <h3 class="s mt-s">효능감의 부재</h3>
+        <p>참여를 요청받고 의견을 냈지만, 그 말이 어디까지 갔는지 아무도 알려주지 않습니다. 피드백 없는 참여는 다음 참여를 없앱니다. 참여 요청이 참여를 소진시키기도 하는 역설입니다.</p>
+      </div>
+    </div>
+
+    <h3 class="s mt-l">반려 사유 세 종을 제출 전에 잡습니다</h3>
+    <div class="tw mt-s">
+      <table class="tb">
+        <thead><tr><th style="width:22%">반려 사유</th><th style="width:38%">무슨 뜻인가</th><th>다리잇다가 하는 일</th></tr></thead>
+        <tbody>
+          <tr><td>근거 부족</td><td>주장은 있는데 뒷받침할 법령과 통계, 선례가 없습니다.</td><td>법제처 국가법령정보와 KOSIS, 열린재정 등에서 관련 근거를 찾아 문장에 붙입니다.</td></tr>
+          <tr><td>소관 불명확</td><td>어느 부처와 부서가 처리할 일인지 제안서 자체가 정하지 못합니다.</td><td>자치법규와 법령을 대조해 소관을 좁힙니다.</td></tr>
+          <tr><td>실현가능성 미검증</td><td>예산과 인력, 법적 근거 측면에서 가능한지 따져본 흔적이 없습니다.</td><td>예산 자료를 대조해 실행 가능한 범위인지 확인합니다.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grid g2 mt">
+      <div class="card" data-tier="v">
+        <div class="hd"><h3 class="s">확정된 것</h3><span class="tag v">검증됨</span></div>
+        <p>정부 공공데이터 어댑터 10종 실제 연동. AI 워크플로 8개 구현. 문서 추출 DOCX, HWPX, HWP, PDF 지원. 배포 게이트 <span class="mono">verify.sh</span> 전 항목 통과 필수.</p>
+      </div>
+      <div class="card" data-tier="p">
+        <div class="hd"><h3 class="s">미확정이라 쓰지 않는 것</h3><span class="tag p">검증 계획</span></div>
+        <p>가격, 도입 조건, 고객사, 파일럿 실적. 제품 문서에 "없는 것이니 지어내면 안 되는 것"으로 명시해 두었고, 포트폴리오에도 예외를 두지 않았습니다.</p>
+      </div>
+    </div>
+
+    <div class="note">
+      <b>브랜드 약속은 효능감입니다.</b> 공공 참여 서비스가 가장 쉽게 저지르는 실수는 채택을 과대 약속하는 것이라고 봤습니다. 채택될 서비스가 통제할 수 없는 변수이기 때문입니다. 그래서 다리잇다는 채택을 약속하지 않습니다. 대신 들렸음과 반영의 경과를 가시화하겠다고 약속합니다.
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ 현장 근거 + 12→5 ══════════ -->
+<section class="rv" data-rail="현장 근거">
+  <div class="wrap">
+    <div class="eyebrow">Field evidence · 2020</div>
+    <h2 class="t">화면보다 절차에서<br>더 많이 막혔습니다</h2>
+    <p class="lede">서울시 청년월세지원상담센터에서 교육과 홍보를 맡았습니다. 상담 문의가 제도 자체에 대한 질문이 아니라 신청 절차에서 멈춘 경우가 많았습니다. 상담 기록과 신청자 데이터를 정리해 12단계를 5단계로 줄이는 재설계안을 제안했습니다.</p>
 
     <div class="demo mt">
-      <div class="demo-head">
+      <div style="display:flex;flex-wrap:wrap;gap:14px;align-items:flex-end;justify-content:space-between;margin-bottom:22px">
         <div>
           <div class="eyebrow" style="margin:0">청년월세지원 신청 여정</div>
-          <p style="font-size:14px;color:var(--ink-3);margin-top:8px">버튼을 누르면 어떤 단계를 남기고 어떤 단계를 뺐는지 보실 수 있습니다.</p>
+          <p style="font-size:13.5px;color:var(--ink-3);margin-top:8px">버튼을 누르면 어떤 단계를 남기고 어떤 단계를 뺐는지 보실 수 있습니다.</p>
         </div>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
           <button class="btn" id="collapse" type="button">12 → 5 로 접기</button>
-          <button class="btn ghost" id="reset" type="button">되돌리기</button>
+          <button class="btn g" id="reset" type="button">되돌리기</button>
         </div>
       </div>
       <div class="steps" id="steps"></div>
       <div class="readout">
         <span>단계 <b id="cnt">12</b></span>
-        <span>서류 제출 지점 <b id="docs">4</b></span>
+        <span>서류 제출 <b id="docs">4</b></span>
         <span>기관 방문 <b id="visit">2</b></span>
-        <span class="delta" id="delta"></span>
+        <span class="d" id="delta"></span>
       </div>
-      <p style="margin-top:20px;font-size:14px;color:var(--ink-2);line-height:1.72;max-width:70ch">
-        뺀 7단계는 없앤 게 아니라 행정 쪽으로 옮긴 것입니다. 자격 확인과 서류 검증은 신청자가 떼어올 필요 없이 행정이 이미 가진 데이터로 처리할 수 있었습니다. 신청자에게 남긴 5단계는 <b>본인만 답할 수 있는 항목</b>으로 추렸습니다.
+      <p style="margin-top:18px;font-size:14px;color:var(--ink-2);line-height:1.75;max-width:72ch">
+        판단 기준은 하나였습니다. <b>사용자만이 답할 수 있는가.</b> 뺀 7단계는 없앤 게 아니라 행정 쪽으로 옮긴 것입니다. 자격 확인과 서류 검증은 신청자가 떼어올 필요 없이 행정이 이미 가진 데이터로 처리할 수 있었습니다.
       </p>
     </div>
 
-      <h4 style="font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;letter-spacing:.16em;color:var(--ink-3);text-transform:uppercase;margin:44px 0 16px;padding-bottom:8px;border-bottom:1px solid var(--rule-soft)">최근 사례 (2026)</h4>
-      <div class="grid g2">
-        <div class="card">
-          <h3 style="font-size:18px">제출 절차를 3단계로 나눈 일</h3>
-          <div class="en">대한국민실록 · 2026</div>
-          <p>앞의 사례가 단계를 줄인 경우라면, 이건 반대로 늘린 경우입니다. 헌법 조문을 다루는 화면이라 마찰을 없애는 쪽이 항상 옳지는 않다고 봤습니다. 3초 만에 쓴 제안과 오래 고민한 제안이 같은 무게로 쌓이면, 읽는 쪽에서 결국 다 읽지 않게 됩니다.</p>
-          <dl class="kv">
-            <dt>넣은 것</dt><dd>초안을 쓴 뒤 AI가 신구대비와 조문 충돌을 보여주고 되묻는 단계를 사이에 넣었습니다. 그걸 보고 다시 제출 여부를 정합니다. 철회도 정상 경로로 뒀습니다.</dd>
-            <dt>기준</dt><dd>생각할 시간에는 마찰을 걸고, 언어 장벽에는 걸지 않기로 했습니다. 그래서 법률 용어를 쉬운 말로 바꿔주는 기능을 같은 화면에 함께 넣었습니다.</dd>
-            <dt>남은 것</dt><dd>이 판단이 맞는지는 아직 사용자 데이터로 확인하지 못했습니다. 이탈이 늘어난다면 다시 봐야 하는 결정입니다.</dd>
-          </dl>
-        </div>
-        <div class="card">
-          <h3 style="font-size:18px">제출 전 점검으로 범위를 좁힌 일</h3>
-          <div class="en">다리잇다 · 2026</div>
-          <p>처음에는 제안이 반려된 뒤에 대응을 돕는 기능까지 생각했습니다. 그런데 반려 사유를 모아보니 대부분 근거 부족, 소관 불명확, 실현 가능성 미검증 세 가지였고, 셋 다 제출하기 전에 확인할 수 있는 것이었습니다.</p>
-          <dl class="kv">
-            <dt>바꾼 것</dt><dd>제출 이후 단계를 전부 빼고, 제출 전 점검만 남겼습니다. 만들 것이 줄어든 대신 무엇을 만들지가 분명해졌습니다.</dd>
-            <dt>순서</dt><dd>여덟 개 기능 중 심사위원 관점에서 약점을 짚어주는 것을 가장 먼저 붙였습니다. 반려 사유를 직접 겨냥하는 기능이었기 때문입니다. 문장을 다듬는 기능은 맨 뒤로 뒀습니다.</dd>
-            <dt>남은 것</dt><dd>실제 사용자가 이 순서대로 쓰는지는 확인하지 못했습니다.</dd>
-          </dl>
-        </div>
-      </div>
+    <div class="figs mt">
+      <div><b>3만</b><span class="lbl">신청자 규모</span><span class="sub">그중 5천 명 지급 심사. 하루 50건 이상 주거 정책 상담</span></div>
+      <div><b>1,500</b><span class="lbl">회원 데이터 운영</span><span class="sub">민달팽이유니온. 회원 상태 기준으로 사업 기획</span></div>
+      <div><b>200건</b><span class="lbl">연간 의정 협업</span><span class="sub">경기도의회. 의정홍보 지원 연 약 100건</span></div>
+    </div>
   </div>
 </section>
 
-<!-- ══════════ 자가 검증 ══════════ -->
-<section class="reveal">
+<!-- ══════════ 검사 게이트 ══════════ -->
+<section class="rv" data-rail="접근성 검사">
   <div class="wrap">
-    <div class="eyebrow">접근성 검사 · 이 페이지에서 실행 중</div>
-    <h2 class="big">색 대비는 눈으로 보지 않고<br>계산해서 확인합니다</h2>
-    <p class="lede mt-s">다리잇다에서는 <span class="mono">verify.sh</span>를 통과해야 배포가 됩니다. 색 대비 8모드 152쌍, 모션 설정 대응, XSS 회귀 검사를 자동으로 돌립니다. 같은 방식을 이 페이지에도 적용했습니다. 아래 표는 지금 보고 계신 화면의 색 값을 읽어 WCAG 대비를 계산한 결과입니다. 처음 만든 색 조합은 라이트 모드에서 두 항목이 기준에 미달했고(3.91:1, 4.44:1) 이 검사에서 걸렸습니다. 색을 조정해 두 테마 모두 통과한 뒤에 올렸습니다.</p>
-
+    <div class="eyebrow">Verify gate</div>
+    <h2 class="t">색 대비는 눈으로 보지 않고<br>계산해서 확인합니다</h2>
+    <p class="lede">다리잇다는 <span class="mono">verify.sh</span>의 여섯 항목이 모두 통과해야만 배포됩니다. 하나라도 실패하면 배포가 멈춥니다. 같은 방식을 이 페이지에도 적용했습니다. 아래 표는 지금 보고 계신 화면의 색 값을 읽어 계산한 결과입니다.</p>
     <div class="gate mt">
       <div style="overflow-x:auto">
         <table>
@@ -399,126 +607,119 @@ h2.big{font-size:clamp(26px,3.6vw,42px); letter-spacing:-.04em; max-width:20ch}
           <tbody id="gateRows"></tbody>
         </table>
       </div>
-      <div class="gate-foot">
-        <span class="exit" id="exitCode">EXIT.</span>
-        <span style="color:var(--ink-3);margin-left:12px" id="gateMeta"></span>
-      </div>
+      <div class="gfoot"><span class="ec" id="exitCode">EXIT</span>
+        <span style="color:var(--ink-3);margin-left:12px" id="gateMeta"></span></div>
     </div>
-    <p class="lede mt-s" style="font-size:14px">테마를 바꾸면(시스템 다크/라이트 전환) 이 표는 다시 계산됩니다. 두 테마 모두 통과하도록 팔레트를 설계했습니다.</p>
+    <p class="lede" style="font-size:14px">테마를 바꾸면 다시 계산됩니다. 처음 만든 색 조합은 두 항목이 기준에 미달했고 이 검사에서 걸렸습니다. 색을 조정해 두 테마 모두 통과한 뒤에 올렸습니다.</p>
   </div>
 </section>
 
-<!-- ══════════ 틀린 기록 ══════════ -->
-<section class="reveal">
+<!-- ══════════ 실수 기록 ══════════ -->
+<section class="rv" data-rail="실수 기록">
   <div class="wrap">
-    <div class="eyebrow">실수 기록</div>
-    <h2 class="big">틀린 것을<br>그때그때 적어 둡니다.</h2>
-    <p class="lede mt-s">혼자 일하면 잘못 판단해도 짚어줄 사람이 없습니다. 그래서 실수를 발견할 때마다 무슨 일이 있었고 무엇을 바꿨는지 옵시디언에 기록합니다. 아래 네 건은 그 기록에서 가져왔습니다. 감점 표기는 스스로 매긴 것입니다.</p>
-
+    <div class="eyebrow">Error log</div>
+    <h2 class="t">틀린 것을<br>그때그때 적어 둡니다</h2>
+    <p class="lede">혼자 일하면 잘못 판단해도 짚어줄 사람이 없습니다. 그래서 실수를 발견할 때마다 무슨 일이 있었고 무엇을 바꿨는지 옵시디언에 기록합니다. 아래 네 건은 그 기록에서 가져왔습니다. 감점 표기는 스스로 매긴 것입니다.</p>
     <div class="grid g2 mt">
-      <div class="fail" style="border-left-color:var(--acc)">
-        <div class="mono" style="font-size:11px;color:var(--ink-3);letter-spacing:.08em">2026-08-17 · 감점 없음(원문 대조에서 선제 포착)</div>
-        <h3 class="mt-s" style="margin-top:8px">검색 요약과 원문이 달랐던 건</h3>
-        <p>검색 결과 요약에는 "미흡 기업 실적이 제외된다"고 나와 있었습니다. 그대로 쓰면 사업의 시급성이 크게 올라가는 문장이었습니다. 원 지침을 찾아 열어보니 "우수 이상에 가산"이었고, 그것도 "추진 예정" 단계였습니다. 벌칙이 아니라 인센티브였고 아직 시행 전이었습니다.</p>
-        <p class="learn"><b>바꾼 것.</b> 요약본에서 본 강한 표현은 원문을 확인하기 전까지 쓰지 않습니다. 원문 사이트가 막히면 같은 자료를 올려둔 다른 기관을 찾습니다.</p>
+      <div class="err">
+        <div class="meta">2026.08.17 · 감점 없음, 원문 대조에서 먼저 발견</div>
+        <h3>검색 요약과 원문이 달랐던 건</h3>
+        <p>검색 결과 요약에는 "미흡 기업 실적이 제외된다"고 나와 있었습니다. 그대로 쓰면 사업의 시급성이 크게 올라가는 문장이었습니다. 원 지침을 찾아 열어보니 "우수 이상에 가산"이었고, 그것도 추진 예정 단계였습니다.</p>
+        <p class="fix"><b>바꾼 것.</b> 요약본에서 본 강한 표현은 원문을 확인하기 전까지 쓰지 않습니다. 원문 사이트가 막히면 같은 자료를 올려둔 다른 기관을 찾습니다.</p>
       </div>
-
-      <div class="fail" style="border-left-color:var(--acc)">
-        <div class="mono" style="font-size:11px;color:var(--ink-3);letter-spacing:.08em">2026-08-31 · 감점 10점(검산에서 발견)</div>
-        <h3 class="mt-s" style="margin-top:8px">출처를 적어놓고도 값이 틀렸던 건</h3>
+      <div class="err">
+        <div class="meta">2026.08.31 · 감점 10점, 검산에서 발견</div>
+        <h3>출처를 적어놓고도 값이 틀렸던 건</h3>
         <p>앞서 정한 재발 방지책대로 모든 상수에 출처 주석을 달았습니다. 그런데 주석만 달았을 뿐 값 자체가 기억에 의존한 것이었습니다. 검산표와 23,500원씩 어긋나는 걸 보고서야 알았습니다.</p>
-        <p class="learn"><b>배운 것.</b> 정해둔 절차를 지켰다고 해서 그 절차가 제 역할을 한 건 아니었습니다. 이후로는 주석을 믿지 않고 원본 문서를 열어 값을 대조합니다.</p>
+        <p class="fix"><b>배운 것.</b> 정해둔 절차를 지켰다고 해서 그 절차가 제 역할을 한 건 아니었습니다. 이후로는 주석을 믿지 않고 원본 문서를 열어 값을 대조합니다.</p>
       </div>
-
-      <div class="fail" style="border-left-color:var(--acc)">
-        <div class="mono" style="font-size:11px;color:var(--ink-3);letter-spacing:.08em">2026-07-20 · 감점 10점 · <b style="color:var(--no)">재발</b></div>
-        <h3 class="mt-s" style="margin-top:8px">"내외"라는 값으로 계산했던 건</h3>
-        <p>"3,000만원 내외"라고 적힌 값에서 원 단위까지 차액을 계산해 "지원금이 인건비를 못 덮는다"고 결론을 냈습니다. 같은 보고서의 다른 항목으로 역산해보니 결론이 반대로 나왔습니다. 사흘 전에 제가 써둔 주의사항을 다시 어긴 셈이었습니다.</p>
-        <p class="learn"><b>배운 것.</b> 범위로만 알려진 값을 확정 수치처럼 계산에 넣지 않습니다. 같은 실수를 반복했다는 사실도 기록에 함께 남겼습니다.</p>
+      <div class="err">
+        <div class="meta">2026.07.20 · 감점 10점, 같은 실수 반복</div>
+        <h3>"내외"라는 값으로 계산했던 건</h3>
+        <p>"3,000만원 내외"라고 적힌 값에서 원 단위까지 차액을 계산해 결론을 냈습니다. 같은 보고서의 다른 항목으로 역산해보니 결론이 반대로 나왔습니다. 사흘 전에 제가 써둔 주의사항을 다시 어긴 셈이었습니다.</p>
+        <p class="fix"><b>배운 것.</b> 범위로만 알려진 값을 확정 수치처럼 계산에 넣지 않습니다. 같은 실수를 반복했다는 사실도 기록에 함께 남겼습니다.</p>
       </div>
-
-      <div class="fail" style="border-left-color:var(--acc)">
-        <div class="mono" style="font-size:11px;color:var(--ink-3);letter-spacing:.08em">2026-09 · 이 포트폴리오를 만들며</div>
-        <h3 class="mt-s" style="margin-top:8px">연결이 끊긴 도메인을 적을 뻔한 건</h3>
-        <p>이력서와 PDF 일곱 군데에 이전 사이트 주소를 넣고 "운영 중"이라고 적었습니다. 제출 직전에 조회해보니 도메인이 등록 정보에서 조회되지 않는 상태였습니다. 보시는 분이 눌렀다면 열리지 않았을 링크입니다.</p>
-        <p class="learn"><b>바꾼 것.</b> "운영 중"처럼 확인하지 않은 표현을 뺐고, 링크는 직접 열어본 것만 적습니다.</p>
+      <div class="err">
+        <div class="meta">2026.09 · 이 포트폴리오를 만들며</div>
+        <h3>연결이 끊긴 도메인을 적을 뻔한 건</h3>
+        <p>이력서와 PDF 일곱 군데에 이전 사이트 주소를 넣고 운영 중이라고 적었습니다. 제출 직전에 조회해보니 도메인이 등록 정보에서 조회되지 않는 상태였습니다. 보시는 분이 눌렀다면 열리지 않았을 링크입니다.</p>
+        <p class="fix"><b>바꾼 것.</b> 확인하지 않은 표현을 뺐고, 링크는 직접 열어본 것만 적습니다.</p>
       </div>
     </div>
-
-    <div class="note mt">이 기록을 포트폴리오에 넣은 이유는 이렇습니다. AI로 개발할 때 어려운 부분은 코드가 동작하지 않는 상황보다, 그럴듯해 보이는 결과를 확인 없이 받아들이는 상황이라고 생각합니다. 도구가 빨라진 만큼 잘못된 판단도 빨리 퍼집니다. 내세울 만한 실적은 아직 없고, 대신 이런 습관을 몇 가지 만들어 두었습니다.</div>
+    <div class="note">AI로 개발할 때 어려운 부분은 코드가 동작하지 않는 상황보다, 그럴듯해 보이는 결과를 확인 없이 받아들이는 상황이라고 생각합니다. 도구가 빨라진 만큼 잘못된 판단도 빨리 퍼집니다. 내세울 만한 실적은 아직 없고, 대신 이런 습관을 몇 가지 만들어 두었습니다.</div>
   </div>
 </section>
 
-<!-- ══════════ 아카이브 ══════════ -->
-<section class="reveal">
+<!-- ══════════ 정책 제안 기록 ══════════ -->
+<section class="rv" data-rail="제안 기록">
   <div class="wrap">
-    <div class="eyebrow">정책 제안 기록</div>
-    <h2 class="big">공식 제안 제도를<br>통로로 썼습니다.</h2>
-    <p class="lede mt-s">2022년부터 부처와 지자체의 공식 제안 제도를 통해 정책을 제안해 왔습니다. 2024년에 공직에 들어간 뒤로는 예산에 영향을 줄 수 있는 제안은 스스로 빼고 방식을 바꿨습니다.</p>
-
+    <div class="eyebrow">Policy record</div>
+    <h2 class="t">아이디어만 내지 않고<br>실행 경로까지 적었습니다</h2>
+    <p class="lede">2022년부터 중앙정부와 지방정부에 국민제안과 입법청원 등 약 20건을 제안했습니다. 실행 주체와 법적 근거, 예산 구조, 집행 경로까지 정리해 제안서를 작성합니다. 제안은 정당을 통하지 않고 부처와 지자체의 공식 제안 제도만 이용했습니다.</p>
     <div class="filters" id="filters" role="group" aria-label="상태로 거르기">
       <button aria-pressed="true" data-f="all">전체</button>
       <button aria-pressed="false" data-f="ok">채택</button>
       <button aria-pressed="false" data-f="wait">심사 중</button>
       <button aria-pressed="false" data-f="no">미선정</button>
     </div>
-    <div class="arch" id="arch"></div>
+    <div class="tw"><table class="tb"><tbody id="arch"></tbody></table></div>
   </div>
 </section>
 
-<!-- ══════════ 실패 ══════════ -->
-<section class="reveal">
+<!-- ══════════ 접었던 일 ══════════ -->
+<section class="rv" data-rail="접었던 일">
   <div class="wrap">
-    <div class="eyebrow">접었던 일</div>
-    <h2 class="big">접었던 일들</h2>
+    <div class="eyebrow">On record</div>
+    <h2 class="t">접었던 일들</h2>
     <div class="grid g2 mt">
-      <div class="fail">
+      <div class="err" style="border-left-color:var(--no)">
         <h3>㈜모두다, 1년 만에 폐업</h3>
         <p>예비사회적기업으로 시작했는데 수익 구조를 못 만들었고 팀 여력도 부족해서 1년 만에 정리했습니다.</p>
-        <p class="learn"><b>남은 것.</b> 폐업한 뒤에도 팀원들과 하기로 했던 '바카티오' 툴킷은 크라우드펀딩으로 끝까지 냈습니다.</p>
+        <p class="fix"><b>남은 것.</b> 폐업한 뒤에도 팀원들과 하기로 했던 툴킷은 크라우드펀딩으로 끝까지 냈습니다.</p>
       </div>
-      <div class="fail">
+      <div class="err" style="border-left-color:var(--no)">
         <h3>점선면 스튜디오, 1년 7개월</h3>
         <p>고양시에서 사진관과 공간 대관, 디자인 외주를 같이 했습니다. 디자인 외주는 어느 정도 돌아갔지만 공간 쪽은 지역 수요가 나오지 않았습니다. 수요를 확인하지 않고 시작한 게 문제였습니다.</p>
-        <p class="learn"><b>남은 것.</b> 이후로는 리서치를 먼저 합니다. 다리잇다의 페르소나를 실태조사 수치로 잡은 것도 이때 경험 때문입니다.</p>
+        <p class="fix"><b>남은 것.</b> 이후로는 리서치를 먼저 합니다. 다리잇다의 페르소나를 실태조사 수치로 잡은 것도 이때 경험 때문입니다.</p>
       </div>
-      <div class="fail">
-        <h3>공익활동가 경력 인정, 1차 불채택</h3>
-        <p>행정안전부 1차 심사에서 떨어졌습니다. 비영리 경력의 가치를 행정이 쓰는 기준으로 옮기는 일이 생각보다 어려웠습니다.</p>
-        <p class="learn"><b>남은 것.</b> 당사자 데이터 없이 주장만 하면 검토가 진행되지 않는다는 걸 알았습니다. 근거를 보강해 재심사를 요청해 둔 상태입니다.</p>
+      <div class="err" style="border-left-color:var(--no)">
+        <h3>경기도 공모 제안 2건, 미선정</h3>
+        <p>청년 거버넌스 구조 개선과 데이터 기반 안전 정책 설계를 각각 공모전에 냈고 선정되지 않았습니다.</p>
+        <p class="fix"><b>남은 것.</b> 공모전은 심사 기준이 공개되지 않는 경우가 많아, 이후로는 상시 제안 제도 쪽으로 경로를 옮겼습니다.</p>
       </div>
-      <div class="fail">
+      <div class="err" style="border-left-color:var(--no)">
         <h3>생애주기형 공동체 주택, 1차 불채택</h3>
         <p>국토교통부에 낸 제안입니다. 청년의 지분 취득과 노인 돌봄을 묶은 주거 모델이었는데, 기존 정책과 무엇이 다른지 설명이 부족했습니다.</p>
-        <p class="learn"><b>남은 것.</b> 아이디어 단계와 심사받을 수 있는 문서 사이에 거리가 꽤 있다는 걸 알았고, 그 거리를 좁히는 게 다리잇다에서 하려는 일이 됐습니다.</p>
+        <p class="fix"><b>남은 것.</b> 아이디어 단계와 심사받을 수 있는 문서 사이에 거리가 꽤 있다는 걸 알았고, 그 거리를 좁히는 게 다리잇다에서 하려는 일이 됐습니다.</p>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ══════════ 뉴웨이즈 연결 ══════════ -->
-<section class="reveal">
+<section class="rv" data-rail="지원 이유">
   <div class="wrap">
-    <div class="eyebrow">뉴웨이즈에 지원한 이유</div>
-    <h2 class="big">혼자 더듬던 문제를<br>Proof 팀은 이미<br>더 정확하게 잡고 있었습니다</h2>
-    <div class="tblwrap mt">
-      <table class="maptbl">
-        <thead><tr><th>공고가 요구하는 것</th><th>제가 해 본 것</th><th>합류하면 해 보고 싶은 것</th></tr></thead>
+    <div class="eyebrow">Why newways</div>
+    <h2 class="t">혼자 붙잡던 문제를,<br>Proof 팀은 더 정확한 형태로<br>풀고 있었습니다</h2>
+    <p class="lede">Proof 팀의 목적은 젊치인의 문제 해결 성과 확산이고, 그 수단은 유권자와 젊치인을 잇는 양면 플랫폼입니다. 제가 다리잇다에서 다룬 문제와 같은 구조입니다.</p>
+    <div class="tw mt">
+      <table class="tb">
+        <thead><tr><th style="width:24%">공고가 요구하는 것</th><th>제가 해 본 것</th><th>합류하면 해 보고 싶은 것</th></tr></thead>
         <tbody>
           <tr>
-            <td>양면 플랫폼(젊치인 ↔ 유권자)을 주도적으로 설계</td>
+            <td>양면 플랫폼을 주도적으로 설계</td>
             <td>다리잇다를 만들면서 시민이 쓰는 말과 행정이 쓰는 기준 사이에서 무엇을 옮겨야 하는지 다뤄 봤습니다. 아직 사용자 검증 단계까지는 가지 못했습니다.</td>
-            <td>구독과 피드백, 요구가 이어지는 흐름을 화면 단위가 아니라 여정 전체로 놓고 다시 보고 싶습니다. 다만 팀에서 이미 시도한 게 있을 테니 그 기록부터 읽는 게 먼저일 것 같습니다.</td>
+            <td>구독과 피드백, 요구가 이어지는 흐름을 화면이 아니라 여정 전체로 놓고 다시 보고 싶습니다. 다만 팀에서 이미 시도한 게 있을 테니 그 기록부터 읽는 게 먼저일 것 같습니다.</td>
           </tr>
           <tr>
-            <td>콘텐츠 유입에서 가입, 행동으로 이어지는 흐름을 가설과 검증으로 운영</td>
+            <td>유입에서 가입, 행동으로 이어지는 흐름을 가설과 검증으로 운영</td>
             <td>청년월세 상담 데이터로 어느 단계에서 이탈이 생기는지 찾아 12단계를 5단계로 줄이는 안을 냈습니다.</td>
             <td>유권자가 한 행동이 젊치인에게 전달됐다는 걸 확인할 수 있는 구조를 만들어 보고 싶습니다. 아직은 가설이라 데이터로 먼저 확인해야 합니다.</td>
           </tr>
           <tr>
             <td>바이브 코딩으로 기획부터 개발까지 직접 구현</td>
-            <td>Next.js 16, React 19, FastAPI, Supabase(pgvector), LLM 라우팅을 AI와 함께 작성해 배포까지 했습니다. 접근성과 XSS, API 계약은 배포 전 자동 검사로 확인합니다.</td>
-            <td>공고에 적힌 "보안·안전성은 외부 파트너와 협력"이라는 분담에 동의합니다. 제가 어디까지 할 수 있고 어디부터는 넘겨야 하는지는 비교적 분명하게 아는 편입니다.</td>
+            <td>Next.js 16, React 19, FastAPI, Supabase를 AI와 함께 작성해 배포까지 했습니다. 접근성과 XSS, API 계약은 배포 전 자동 검사로 확인합니다.</td>
+            <td>공고에 적힌 "보안과 안전성은 외부 파트너와 협력"이라는 분담에 동의합니다. 제가 어디까지 할 수 있고 어디부터는 넘겨야 하는지는 비교적 분명하게 아는 편입니다.</td>
           </tr>
           <tr>
             <td>복잡한 오프라인 경험을 쉬운 온라인 경험으로 전환 <span style="color:var(--ink-3);font-weight:400">(우대)</span></td>
@@ -529,45 +730,51 @@ h2.big{font-size:clamp(26px,3.6vw,42px); letter-spacing:-.04em; max-width:20ch}
       </table>
     </div>
     <div class="note">
-      <b>초당성에 대해 미리 말씀드립니다.</b> 출마 계획은 없습니다. 지방의회 사무처 임기제공무원으로 일하는 동안 「지방공무원법」상 정치적 중립 의무를 지켰습니다. 정책 제안도 정당을 통하지 않고 부처와 지자체의 공식 제안 제도만 이용했습니다. 재직 중에는 예산에 영향을 줄 수 있는 제안을 스스로 뺐고, 그 내용이 이력서에도 적혀 있습니다. 2026년 4월에 퇴직한 뒤로는 같은 문제를 제안서 대신 제품으로 다뤄보고 있습니다.
+      <b>초당성에 대해 미리 말씀드립니다.</b> 출마 계획은 없습니다. 광역의회 사무처에서 정당과 무관하게 의정지원 업무를 수행했고, 「지방공무원법」상 정치적 중립 의무를 지켰습니다. 정책 제안도 정당을 통하지 않고 부처와 지자체의 공식 제안 제도만 이용했습니다.
     </div>
   </div>
 </section>
 
-<!-- ══════════ 기술 명세 ══════════ -->
-<section class="reveal">
+<!-- ══════════ 콜로폰 ══════════ -->
+<section class="rv" data-rail="콜로폰">
   <div class="wrap">
-    <div class="eyebrow">이 페이지에 쓴 기술</div>
-    <h2 class="big">이 페이지를<br>만든 방법</h2>
-    <p class="lede mt-s">글로 설명하기보다 직접 보시는 게 빠를 것 같아 이 페이지를 예시로 두었습니다. 프레임워크나 빌드 도구, 외부 스크립트 없이 HTML 파일 하나로 동작합니다. 어려운 구현은 아니고, 최근 브라우저에 들어온 기능을 어디에 쓸지 정도를 판단한 수준입니다.</p>
-    <div class="tech mt">
-      <div><code>animation-timeline: view()</code><span>스크롤 구동 애니메이션. JS 스크롤 리스너 없이 CSS만으로 진입 연출을 처리합니다.</span></div>
-      <div><code>@property --sweep</code><span>타입 지정 커스텀 속성. 퍼센트 값을 보간해 히어로 밑줄이 부드럽게 그어집니다.</span></div>
-      <div><code>container-type: inline-size</code><span>컨테이너 쿼리. 카드가 뷰포트가 아니라 자기 폭에 반응해 레이아웃을 바꿉니다.</span></div>
-      <div><code>startViewTransition()</code><span>View Transitions API. 아카이브 필터가 잘리지 않고 이어지며 전환됩니다.</span></div>
-      <div><code>Canvas 2D · flow field</code><span>히어로 배경의 경로 흐름. 커지는 화면에 맞춰 재생성되고 reduce-motion에서 정지합니다.</span></div>
-      <div><code>WCAG relative luminance</code><span>화면에 적용된 색 값을 읽어 대비를 계산합니다. 결과를 미리 적어두지 않았습니다.</span></div>
-      <div><code>:root / prefers-color-scheme / [data-theme]</code><span>3상태 테마. 시스템 설정과 명시 선택 어느 쪽에서도 색이 세트로 해결됩니다.</span></div>
-      <div><code>prefers-reduced-motion</code><span>모션에 민감한 분들을 위해 애니메이션과 스크롤 효과를 끕니다. 기본값으로 넣었습니다.</span></div>
+    <div class="eyebrow">Colophon</div>
+    <h2 class="t">이 페이지를 만든 방법</h2>
+    <p class="lede">글로 설명하기보다 직접 보시는 게 빠를 것 같아 이 페이지를 예시로 두었습니다. 프레임워크나 빌드 도구, 외부 스크립트 없이 HTML 파일 하나로 동작합니다. 원본 인쇄물의 판면을 웹으로 옮기는 데 초점을 뒀습니다.</p>
+    <div class="tw mt">
+      <table class="tb">
+        <thead><tr><th style="width:34%">쓴 것</th><th>어디에</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">animation-timeline: view()</td><td>스크롤 구동 애니메이션. JS 스크롤 리스너 없이 CSS만으로 진입 연출을 처리합니다.</td></tr>
+          <tr><td class="mono">IntersectionObserver</td><td>왼쪽 세로 레일의 섹션명 전환. 지면의 러닝헤드를 웹으로 옮긴 부분입니다.</td></tr>
+          <tr><td class="mono">container-type: inline-size</td><td>컨테이너 쿼리. 카드가 화면 폭이 아니라 자기 폭에 반응합니다.</td></tr>
+          <tr><td class="mono">startViewTransition()</td><td>제안 기록 필터 전환.</td></tr>
+          <tr><td class="mono">Canvas 2D</td><td>표지 배경의 종이 질감. reduce-motion에서는 한 장만 그리고 멈춥니다.</td></tr>
+          <tr><td class="mono">WCAG relative luminance</td><td>접근성 검사. 화면에 적용된 색 값을 읽어 대비를 계산합니다.</td></tr>
+          <tr><td class="mono">word-break: keep-all</td><td>한국어 어절 단위 줄바꿈. 본문은 양쪽정렬로 조판했습니다.</td></tr>
+          <tr><td class="mono">prefers-reduced-motion</td><td>모션에 민감한 분들을 위해 애니메이션과 스크롤 효과를 끕니다.</td></tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </section>
 
 <footer>
   <div class="wrap">
-    <div class="foot-grid">
+    <div class="fgrid">
       <div>
-        <h3 style="font-size:26px">오두영 <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:400;color:var(--ink-3)">Oh Dooyoung</span></h3>
-        <p style="margin-top:10px;color:var(--ink-3);font-size:14px">정책 개발자 &amp; 프로덕트 디자이너 · 경기 고양</p>
+        <h3 style="font-size:26px">오두영 <span class="mono" style="font-size:13px;font-weight:400;color:var(--ink-3)">Oh Dooyoung</span></h3>
+        <p style="margin-top:9px;color:var(--ink-3);font-size:14px">정책 개발자 &amp; 프로덕트 디자이너 · 경기 고양시</p>
       </div>
-      <div style="display:flex;flex-direction:column;gap:10px;align-items:flex-start">
+      <div style="display:flex;flex-direction:column;gap:9px;align-items:flex-start">
         <a href="mailto:thinkinging@naver.com">thinkinging@naver.com</a>
-        <span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--ink-3)">연락처는 제출한 이력서에 있습니다</span>
+        <a href="tel:01068105207">010-6810-5207</a>
         <a href="https://tag520.com">tag520.com</a>
       </div>
     </div>
-    <p style="margin-top:38px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--ink-3);letter-spacing:.04em">
-      뉴웨이즈 프로덕트 디자이너(시니어) 지원 · 2026.09 · 함께 제출한 PDF 포트폴리오에는 개발 중 프로젝트가 포함되어 있어 인사담당자 외 공유를 제한합니다.
+    <p class="mono" style="margin-top:36px;font-size:11.5px;color:var(--ink-3);line-height:1.8">
+      뉴웨이즈 프로덕트 디자이너(시니어) 지원 · 2026.09<br>
+      함께 제출한 PDF 포트폴리오에는 개발 중 프로젝트가 포함되어 있어 인사담당자 외 공유를 제한합니다.
     </p>
   </div>
 </footer>
@@ -576,185 +783,236 @@ h2.big{font-size:clamp(26px,3.6vw,42px); letter-spacing:-.04em; max-width:20ch}
 "use strict";
 const RM = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-/* ── 척추 진행도 ──────────────────────────────── */
-const spine = document.querySelector(".spine");
+/* ── 좌측 레일: 현재 섹션명 + 스크롤 진행 ── */
+const railL = document.getElementById("railL");
+const bar = document.querySelector(".progress i");
 const onScroll = () => {
   const max = document.documentElement.scrollHeight - innerHeight;
-  spine.style.setProperty("--p", max > 0 ? (scrollY / max).toFixed(4) : 0);
+  bar.style.setProperty("--p", max > 0 ? (scrollY / max).toFixed(4) : 0);
 };
 addEventListener("scroll", onScroll, { passive: true });
-addEventListener("resize", onScroll);
-onScroll();
+addEventListener("resize", onScroll); onScroll();
 
-/* ── 히어로 flow field ────────────────────────────
-   '경로'를 시각화한다. 점들이 왼쪽에서 출발해 오른쪽 목적지로 흐르되,
-   일부는 도달하지 못하고 흩어진다. */
+const secs = [...document.querySelectorAll("section[data-rail]")];
+const io = new IntersectionObserver((es) => {
+  es.forEach(e => { if (e.isIntersecting) railL.textContent = e.target.dataset.rail; });
+}, { rootMargin: "-48% 0px -48% 0px" });
+secs.forEach(s => io.observe(s));
+
+/* ── 표지 종이 질감 ── */
 (() => {
-  const cv = document.getElementById("flow");
-  const ctx = cv.getContext("2d", { alpha: true });
-  let W, H, parts, raf;
-  const DPR = Math.min(devicePixelRatio || 1, 2);
-
-  const seed = () => {
-    const n = Math.round(Math.min(320, (W * H) / 4200));
-    parts = Array.from({ length: n }, () => ({
-      x: Math.random() * W, y: Math.random() * H,
-      v: 0.25 + Math.random() * 0.75,
-      a: Math.random() * 6.28,
-      life: Math.random(),
-      arrive: Math.random() > 0.42,  // 58%만 도달한다
-    }));
-  };
-  const size = () => {
+  const cv = document.getElementById("grain");
+  const ctx = cv.getContext("2d");
+  const draw = () => {
     const r = cv.getBoundingClientRect();
-    W = r.width; H = r.height;
-    cv.width = W * DPR; cv.height = H * DPR;
-    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
-    seed();
-  };
-  const field = (x, y) => Math.sin(x * 0.0022 + y * 0.0013) * 1.5 + Math.cos(y * 0.0031) * 0.8;
-
-  const frame = () => {
-    ctx.clearRect(0, 0, W, H);
-    const col = getComputedStyle(document.body).getPropertyValue("--flow").trim();
-    for (const p of parts) {
-      p.a += (field(p.x, p.y) - p.a) * 0.045;
-      p.x += Math.cos(p.a) * p.v + 0.55;
-      p.y += Math.sin(p.a) * p.v * 0.6;
-      p.life += 0.0035;
-      if (!p.arrive && p.life > 0.55) p.v *= 0.972;      // 도달 못 하는 입자는 힘을 잃는다
-      if (p.x > W + 20 || p.y < -20 || p.y > H + 20 || p.life > 1.25) {
-        p.x = -15; p.y = Math.random() * H; p.life = 0;
-        p.v = 0.25 + Math.random() * 0.75; p.arrive = Math.random() > 0.42;
-      }
-      const fade = Math.max(0, 1 - Math.abs(p.life - 0.5) * 1.7);
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.arrive ? 1.9 : 1.2, 0, 6.283);
-      ctx.fillStyle = col;
-      ctx.globalAlpha = fade * (p.arrive ? 1 : 0.45);
-      ctx.fill();
+    if (!r.width || !r.height) return;
+    const w = cv.width = Math.round(Math.min(r.width, 1200));
+    const h = cv.height = Math.round(Math.min(r.height, 900));
+    const img = ctx.createImageData(w, h), d = img.data;
+    for (let i = 0; i < d.length; i += 4) {
+      const v = 200 + Math.random() * 55;
+      d[i] = d[i+1] = d[i+2] = v;
+      d[i+3] = Math.random() * 12;           // 아주 옅은 입자
     }
-    ctx.globalAlpha = 1;
-    raf = requestAnimationFrame(frame);
+    ctx.putImageData(img, 0, 0);
   };
-
-  size();
-  addEventListener("resize", size);
-  if (RM) { frame(); cancelAnimationFrame(raf); }   // 정지 프레임 1장만
-  else frame();
+  draw();
+  addEventListener("resize", () => { clearTimeout(cv._t); cv._t = setTimeout(draw, 200); });
 })();
 
-/* ── 12 → 5 인터랙티브 ───────────────────────── */
+
+
+/* ── 테마: 라이트 · 다크 · 시스템 ──
+   시스템을 고르면 data-theme을 지워 OS 설정을 그대로 따른다. */
+(() => {
+  const bar = document.getElementById("theme"), knob = document.getElementById("knob");
+  const btns = [...bar.querySelectorAll("button")];
+  const KEY = "tag520-theme";
+  const read = () => { try { return localStorage.getItem(KEY) || "system" } catch { return "system" } };
+
+  const paint = (mode) => {
+    if (mode === "system") document.documentElement.removeAttribute("data-theme");
+    else document.documentElement.setAttribute("data-theme", mode);
+    btns.forEach(b => b.setAttribute("aria-pressed", b.dataset.m === mode));
+    const i = btns.findIndex(b => b.dataset.m === mode);
+    knob.style.transform = `translateX(${i * 34}px)`;
+  };
+
+  const apply = (mode, ev) => {
+    try { localStorage.setItem(KEY, mode) } catch {}
+    if (!document.startViewTransition || RM) { paint(mode); return; }
+    // 누른 자리에서 원형으로 번지게 한다
+    const r = (ev ? ev.currentTarget : bar).getBoundingClientRect();
+    document.documentElement.style.setProperty("--tx", `${r.left + r.width/2}px`);
+    document.documentElement.style.setProperty("--ty", `${r.top + r.height/2}px`);
+    document.startViewTransition(() => paint(mode));
+  };
+
+  bar.addEventListener("click", e => {
+    const b = e.target.closest("button"); if (!b) return;
+    apply(b.dataset.m, e);
+  });
+  // 좌우 화살표로도 이동
+  bar.addEventListener("keydown", e => {
+    const i = btns.indexOf(document.activeElement); if (i < 0) return;
+    const d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+    if (!d) return;
+    e.preventDefault();
+    const t = btns[(i + d + btns.length) % btns.length];
+    t.focus(); apply(t.dataset.m);
+  });
+  paint(read());
+})();
+
+/* ── 표지 진입 시퀀스 ── */
+if (!RM) {
+  requestAnimationFrame(() => {
+    document.getElementById("cover").classList.add("go");
+    document.getElementById("flowEq").classList.add("go");
+  });
+} else {
+  document.getElementById("cover").classList.add("go");
+}
+
+/* ── 근거 등급으로 걸러 읽기 ──
+   심사자가 확인된 주장만 골라 볼 수 있게 한다. 끄면 흐려질 뿐 사라지지 않는다. */
+const TIERS = ["v", "h", "p"];
+const on = new Set(TIERS);
+const tierCnt = document.getElementById("tierCnt");
+const applyTiers = () => {
+  document.querySelectorAll("[data-tier]").forEach(el => {
+    el.classList.toggle("dim", !on.has(el.dataset.tier));
+  });
+  const shown = [...document.querySelectorAll("[data-tier]")].filter(el => !el.classList.contains("dim")).length;
+  const total = document.querySelectorAll("[data-tier]").length;
+  tierCnt.textContent = on.size === TIERS.length ? `${total}개 항목 전체` : `${shown} / ${total}개 항목`;
+};
+document.getElementById("tierbar").addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b) return;
+  const t = b.dataset.t;
+  if (on.has(t) && on.size > 1) on.delete(t); else on.add(t);
+  b.setAttribute("aria-pressed", on.has(t));
+  const go = () => applyTiers();
+  document.startViewTransition && !RM ? document.startViewTransition(go) : go();
+});
+applyTiers();
+
+/* ── 12 → 5 전환: 남는 단계가 실제로 자리를 옮기도록 (FLIP) ── */
+const flip = (mutate) => {
+  const items = [...stepsEl.querySelectorAll(".step")];
+  if (RM) { mutate(); return; }
+  const before = new Map(items.map(el => [el, el.getBoundingClientRect()]));
+  mutate();
+  items.forEach(el => {
+    const a = before.get(el), b = el.getBoundingClientRect();
+    // 전후 어느 한쪽이라도 화면에서 빠져 있으면 위치 차이가 의미 없다
+    if (!a.width || !b.width) return;
+    const dx = a.left - b.left, dy = a.top - b.top;
+    if (!dx && !dy) return;
+    el.animate(
+      [{ transform: `translate(${dx}px, ${dy}px)` }, { transform: "none" }],
+      { duration: 480, easing: "cubic-bezier(.22,.72,.24,1)" }
+    );
+  });
+};
+
+/* ── 12 → 5 ── */
 const STEPS = [
-  { t: "공고 확인 · 자격 자가진단", keep: 1 },
-  { t: "주민등록등본 발급", keep: 0 },
-  { t: "가족관계증명서 발급", keep: 0 },
-  { t: "임대차계약서 사본 준비", keep: 1 },
-  { t: "월세 이체 증빙 6개월치 수집", keep: 0 },
-  { t: "건강보험 자격득실확인서 발급", keep: 0 },
-  { t: "소득·재산 서류 준비", keep: 0 },
-  { t: "온라인 신청서 작성", keep: 1 },
-  { t: "서류 스캔·업로드", keep: 1 },
-  { t: "구청 방문 원본 대조", keep: 0 },
-  { t: "보완 요청 대응 · 재방문", keep: 0 },
-  { t: "결과 통보 대기 · 개별 문의", keep: 1 },
+  ["공고 확인 · 자격 자가진단", 1], ["주민등록등본 발급", 0], ["가족관계증명서 발급", 0],
+  ["임대차계약서 사본 준비", 1], ["월세 이체 증빙 6개월치 수집", 0], ["건강보험 자격득실확인서 발급", 0],
+  ["소득 · 재산 서류 준비", 0], ["온라인 신청서 작성", 1], ["서류 스캔 · 업로드", 1],
+  ["구청 방문 원본 대조", 0], ["보완 요청 대응 · 재방문", 0], ["결과 통보 대기 · 개별 문의", 1],
 ];
 const stepsEl = document.getElementById("steps");
-stepsEl.innerHTML = STEPS.map((s, i) =>
-  `<div class="step" data-keep="${s.keep}"><span class="n">STEP ${String(i + 1).padStart(2, "0")}</span><span class="t">${s.t}</span></div>`
-).join("");
-
-const cnt = document.getElementById("cnt"), docs = document.getElementById("docs"),
-      visit = document.getElementById("visit"), delta = document.getElementById("delta");
-
-const setState = (collapsed) => {
-  stepsEl.querySelectorAll(".step").forEach(el => el.classList.toggle("collapsed", collapsed));
-  cnt.textContent  = collapsed ? "5" : "12";
-  docs.textContent = collapsed ? "1" : "4";
-  visit.textContent = collapsed ? "0" : "2";
-  delta.textContent = collapsed ? "→ 사용자가 직접 떼어야 할 서류 4종 → 1종, 기관 방문 2회 → 0회" : "";
+stepsEl.innerHTML = STEPS.map(([t, k], i) =>
+  `<div class="step" data-k="${k}"><span class="n">STEP ${String(i+1).padStart(2,"0")}</span><span class="t">${t}</span></div>`).join("");
+const $ = id => document.getElementById(id);
+const setState = collapsed => {
+  flip(() => {
+    stepsEl.querySelectorAll(".step").forEach(el => {
+      el.classList.toggle("on", collapsed);
+      // 접힌 단계는 자리에서 빠져 남은 5개가 실제로 재배치된다
+      el.style.display = (collapsed && el.dataset.k === "0") ? "none" : "";
+    });
+  });
+  $("cnt").textContent = collapsed ? "5" : "12";
+  $("docs").textContent = collapsed ? "1" : "4";
+  $("visit").textContent = collapsed ? "0" : "2";
+  $("delta").textContent = collapsed ? "신청자가 직접 떼어야 할 서류 4종에서 1종으로, 기관 방문 2회에서 0회로" : "";
 };
-document.getElementById("collapse").addEventListener("click", () => setState(true));
-document.getElementById("reset").addEventListener("click", () => setState(false));
+$("collapse").addEventListener("click", () => setState(true));
+$("reset").addEventListener("click", () => setState(false));
 
-/* ── 자가 검증 게이트: 실제 계산 색으로 WCAG 대비 산출 ──
-   하드코딩된 결과가 아니라, 지금 렌더된 토큰을 읽어 계산한다. */
-const srgb = c => (c /= 255) <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
-const lum = ([r, g, b]) => 0.2126 * srgb(r) + 0.7152 * srgb(g) + 0.0722 * srgb(b);
+/* ── 접근성 검사: 실제 계산 색으로 WCAG 대비 산출 ── */
+const srgb = c => (c /= 255) <= 0.03928 ? c/12.92 : Math.pow((c+0.055)/1.055, 2.4);
+const lum = ([r,g,b]) => 0.2126*srgb(r) + 0.7152*srgb(g) + 0.0722*srgb(b);
 const parse = v => {
   const d = document.createElement("div");
   d.style.color = v; document.body.appendChild(d);
-  const m = getComputedStyle(d).color.match(/[\d.]+/g).slice(0, 3).map(Number);
+  const m = getComputedStyle(d).color.match(/[\d.]+/g).slice(0,3).map(Number);
   d.remove(); return m;
 };
-const ratio = (a, b) => {
-  const [x, y] = [lum(parse(a)), lum(parse(b))].sort((p, q) => q - p);
-  return (x + 0.05) / (y + 0.05);
-};
+const ratio = (a,b) => { const [x,y] = [lum(parse(a)), lum(parse(b))].sort((p,q)=>q-p); return (x+.05)/(y+.05); };
 const PAIRS = [
-  ["본문 텍스트",        "--ink",   "--paper",  4.5, "AA 본문"],
-  ["보조 텍스트",        "--ink-2", "--paper",  4.5, "AA 본문"],
-  ["캡션·라벨",          "--ink-3", "--paper",  4.5, "AA 본문"],
-  ["강조 색(링크·아이브로우)", "--acc",   "--paper",  4.5, "AA 본문"],
-  ["카드 위 본문",        "--ink",   "--card",   4.5, "AA 본문"],
-  ["카드 위 보조",        "--ink-2", "--card",   4.5, "AA 본문"],
-  ["상태 · 채택",         "--ok",    "--paper",  4.5, "AA 본문"],
-  ["상태 · 심사 중",      "--wait",  "--paper",  4.5, "AA 본문"],
-  ["상태 · 불채택",       "--no",    "--paper",  4.5, "AA 본문"],
-  ["큰 제목",            "--ink",   "--paper",  3.0, "AA 큰글씨"],
+  ["본문 텍스트", "--ink", "--paper", 4.5, "AA 본문"],
+  ["보조 텍스트", "--ink-2", "--paper", 4.5, "AA 본문"],
+  ["캡션 · 라벨", "--ink-3", "--paper", 4.5, "AA 본문"],
+  ["섹션 강조색", "--tan", "--paper", 4.5, "AA 본문"],
+  ["카드 위 본문", "--ink", "--card", 4.5, "AA 본문"],
+  ["카드 위 보조", "--ink-2", "--card", 4.5, "AA 본문"],
+  ["상태 · 채택", "--ok", "--paper", 4.5, "AA 본문"],
+  ["상태 · 심사 중", "--wait", "--paper", 4.5, "AA 본문"],
+  ["상태 · 미선정", "--no", "--paper", 4.5, "AA 본문"],
+  ["열람 제한 표시", "--signal", "--paper", 4.5, "AA 본문"],
 ];
-const gateRows = document.getElementById("gateRows");
 const runGate = () => {
   const cs = getComputedStyle(document.documentElement);
   let pass = 0;
-  gateRows.innerHTML = PAIRS.map(([label, fg, bg, min, std]) => {
+  $("gateRows").innerHTML = PAIRS.map(([label, fg, bg, min, std]) => {
     const fv = cs.getPropertyValue(fg).trim(), bv = cs.getPropertyValue(bg).trim();
     const r = ratio(fv, bv), ok = r >= min;
     if (ok) pass++;
-    return `<tr>
-      <td>${label}</td>
-      <td><span class="swatch" style="background:${fv}"></span><span class="swatch" style="background:${bv}"></span>${fg} / ${bg}</td>
-      <td>${r.toFixed(2)} : 1</td>
-      <td>≥ ${min.toFixed(1)} · ${std}</td>
-      <td class="verdict" data-pass="${ok ? 1 : 0}">${ok ? "PASS" : "FAIL"}</td>
-    </tr>`;
+    return `<tr><td>${label}</td>
+      <td><span class="sw" style="background:${fv}"></span><span class="sw" style="background:${bv}"></span>${fg} / ${bg}</td>
+      <td>${r.toFixed(2)} : 1</td><td>${min.toFixed(1)} 이상 · ${std}</td>
+      <td class="vd" data-p="${ok?1:0}">${ok ? "PASS" : "FAIL"}</td></tr>`;
   }).join("");
   const all = pass === PAIRS.length;
-  const ec = document.getElementById("exitCode");
+  const ec = $("exitCode");
   ec.textContent = `EXIT ${all ? 0 : 1}`;
   ec.style.color = `var(--${all ? "ok" : "no"})`;
-  document.getElementById("gateMeta").textContent =
-    `${pass}/${PAIRS.length} 통과 · 현재 테마: ${matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"} · 계산 시각 렌더 시점`;
+  $("gateMeta").textContent = `${pass} / ${PAIRS.length} 통과 · 현재 테마 ${matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"}`;
 };
 runGate();
 matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => setTimeout(runGate, 60));
 new MutationObserver(() => setTimeout(runGate, 60))
   .observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
 
-/* ── 정책 아카이브 + View Transitions ────────── */
+/* ── 제안 기록 ── */
 const ARCH = [
-  { d: "법제처",            t: "대한민국 법제실록 제작", s: "ok",   n: "채택 → 대한국민실록 제품으로 발전" },
-  { d: "권익위 · 행안부",    t: "국민 참여 플랫폼을 통한 참여민주주의 강화", s: "wait", n: "다부처 심사 요청" },
-  { d: "행정안전부",        t: "시민사회위원회 운영", s: "ok",   n: "일부 채택" },
-  { d: "행정안전부",        t: "시민사회 활성화·공익활동 증진 기본법 제정", s: "wait", n: "심사 진행" },
-  { d: "행정안전부",        t: "범정부 행정기술 개발", s: "wait", n: "디지털 정부 서비스 품질 보장" },
-  { d: "법무부",            t: "제도 밖 외국인 안전망", s: "wait", n: "통보 의무 면제 확대 · 다국어 재난 알림" },
-  { d: "인사혁신처 외 3부처", t: "민간 인재 발굴과 임기제 공무원 운영 혁신", s: "wait", n: "공직 다양성 확대" },
-  { d: "고용노동부",        t: "노동24 기반 경력증빙서류 발급 창구", s: "wait", n: "사용증명서 제도" },
-  { d: "문화체육관광부",     t: "ebook 소비자 보호 방안", s: "wait", n: "저작권 · 소비자 권리" },
-  { d: "기획재정부",        t: "제도 기준 포용 제도", s: "wait", n: "기준 1점 차이가 만드는 절벽" },
-  { d: "국토교통부",        t: "생애주기형 공동체 주택", s: "no",   n: "1차 불채택 → 순환 지분 구조 논리 보완 중" },
-  { d: "행정안전부",        t: "공익활동가 경력 인정 제도화", s: "no",   n: "1차 불채택 → 재심사 요청 중" },
-  { d: "경기도",            t: "청년 거버넌스 구조 개선", s: "no",   n: "공모전 미선정" },
-  { d: "경기도",            t: "데이터 기반 안전 정책 설계", s: "no",   n: "공모전 미선정" },
-  { d: "국무조정실",        t: "청년기본법 개정 청원", s: "wait", n: "헌법 제26조 청원권 경로" },
+  ["법제처", "「대한민국 법제실록」 제작", "ok", "채택. 2028년 국가법령정보센터 누리집 개편안 반영 예정"],
+  ["행정안전부", "시민사회위원회 운영", "ok", "일부 채택. 입법 추진 중"],
+  ["권익위 · 행안부", "국민 참여 플랫폼을 통한 참여민주주의 강화", "wait", "다부처 심사 요청"],
+  ["행정안전부", "시민사회 활성화와 공익활동 증진 기본법 제정", "wait", "심사 진행"],
+  ["행정안전부", "범정부 행정기술 개발", "wait", "디지털 정부 서비스 품질 보장"],
+  ["법무부", "제도 밖 외국인 안전망", "wait", "통보 의무 면제 확대, 다국어 재난 알림"],
+  ["인사혁신처 외 3부처", "민간 인재 발굴과 임기제 공무원 운영 혁신", "wait", "공직 다양성 확대"],
+  ["고용노동부", "노동24 기반 경력증빙서류 발급 창구", "wait", "사용증명서 제도"],
+  ["문화체육관광부", "ebook 소비자 보호 방안", "wait", "저작권과 소비자 권리"],
+  ["기획재정부", "제도 기준 포용 제도", "wait", "기준 1점 차이가 만드는 절벽"],
+  ["국무조정실", "청년기본법 개정 청원", "wait", "헌법 제26조 청원권 경로"],
+  ["국토교통부", "생애주기형 공동체 주택", "no", "1차 불채택. 차별화 논리 보완 중"],
+  ["행정안전부", "공익활동가 경력 인정 제도화", "no", "1차 불채택. 재심사 요청 중"],
+  ["경기도", "청년 거버넌스 구조 개선", "no", "2024 제안 공모전 미선정"],
+  ["경기도", "데이터 기반 안전 정책 설계", "no", "2025 안전제안 정책오디션 미선정"],
 ];
 const LBL = { ok: "채택", wait: "심사 중", no: "미선정" };
-const archEl = document.getElementById("arch");
-const paint = (f) => {
-  archEl.innerHTML = ARCH.filter(a => f === "all" || a.s === f).map(a =>
-    `<div class="row"><span class="dept">${a.d}</span><span class="ttl">${a.t}<small>${a.n}</small></span><span class="st" data-s="${a.s}">${LBL[a.s]}</span></div>`
-  ).join("");
+const paint = f => {
+  document.getElementById("arch").innerHTML = ARCH
+    .filter(a => f === "all" || a[2] === f)
+    .map(([d, t, s, n]) =>
+      `<tr><td style="width:17%">${d}</td><td style="width:36%">${t}</td>
+       <td style="width:12%"><span class="st ${s}">${LBL[s]}</span></td><td>${n}</td></tr>`).join("");
 };
 paint("all");
 document.getElementById("filters").addEventListener("click", e => {
