@@ -338,20 +338,19 @@ footer{padding:60px 0 84px; border-top:1px solid var(--rule)}
 
 
 /* ═══════════ 워터마크 ═══════════
-   화면 위에 얹혀 스크린샷에 본문과 함께 찍힌다.
-   읽기를 방해하지 않도록 옅게 두되, 인쇄·PDF에서는 진하게 나온다. */
-.wm{position:fixed; inset:-25%; z-index:25; pointer-events:none; user-select:none;
-  display:grid; grid-template-columns:repeat(3,1fr); align-content:center;
-  gap:12vh 6vw; transform:rotate(-24deg); overflow:hidden}
-.wm span{font-family:"IBM Plex Mono",monospace; font-size:clamp(11px,1.15vw,15px);
-  font-weight:600; letter-spacing:.14em; white-space:nowrap; text-align:center;
-  color:var(--ink); opacity:.055}
-:root[data-theme="dark"] .wm span{opacity:.075}
-@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]) .wm span{opacity:.075} }
-.wm b{color:var(--signal); font-weight:600}
+   눈처럼 천천히 내리며 본문 위에 얹힌다. 스크린샷에 함께 찍힌다.
+   커서 주변은 원형으로 걷어내 읽는 데 방해가 되지 않게 한다. */
+#wmc{position:fixed; inset:0; width:100%; height:100%; z-index:25;
+  pointer-events:none; user-select:none}
+/* 인쇄와 PDF 저장에서는 캔버스 대신 고정 격자를 진하게 */
+.wm-print{display:none}
 @media print{
-  .wm span{opacity:.2; font-size:14px}
-  .theme,.rail,.progress,.tierbar{display:none !important}
+  #wmc,.theme,.rail,.progress,.tierbar{display:none !important}
+  .wm-print{display:grid; position:fixed; inset:-25%; z-index:25;
+    grid-template-columns:repeat(3,1fr); align-content:center; gap:12vh 6vw;
+    transform:rotate(-24deg); pointer-events:none}
+  .wm-print span{font-family:"IBM Plex Mono",monospace; font-size:14px; font-weight:600;
+    letter-spacing:.14em; white-space:nowrap; text-align:center; color:#000; opacity:.2}
 }
 
 /* 복사 제한 안내 토스트 */
@@ -420,7 +419,8 @@ dialog.guard::backdrop{background:color-mix(in srgb, var(--ink) 62%, transparent
   <button data-m="system" aria-pressed="true"><span class="lbl">시스템 설정 따르기</span>
     <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.8" y="4.4" width="18.4" height="12.4" rx="1.6"/><path d="M8.4 20h7.2"/></svg></button>
 </div>
-<div class="wm" id="wm" aria-hidden="true"></div>
+<canvas id="wmc" aria-hidden="true"></canvas>
+<div class="wm-print" id="wmPrint" aria-hidden="true"></div>
 <dialog class="guard" id="guard" aria-labelledby="guardTitle">
   <div class="top">공유 제한</div>
   <div class="bd">
@@ -908,19 +908,128 @@ secs.forEach(s => io.observe(s));
 
 
 /* ── 워터마크 ──
-   열람 일시를 함께 찍어, 유출된 화면이 언제 것인지 남게 한다. */
+   열람 일시를 함께 찍어, 유출된 화면이 언제 것인지 남게 한다.
+   눈처럼 천천히 내리고, 커서 주변은 원형으로 걷어낸다. */
 (() => {
-  const d = new Date();
-  const p = n => String(n).padStart(2, "0");
+  const cv = document.getElementById("wmc");
+  const ctx = cv.getContext("2d");
+  const d = new Date(), p = n => String(n).padStart(2, "0");
   const stamp = `${d.getFullYear()}.${p(d.getMonth()+1)}.${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`;
-  const line = `인사담당자 외 공유 금지 · 열람 ${stamp}`;
-  const wm = document.getElementById("wm");
-  const fill = () => {
-    const rows = Math.ceil(innerHeight / (innerHeight * 0.12)) + 6;
-    wm.innerHTML = Array.from({ length: rows * 3 }, () => `<span>${line}</span>`).join("");
+  const LINE = `인사담당자 외 공유 금지 · 열람 ${stamp}`;
+
+  // 인쇄용 고정 격자
+  document.getElementById("wmPrint").innerHTML =
+    Array.from({ length: 45 }, () => `<span>${LINE}</span>`).join("");
+
+  const DPR = Math.min(devicePixelRatio || 1, 2);
+  let W, H, flakes, ink, raf;
+  const HOLE = 150;                       // 커서 주변에서 걷어낼 반경
+  let mx = -9999, my = -9999, tx = -9999, ty = -9999;
+
+  const readInk = () => {
+    const cs = getComputedStyle(document.documentElement);
+    const dark = document.documentElement.getAttribute("data-theme") === "dark"
+      || (!document.documentElement.getAttribute("data-theme")
+          && matchMedia("(prefers-color-scheme: dark)").matches);
+    const probe = document.createElement("div");
+    probe.style.color = cs.getPropertyValue("--ink").trim();
+    document.body.appendChild(probe);
+    const rgb = getComputedStyle(probe).color.match(/[\d.]+/g).slice(0,3).join(",");
+    probe.remove();
+    ink = { rgb, alpha: dark ? 0.085 : 0.06 };
   };
-  fill();
-  addEventListener("resize", () => { clearTimeout(wm._t); wm._t = setTimeout(fill, 250); });
+
+  const size = () => {
+    W = innerWidth; H = innerHeight;
+    cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR);
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    const n = Math.max(18, Math.round((W * H) / 46000));
+    flakes = Array.from({ length: n }, () => ({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      v: 0.10 + Math.random() * 0.26,          // 아주 느리게
+      sway: 0.15 + Math.random() * 0.3,
+      phase: Math.random() * 6.28,
+      rot: (-26 + Math.random() * 12) * Math.PI / 180,
+      s: 0.82 + Math.random() * 0.45,
+    }));
+  };
+
+  const paint = (t) => {
+    ctx.clearRect(0, 0, W, H);
+    ctx.save();
+    ctx.fillStyle = `rgba(${ink.rgb},${ink.alpha})`;
+    for (const f of flakes) {
+      f.y += f.v;
+      f.phase += 0.006;
+      const x = f.x + Math.sin(f.phase) * (f.sway * 26);
+      if (f.y > H + 30) { f.y = -30; f.x = Math.random() * W; }
+      ctx.save();
+      ctx.translate(x, f.y);
+      ctx.rotate(f.rot);
+      ctx.font = `600 ${11.5 * f.s}px "IBM Plex Mono", ui-monospace, monospace`;
+      ctx.fillText(LINE, 0, 0);
+      ctx.restore();
+    }
+    ctx.restore();
+
+    // 커서 주변을 원형으로 걷어낸다
+    if (mx > -9000) { tx += (mx - tx) * 0.18; ty += (my - ty) * 0.18; punch(); }
+    raf = requestAnimationFrame(paint);
+  };
+
+  // 커서 주변을 걷어내는 부분만 따로 (정지 상태에서도 쓴다)
+  const punch = () => {
+    if (mx < -9000) return;
+    const g = ctx.createRadialGradient(tx, ty, 0, tx, ty, HOLE);
+    g.addColorStop(0,   "rgba(0,0,0,1)");
+    g.addColorStop(0.55,"rgba(0,0,0,0.92)");
+    g.addColorStop(1,   "rgba(0,0,0,0)");
+    ctx.globalCompositeOperation = "destination-out";
+    ctx.fillStyle = g;
+    ctx.beginPath(); ctx.arc(tx, ty, HOLE, 0, 6.283); ctx.fill();
+    ctx.globalCompositeOperation = "source-over";
+  };
+
+  // 모션 최소화 설정: 내리지는 않지만, 커서 구멍은 유지한다.
+  // 커서 추적은 자발적 애니메이션이 아니라 사용자의 직접 조작이다.
+  let stillQueued = false;
+  const still = () => {
+    stillQueued = false;
+    ctx.clearRect(0, 0, W, H);
+    ctx.fillStyle = `rgba(${ink.rgb},${ink.alpha})`;
+    for (const f of flakes) {
+      ctx.save(); ctx.translate(f.x, f.y); ctx.rotate(f.rot);
+      ctx.font = `600 ${11.5 * f.s}px "IBM Plex Mono", ui-monospace, monospace`;
+      ctx.fillText(LINE, 0, 0); ctx.restore();
+    }
+    tx = mx; ty = my;
+    punch();
+  };
+  const queueStill = () => {
+    if (stillQueued) return;
+    stillQueued = true; requestAnimationFrame(still);
+  };
+
+  readInk(); size();
+  if (RM) still(); else raf = requestAnimationFrame(paint);
+
+  addEventListener("pointermove", e => {
+    if (e.pointerType === "touch") return;    // 터치에서는 구멍을 만들지 않는다
+    if (tx < -9000) { tx = e.clientX; ty = e.clientY; }
+    mx = e.clientX; my = e.clientY;
+    if (RM) queueStill();
+  }, { passive: true });
+  addEventListener("pointerleave", () => { mx = my = -9999; if (RM) queueStill(); }, { passive: true });
+
+  addEventListener("resize", () => {
+    clearTimeout(cv._t);
+    cv._t = setTimeout(() => { size(); if (RM) still(); }, 220);
+  });
+  // 테마가 바뀌면 잉크 색을 다시 읽는다
+  new MutationObserver(() => { readInk(); if (RM) still(); })
+    .observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { readInk(); if (RM) still(); });
 })();
 
 /* ── 공유 제한 안내 ──
