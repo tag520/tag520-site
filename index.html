@@ -923,7 +923,7 @@ secs.forEach(s => io.observe(s));
 
   const DPR = Math.min(devicePixelRatio || 1, 2);
   let W, H, flakes, ink, raf;
-  const HOLE = 150;                       // 커서 주변에서 걷어낼 반경
+  const HOLE = 300;                       // 커서 주변에서 걷어낼 반경
   let mx = -9999, my = -9999, tx = -9999, ty = -9999;
 
   const readInk = () => {
@@ -981,10 +981,16 @@ secs.forEach(s => io.observe(s));
   // 커서 주변을 걷어내는 부분만 따로 (정지 상태에서도 쓴다)
   const punch = () => {
     if (mx < -9000) return;
+    // 중심부터 바깥까지 완만하게 떨어뜨린다. 가장자리에만 걸면 원 테두리가 드러난다.
     const g = ctx.createRadialGradient(tx, ty, 0, tx, ty, HOLE);
-    g.addColorStop(0,   "rgba(0,0,0,1)");
-    g.addColorStop(0.55,"rgba(0,0,0,0.92)");
-    g.addColorStop(1,   "rgba(0,0,0,0)");
+    g.addColorStop(0.00, "rgba(0,0,0,1)");
+    g.addColorStop(0.15, "rgba(0,0,0,0.96)");
+    g.addColorStop(0.30, "rgba(0,0,0,0.86)");
+    g.addColorStop(0.45, "rgba(0,0,0,0.70)");
+    g.addColorStop(0.60, "rgba(0,0,0,0.50)");
+    g.addColorStop(0.75, "rgba(0,0,0,0.30)");
+    g.addColorStop(0.88, "rgba(0,0,0,0.13)");
+    g.addColorStop(1.00, "rgba(0,0,0,0)");
     ctx.globalCompositeOperation = "destination-out";
     ctx.fillStyle = g;
     ctx.beginPath(); ctx.arc(tx, ty, HOLE, 0, 6.283); ctx.fill();
