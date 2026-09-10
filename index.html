@@ -831,6 +831,50 @@ secs.forEach(s => io.observe(s));
 
 
 
+
+/* ── 방문 기록 (Vercel Web Analytics) ──
+   쿠키를 쓰지 않고 IP를 저장하지 않는 집계형 계측이다.
+   개별 방문자를 식별하지 않으므로 개인정보를 남기지 않는다.
+   대시보드는 프로젝트 소유자만 볼 수 있다. */
+(() => {
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments) };
+  const sc = document.createElement("script");
+  sc.defer = true; sc.src = "/_vercel/insights/script.js";
+  document.head.appendChild(sc);
+
+  const sent = new Set();
+  const track = (name, data) => {
+    if (sent.has(name)) return;
+    sent.add(name);
+    window.va("event", { name, data });
+  };
+
+  // 어디까지 읽었는지: 섹션 단위로 한 번씩만
+  const secs = [...document.querySelectorAll("section[data-rail]")];
+  const readObs = new IntersectionObserver((es) => {
+    es.forEach(e => { if (e.isIntersecting) track("섹션 도달", { 섹션: e.target.dataset.rail }); });
+  }, { threshold: .55 });
+  secs.forEach(s => readObs.observe(s));
+
+  // 실제로 만져본 것만 기록
+  document.getElementById("collapse").addEventListener("click", () => track("12-5 접기 사용"));
+  document.getElementById("tierbar").addEventListener("click", e => {
+    if (e.target.closest("button")) track("근거 등급 필터 사용");
+  });
+  document.getElementById("theme").addEventListener("click", e => {
+    const b = e.target.closest("button"); if (b) track("테마 변경", { 모드: b.dataset.m });
+  });
+  // 탭을 떠나는 시점에 한 번. beforeunload는 모바일에서 자주 누락된다.
+  let depthSent = false;
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState !== "hidden" || depthSent) return;
+    depthSent = true;
+    const max = document.documentElement.scrollHeight - innerHeight;
+    const pct = max > 0 ? Math.round((scrollY / max) * 100) : 0;
+    window.va("event", { name: "읽은 깊이", data: { 퍼센트: Math.min(100, Math.max(0, pct)) } });
+  });
+})();
+
 /* ── 테마: 라이트 · 다크 · 시스템 ──
    시스템을 고르면 data-theme을 지워 OS 설정을 그대로 따른다. */
 (() => {
